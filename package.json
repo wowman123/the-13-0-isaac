@@ -1,0 +1,17 @@
+{
+  "name": "the-13-0-isaac",
+  "version": "1.0.0",
+  "description": "Draft odds calculator for a 13-0 run of The Binding of Isaac",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node tools/serve.mjs",
+    "build": "node tools/build-items.mjs",
+    "scrape": "node tools/scrape.mjs",
+    "calibrate": "node tools/calibrate.mjs",
+    "validate": "node tools/validate.mjs",
+    "test": "node --test test/*.test.mjs",
+    "check": "npm run build && npm test && npm run validate"
+  },
+  "engines": { "node": ">=18" }
+}

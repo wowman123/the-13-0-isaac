@@ -1,0 +1,15 @@
+<ItemPools>
+  <Pool Name="treasure">
+    <Item Id="1" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    <Item Id="108" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    <Item Id="999" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+  </Pool>
+  <Pool Name="devil">
+    <Item Id="118" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    <Item Id="114" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+    <Item Id="360" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+  </Pool>
+  <Pool Name="secret">
+    <Item Id="118" Weight="1" DecreaseBy="1" RemoveOn="0.1"/>
+  </Pool>
+</ItemPools>

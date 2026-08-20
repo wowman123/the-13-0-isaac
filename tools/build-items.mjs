@@ -1,0 +1,108 @@
+#!/usr/bin/env node
+/**
+ * data/ratings.psv  (hand layer)   ─┐
+ *                                   ├─> data/items.json
+ * data/scraped.json (scrape layer) ─┘
+ *
+ * The scrape layer is optional. When it is absent every record gets
+ * `scraped: null` rather than invented numbers — that is the whole point of
+ * splitting the two layers in the first place.
+ */
+
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+import { AXIS_RANGE } from '../src/ratings.js';
+
+const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+const AXES = ['offense', 'aoe', 'tracking', 'defense', 'evasion'];
+
+function parseRatings(text) {
+  const items = [];
+  const errors = [];
+
+  text.split('\n').forEach((raw, i) => {
+    const line = raw.trim();
+    if (!line || line.startsWith('#')) return;
+
+    const parts = line.split('|');
+    const where = `ratings.psv:${i + 1}`;
+    if (parts.length !== 9) {
+      errors.push(`${where}: expected 9 fields, got ${parts.length}`);
+      return;
+    }
+
+    const [id, name, ...rest] = parts;
+    const [note] = rest.slice(-1);
+    const tags = rest[5].split(',').map((t) => t.trim()).filter((t) => t && t !== 'none');
+    const rated = { source: 'hand', note: note.trim() };
+
+    AXES.forEach((axis, a) => {
+      const value = Number(rest[a]);
+      const [lo, hi] = AXIS_RANGE[axis];
+      if (!Number.isFinite(value)) errors.push(`${where}: ${axis} "${rest[a]}" is not a number`);
+      else if (value < lo || value > hi) errors.push(`${where}: ${axis} ${value} outside ${lo}-${hi}`);
+      rated[axis] = value;
+    });
+
+    if (!tags.length) errors.push(`${where}: ${id} has no tags`);
+    items.push({ id: id.trim(), name: name.trim(), scraped: null, rated, tags });
+  });
+
+  const seen = new Set();
+  for (const item of items) {
+    if (seen.has(item.id)) errors.push(`duplicate id ${item.id}`);
+    seen.add(item.id);
+  }
+
+  return { items, errors };
+}
+
+const { items, errors } = parseRatings(readFileSync(join(root, 'data/ratings.psv'), 'utf8'));
+
+if (errors.length) {
+  console.error(`build-items: ${errors.length} problem(s) in the hand layer\n`);
+  for (const e of errors) console.error(`  ${e}`);
+  process.exit(1);
+}
+
+// Merge the scrape layer over the top if it has been generated.
+const scrapedPath = join(root, 'data/scraped.json');
+let merged = 0;
+if (existsSync(scrapedPath)) {
+  const scraped = JSON.parse(readFileSync(scrapedPath, 'utf8'));
+  const byId = new Map(scraped.items.map((s) => [s.id, s]));
+
+  for (const item of items) {
+    const s = byId.get(item.id);
+    if (!s) continue;
+    item.scraped = { quality: s.quality, pools: s.pools, type: s.type, stats: s.stats };
+    merged++;
+    byId.delete(item.id);
+  }
+
+  // Anything in the XML we have not hand-rated still ships, on tag/quality defaults.
+  for (const s of byId.values()) {
+    items.push({
+      id: s.id,
+      name: s.name,
+      scraped: { quality: s.quality, pools: s.pools, type: s.type, stats: s.stats },
+      rated: null,
+      tags: s.tags ?? [],
+    });
+  }
+}
+
+items.sort((a, b) => a.name.localeCompare(b.name));
+
+writeFileSync(
+  join(root, 'data/items.json'),
+  `${JSON.stringify({ generated: new Date().toISOString().slice(0, 10), scrapeLayer: existsSync(scrapedPath), items }, null, 2)}\n`,
+);
+
+console.log(`build-items: ${items.length} items written`);
+console.log(
+  existsSync(scrapedPath)
+    ? `  scrape layer merged into ${merged}, ${items.length - merged} auto-rated from XML only`
+    : '  no data/scraped.json — every record has scraped: null (run tools/scrape.mjs)',
+);

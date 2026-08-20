@@ -1,0 +1,184 @@
+[
+  {
+    "id": "BOSS_BASEMENT_I",
+    "name": "Basement I",
+    "index": 1,
+    "threshold": 0,
+    "weights": {
+      "offense": 3,
+      "aoe": 0.5,
+      "tracking": 0.15,
+      "defense": 0.7,
+      "evasion": 0.25
+    },
+    "note": "Opening fight. Almost purely a damage check."
+  },
+  {
+    "id": "BOSS_BASEMENT_II",
+    "name": "Basement II",
+    "index": 2,
+    "threshold": 0.2,
+    "weights": {
+      "offense": 2.9,
+      "aoe": 0.6,
+      "tracking": 0.18,
+      "defense": 0.82,
+      "evasion": 0.33
+    },
+    "note": null
+  },
+  {
+    "id": "BOSS_CAVES_I",
+    "name": "Caves I",
+    "index": 3,
+    "threshold": 0.4,
+    "weights": {
+      "offense": 2.8,
+      "aoe": 0.7,
+      "tracking": 0.22,
+      "defense": 0.94,
+      "evasion": 0.41
+    },
+    "note": null
+  },
+  {
+    "id": "BOSS_CAVES_II",
+    "name": "Caves II",
+    "index": 4,
+    "threshold": 0.6,
+    "weights": {
+      "offense": 2.7,
+      "aoe": 0.8,
+      "tracking": 0.26,
+      "defense": 1.06,
+      "evasion": 0.49
+    },
+    "note": null
+  },
+  {
+    "id": "BOSS_DEPTHS_I",
+    "name": "Depths I",
+    "index": 5,
+    "threshold": 0.8,
+    "weights": {
+      "offense": 2.6,
+      "aoe": 0.9,
+      "tracking": 0.29,
+      "defense": 1.18,
+      "evasion": 0.57
+    },
+    "note": null
+  },
+  {
+    "id": "BOSS_DEPTHS_II",
+    "name": "Depths II",
+    "index": 6,
+    "threshold": 1,
+    "weights": {
+      "offense": 2.5,
+      "aoe": 1,
+      "tracking": 0.32,
+      "defense": 1.3,
+      "evasion": 0.65
+    },
+    "note": null
+  },
+  {
+    "id": "BOSS_WOMB_I",
+    "name": "Womb I",
+    "index": 7,
+    "threshold": 1.2,
+    "weights": {
+      "offense": 2.4,
+      "aoe": 1.1,
+      "tracking": 0.36,
+      "defense": 1.42,
+      "evasion": 0.73
+    },
+    "note": null
+  },
+  {
+    "id": "BOSS_WOMB_II",
+    "name": "Womb II",
+    "index": 8,
+    "threshold": 1.4,
+    "weights": {
+      "offense": 2.3,
+      "aoe": 1.2,
+      "tracking": 0.39,
+      "defense": 1.54,
+      "evasion": 0.81
+    },
+    "note": null
+  },
+  {
+    "id": "BOSS_CORPSE_I",
+    "name": "Corpse I",
+    "index": 9,
+    "threshold": 1.6,
+    "weights": {
+      "offense": 2.2,
+      "aoe": 1.3,
+      "tracking": 0.43,
+      "defense": 1.66,
+      "evasion": 0.89
+    },
+    "note": null
+  },
+  {
+    "id": "BOSS_CORPSE_II",
+    "name": "Corpse II",
+    "index": 10,
+    "threshold": 1.8,
+    "weights": {
+      "offense": 2.1,
+      "aoe": 1.4,
+      "tracking": 0.46,
+      "defense": 1.78,
+      "evasion": 0.97
+    },
+    "note": null
+  },
+  {
+    "id": "BOSS_MOTHER",
+    "name": "Mother",
+    "index": 11,
+    "threshold": 2,
+    "weights": {
+      "offense": 2,
+      "aoe": 1.5,
+      "tracking": 0.5,
+      "defense": 1.9,
+      "evasion": 1.05
+    },
+    "note": "Long fight with heavy chip damage. Bulk and mobility start to outweigh raw DPS."
+  },
+  {
+    "id": "BOSS_DELIRIUM",
+    "name": "Delirium",
+    "index": 12,
+    "threshold": 2.6,
+    "weights": {
+      "offense": 2.6,
+      "aoe": 0.5,
+      "tracking": 2.2,
+      "defense": 1.2,
+      "evasion": 0.9
+    },
+    "note": "Teleports constantly and swaps forms. Unhoming builds waste most of their damage, so tracking outweighs everything except raw offense."
+  },
+  {
+    "id": "BOSS_THE_BEAST",
+    "name": "The Beast",
+    "index": 13,
+    "threshold": 2.8,
+    "weights": {
+      "offense": 1.6,
+      "aoe": 2.6,
+      "tracking": 0.4,
+      "defense": 2,
+      "evasion": 1.6
+    },
+    "note": "Constant adds while you dodge across a scrolling arena. Crowd clear, effective HP and mobility all matter more than single-target damage."
+  }
+]

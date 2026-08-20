@@ -1,0 +1,3263 @@
+{
+  "generated": "2026-08-20",
+  "scrapeLayer": false,
+  "items": [
+    {
+      "id": "COLLECTIBLE_ONE_UP",
+      "name": "1up!",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "One clean extra life.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.5,
+        "evasion": 0
+      },
+      "tags": [
+        "extra_life"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_20_20",
+      "name": "20/20",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Double shot with no rate penalty. Straight damage doubling.",
+        "offense": 1.55,
+        "aoe": 1.3,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "multishot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_NINE_VOLT",
+      "name": "9 Volt",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Faster active recharge.",
+        "offense": 1.05,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "charge"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_ABADDON",
+      "name": "Abaddon",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Large damage up, converts your health to black hearts.",
+        "offense": 1.45,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0.1
+      },
+      "tags": [
+        "damage_up",
+        "speed_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_ALMOND_MILK",
+      "name": "Almond Milk",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Soy Milk with random effects mixed in.",
+        "offense": 1.25,
+        "aoe": 1.2,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "tears_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_ANTI_GRAVITY",
+      "name": "Anti-Gravity",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Tears hang then fire. Big burst if you can set it up.",
+        "offense": 1.4,
+        "aoe": 1.3,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "charged"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_APPLE_OF_SODOM",
+      "name": "Apple of Sodom",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Blue flies on damage taken.",
+        "offense": 1.1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "proc"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_AQUARIUS",
+      "name": "Aquarius",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Creepy trail behind you. Passive area damage.",
+        "offense": 1.15,
+        "aoe": 1.35,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "dot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_ARIES",
+      "name": "Aries",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Damage enemies by running into them.",
+        "offense": 1.15,
+        "aoe": 1.1,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0.1
+      },
+      "tags": [
+        "speed_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_ATHAME",
+      "name": "Athame",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Black rings on kills. Snowballs through packs.",
+        "offense": 1.35,
+        "aoe": 1.45,
+        "tracking": 0.15,
+        "defense": 0.98,
+        "evasion": 0
+      },
+      "tags": [
+        "aura",
+        "proc"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_BALL_OF_BANDAGES",
+      "name": "Ball of Bandages",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Cube of Meat's soul-heart cousin.",
+        "offense": 1.15,
+        "aoe": 1.2,
+        "tracking": 0.6,
+        "defense": 1.2,
+        "evasion": 0
+      },
+      "tags": [
+        "orbital"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_BFFS",
+      "name": "BFFS!",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Doubles every familiar you own. Dead on its own, huge in a familiar draft.",
+        "offense": 1.35,
+        "aoe": 1.25,
+        "tracking": 0,
+        "defense": 1.1,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar_boost"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_BLACK_CANDLE",
+      "name": "Black Candle",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Curse immunity and a black heart.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.2,
+        "evasion": 0
+      },
+      "tags": [
+        "curse_immunity"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_BLACK_LOTUS",
+      "name": "Black Lotus",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "One of each heart type.",
+        "offense": 1.02,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.15,
+        "evasion": 0
+      },
+      "tags": [
+        "health_up",
+        "soul_hearts"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_BLOOD_BAG",
+      "name": "Blood Bag",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "A container, a heal and speed.",
+        "offense": 1.02,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.15,
+        "evasion": 0.05
+      },
+      "tags": [
+        "health_up",
+        "speed_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_BLOOD_OF_THE_MARTYR",
+      "name": "Blood of the Martyr",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Small flat damage.",
+        "offense": 1.2,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "damage_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_BOBS_CURSE",
+      "name": "Bob's Curse",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Poison bombs and extra bombs.",
+        "offense": 1.05,
+        "aoe": 1.2,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "bombs",
+        "dot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_BOBS_ROTTEN_HEAD",
+      "name": "Bob's Rotten Head",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Thrown poison bomb.",
+        "offense": 1.1,
+        "aoe": 1.2,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "active",
+        "dot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_BOOK_OF_REVELATIONS",
+      "name": "Book of Revelations",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Soul hearts on demand.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.3,
+        "evasion": 0
+      },
+      "tags": [
+        "active",
+        "soul_hearts"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_BOOK_OF_SHADOWS",
+      "name": "Book of Shadows",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "On-demand invulnerability. Answers any one dangerous pattern.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.45,
+        "evasion": 0
+      },
+      "tags": [
+        "active",
+        "shield"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_BOX_OF_FRIENDS",
+      "name": "Box of Friends",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Duplicates your familiars for a room. Boss-fight burst.",
+        "offense": 1.25,
+        "aoe": 1.3,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "active",
+        "familiar_boost"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_BRIMSTONE",
+      "name": "Brimstone",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Charged laser. Enormous single-target, wasted shots on blink.",
+        "offense": 2.4,
+        "aoe": 1.6,
+        "tracking": 0.3,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "laser",
+        "piercing",
+        "charged",
+        "replaces_tears"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_BRIMSTONE_BOMBS",
+      "name": "Brimstone Bombs",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Bombs fire lasers in eight directions.",
+        "offense": 1.1,
+        "aoe": 1.4,
+        "tracking": 0,
+        "defense": 0.95,
+        "evasion": 0
+      },
+      "tags": [
+        "bombs",
+        "laser"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_BROKEN_ANKH",
+      "name": "Broken Ankh",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Occasional revive as Whore of Babylon.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.3,
+        "evasion": 0
+      },
+      "tags": [
+        "extra_life"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_BROTHER_BOBBY",
+      "name": "Brother Bobby",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Small independent damage. Better than nothing, barely.",
+        "offense": 1.12,
+        "aoe": 1.05,
+        "tracking": 0.7,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_BUCKET_OF_LARD",
+      "name": "Bucket of Lard",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Two containers, speed down.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.22,
+        "evasion": 0
+      },
+      "tags": [
+        "health_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_BUTTER_BEAN",
+      "name": "Butter Bean",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Knockback that reflects projectiles. Cheap panic button.",
+        "offense": 1,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1.2,
+        "evasion": 0
+      },
+      "tags": [
+        "active",
+        "reflect"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_C_SECTION",
+      "name": "C Section",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Fetus wave with no travel time. Very high uptime damage.",
+        "offense": 1.8,
+        "aoe": 1.25,
+        "tracking": 0.2,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "replaces_tears"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_CAFFEINE_PILL",
+      "name": "Caffeine Pill",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Speed and a pill.",
+        "offense": 1.02,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0.1
+      },
+      "tags": [
+        "speed_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_CANCER",
+      "name": "Cancer",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Large flat tears up. Quietly excellent.",
+        "offense": 1.3,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "tears_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_CAPRICORN",
+      "name": "Capricorn",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "A little of everything.",
+        "offense": 1.2,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1.15,
+        "evasion": 0.05
+      },
+      "tags": [
+        "damage_up",
+        "tears_up",
+        "health_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_CENSER",
+      "name": "Censer",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Slowing aura around you. Strongly defensive.",
+        "offense": 1.05,
+        "aoe": 1.15,
+        "tracking": 0,
+        "defense": 1.35,
+        "evasion": 0
+      },
+      "tags": [
+        "aura",
+        "slowing"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_COMMON_COLD",
+      "name": "Common Cold",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Occasional poison.",
+        "offense": 1.12,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "dot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_COMPOUND_FRACTURE",
+      "name": "Compound Fracture",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Bone shrapnel on impact.",
+        "offense": 1.2,
+        "aoe": 1.35,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "multishot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_CONTINUUM",
+      "name": "Continuum",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Tears wrap the screen.",
+        "offense": 1.1,
+        "aoe": 1.2,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0.05
+      },
+      "tags": [
+        "spectral"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_CRACK_THE_SKY",
+      "name": "Crack the Sky",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Light beams across the room. Strong boss burst.",
+        "offense": 1.35,
+        "aoe": 1.5,
+        "tracking": 0.3,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "active"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_CRICKETS_BODY",
+      "name": "Cricket's Body",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Tears split on impact. Strong crowd coverage.",
+        "offense": 1.25,
+        "aoe": 1.55,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "multishot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_CRICKETS_HEAD",
+      "name": "Cricket's Head",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Large flat damage multiplier. Pure offense.",
+        "offense": 1.55,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "damage_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_CUBE_OF_MEAT",
+      "name": "Cube of Meat",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Stacks into a real damage source and a shield.",
+        "offense": 1.2,
+        "aoe": 1.25,
+        "tracking": 0.6,
+        "defense": 1.2,
+        "evasion": 0
+      },
+      "tags": [
+        "orbital"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_CUPIDS_ARROW",
+      "name": "Cupid's Arrow",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Piercing tears.",
+        "offense": 1.05,
+        "aoe": 1.35,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "piercing"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_CURSED_EYE",
+      "name": "Cursed Eye",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Charged burst that teleports you when interrupted.",
+        "offense": 1.2,
+        "aoe": 1.15,
+        "tracking": 0,
+        "defense": 0.88,
+        "evasion": 0
+      },
+      "tags": [
+        "charged",
+        "multishot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_D6",
+      "name": "D6",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Rerolls items. Its value is upstream of combat, but it is real.",
+        "offense": 1.25,
+        "aoe": 1.2,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "active",
+        "reroll"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_DADS_LOST_COIN",
+      "name": "Dad's Lost Coin",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Range and a coin.",
+        "offense": 1.05,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0.1
+      },
+      "tags": [
+        "range_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_DADS_RING",
+      "name": "Dad's Ring",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Slowing aura. Cheap survivability against swarms.",
+        "offense": 1.1,
+        "aoe": 1.2,
+        "tracking": 0,
+        "defense": 1.1,
+        "evasion": 0
+      },
+      "tags": [
+        "aura"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_DARK_MATTER",
+      "name": "Dark Matter",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Damage up and a strong fear chance.",
+        "offense": 1.35,
+        "aoe": 1.15,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "damage_up",
+        "proc"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_DEAD_CAT",
+      "name": "Dead Cat",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Nine lives at one container. Great on paper, fragile in practice.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.45,
+        "evasion": 0
+      },
+      "tags": [
+        "extra_life"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_DEAD_SEA_SCROLLS",
+      "name": "Dead Sea Scrolls",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Random active each use.",
+        "offense": 1.05,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "active"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_DEMON_BABY",
+      "name": "Demon Baby",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Autofires at anything close. Great passive room control.",
+        "offense": 1.25,
+        "aoe": 1.3,
+        "tracking": 0.7,
+        "defense": 1.1,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_DISTANT_ADMIRATION",
+      "name": "Distant Admiration",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Single orbital fly.",
+        "offense": 1.1,
+        "aoe": 1.15,
+        "tracking": 0.55,
+        "defense": 1.15,
+        "evasion": 0
+      },
+      "tags": [
+        "orbital"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_DR_FETUS",
+      "name": "Dr. Fetus",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Room-clearing blast damage at the cost of blowing yourself up.",
+        "offense": 1.85,
+        "aoe": 2.1,
+        "tracking": 0.2,
+        "defense": 0.9,
+        "evasion": 0
+      },
+      "tags": [
+        "explosive",
+        "replaces_tears"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_DUALITY",
+      "name": "Duality",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Both deal rooms open. Upstream value again.",
+        "offense": 1.1,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1.15,
+        "evasion": 0
+      },
+      "tags": [
+        "utility"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_EUCHARIST",
+      "name": "Eucharist",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Guaranteed angel rooms.",
+        "offense": 1.15,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1.2,
+        "evasion": 0
+      },
+      "tags": [
+        "utility"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_EVES_MASCARA",
+      "name": "Eve's Mascara",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Double damage, halved rate and speed. Net strongly positive.",
+        "offense": 1.55,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "damage_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_EVIL_EYE",
+      "name": "Evil Eye",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Fires a strong eye tear periodically.",
+        "offense": 1.3,
+        "aoe": 1.2,
+        "tracking": 0.55,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar",
+        "proc"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_EYE_OF_BELIAL",
+      "name": "Eye of Belial",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Piercing tears that home after the first hit.",
+        "offense": 1.45,
+        "aoe": 1.25,
+        "tracking": 0.6,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "piercing",
+        "homing"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_FATE",
+      "name": "Fate",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Flight and an eternal heart.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.1,
+        "evasion": 0.4
+      },
+      "tags": [
+        "flight",
+        "soul_hearts"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_FIRE_MIND",
+      "name": "Fire Mind",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Exploding tears. Fun, and it will kill you.",
+        "offense": 1.25,
+        "aoe": 1.55,
+        "tracking": 0,
+        "defense": 0.92,
+        "evasion": 0
+      },
+      "tags": [
+        "explosive",
+        "proc"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_GEMINI",
+      "name": "Gemini",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Tethered familiar that rams enemies.",
+        "offense": 1.15,
+        "aoe": 1.05,
+        "tracking": 0.55,
+        "defense": 1.1,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_GNAWED_LEAF",
+      "name": "Gnawed Leaf",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Invincible while standing still. Awkward, but it does not die.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.55,
+        "evasion": 0
+      },
+      "tags": [
+        "invincibility"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_GODS_FLESH",
+      "name": "God's Flesh",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Shrinks enemies on hit.",
+        "offense": 1.2,
+        "aoe": 1.15,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "proc"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_GODHEAD",
+      "name": "Godhead",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Homing tears with a damaging aura. Trivialises erratic targets.",
+        "offense": 2.05,
+        "aoe": 1.2,
+        "tracking": 0.95,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "homing",
+        "aura",
+        "damage_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_GUPPYS_COLLAR",
+      "name": "Guppy's Collar",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Coin-flip revive, repeatable.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.35,
+        "evasion": 0
+      },
+      "tags": [
+        "extra_life"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_GUPPYS_HAIR_BALL",
+      "name": "Guppy's Hair Ball",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Swinging ball that grows with kills.",
+        "offense": 1.1,
+        "aoe": 1.15,
+        "tracking": 0.3,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "orbital"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_HAEMOLACRIA",
+      "name": "Haemolacria",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Arcing tears that burst into a spread. Big and messy.",
+        "offense": 1.55,
+        "aoe": 1.6,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "multishot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_HALLOWED_GROUND",
+      "name": "Hallowed Ground",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Creation of a strong buff zone. Inconsistent.",
+        "offense": 1.15,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1.2,
+        "evasion": 0
+      },
+      "tags": [
+        "proc"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_HALO_OF_FLIES",
+      "name": "Halo of Flies",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Two shot-blocking flies. Defensively better than it looks.",
+        "offense": 1.12,
+        "aoe": 1.2,
+        "tracking": 0.55,
+        "defense": 1.25,
+        "evasion": 0
+      },
+      "tags": [
+        "orbital"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_HIVE_MIND",
+      "name": "Hive Mind",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Boosts familiars and blue flies. Situational multiplier.",
+        "offense": 1.2,
+        "aoe": 1.25,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar_boost"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_HOLY_GRAIL",
+      "name": "Holy Grail",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Flight and a heart container.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.15,
+        "evasion": 0.4
+      },
+      "tags": [
+        "flight",
+        "health_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_HOLY_LIGHT",
+      "name": "Holy Light",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Random light beams. Spiky damage, no reliability.",
+        "offense": 1.35,
+        "aoe": 1.15,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "proc"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_HOLY_MANTLE",
+      "name": "Holy Mantle",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "A free hit every room. The single best defensive passive.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.75,
+        "evasion": 0
+      },
+      "tags": [
+        "shield"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_HOLY_WATER",
+      "name": "Holy Water",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Thrown poison pool.",
+        "offense": 1.05,
+        "aoe": 1.15,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "active"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_HOST_HAT",
+      "name": "Host Hat",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Immunity to explosions and falling damage. Perfect Ipecac insurance.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.35,
+        "evasion": 0
+      },
+      "tags": [
+        "damage_reduction"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_HOW_TO_JUMP",
+      "name": "How to Jump",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Jump over hazards.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0.2
+      },
+      "tags": [
+        "active"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_INCUBUS",
+      "name": "Incubus",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Copies your tears at full damage. The best familiar in the game.",
+        "offense": 1.75,
+        "aoe": 1.2,
+        "tracking": 0.7,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_INFAMY",
+      "name": "Infamy",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Blocks shots on a coin flip.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.3,
+        "evasion": 0
+      },
+      "tags": [
+        "reflect"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_IPECAC",
+      "name": "Ipecac",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Arcing poison bombs. Enormous clear, constant self-damage risk.",
+        "offense": 1.7,
+        "aoe": 2.2,
+        "tracking": 0.15,
+        "defense": 0.85,
+        "evasion": 0
+      },
+      "tags": [
+        "explosive",
+        "dot",
+        "replaces_tears"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_ISAACS_HEART",
+      "name": "Isaac's Heart",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "You cannot take damage but your heart can. Usually a downgrade.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 0.9,
+        "evasion": 0
+      },
+      "tags": [
+        "drawback"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_KING_BABY",
+      "name": "King Baby",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Rallies other familiars. Scales with how many you have.",
+        "offense": 1.2,
+        "aoe": 1.15,
+        "tracking": 0.6,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_LACHRYPHAGY",
+      "name": "Lachryphagy",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Tears grow as they feed. Rewards patience.",
+        "offense": 1.35,
+        "aoe": 1.3,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "charged"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_LAZARUS_RAGS",
+      "name": "Lazarus' Rags",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "A revive with a damage bump attached.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.4,
+        "evasion": 0
+      },
+      "tags": [
+        "extra_life"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_LEO",
+      "name": "Leo",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Crush rocks by walking.",
+        "offense": 1.05,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "utility"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_LIBRA",
+      "name": "Libra",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Averages your stats. Rarely what you want.",
+        "offense": 1.1,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1.1,
+        "evasion": 0
+      },
+      "tags": [
+        "utility"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_LIL_ABADDON",
+      "name": "Lil Abaddon",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Familiar Maw of the Void.",
+        "offense": 1.45,
+        "aoe": 1.4,
+        "tracking": 0.65,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar",
+        "charged"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_LIL_BRIMSTONE",
+      "name": "Lil Brimstone",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Familiar Brimstone. Meaningful damage that aims itself.",
+        "offense": 1.35,
+        "aoe": 1.25,
+        "tracking": 0.7,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar",
+        "laser",
+        "charged"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_LIL_HAUNT",
+      "name": "Lil Haunt",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Fears and body-blocks. Half its value is defensive.",
+        "offense": 1.15,
+        "aoe": 1.1,
+        "tracking": 0.7,
+        "defense": 1.15,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_LIL_LOKI",
+      "name": "Lil Loki",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Cross-shooting familiar. Good coverage.",
+        "offense": 1.25,
+        "aoe": 1.45,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar",
+        "multishot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_LIL_MONSTRO",
+      "name": "Lil Monstro",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Charged familiar shotgun.",
+        "offense": 1.28,
+        "aoe": 1.35,
+        "tracking": 0.65,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar",
+        "multishot",
+        "charged"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_LITTLE_STEVEN",
+      "name": "Little Steven",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Homing familiar shots.",
+        "offense": 1.15,
+        "aoe": 1.05,
+        "tracking": 0.85,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar",
+        "homing"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_LOKIS_HORNS",
+      "name": "Loki's Horns",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Chance to fire in four directions.",
+        "offense": 1.25,
+        "aoe": 1.45,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "multishot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_LORD_OF_THE_PIT",
+      "name": "Lord of the Pit",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Flight and speed.",
+        "offense": 1.1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0.45
+      },
+      "tags": [
+        "flight",
+        "speed_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_LUNCH",
+      "name": "Lunch",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "One container.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.1,
+        "evasion": 0
+      },
+      "tags": [
+        "health_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MAGIC_MUSHROOM",
+      "name": "Magic Mushroom",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Damage, speed, size and a full heal. Always a good pick.",
+        "offense": 1.5,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1.15,
+        "evasion": 0
+      },
+      "tags": [
+        "damage_up",
+        "heal"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MAGIC_SCAB",
+      "name": "Magic Scab",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "A container and a point of luck.",
+        "offense": 1.02,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.15,
+        "evasion": 0
+      },
+      "tags": [
+        "health_up",
+        "luck_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MARK_OF_THE_BEAST",
+      "name": "Mark of the Beast",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Small damage and a black heart.",
+        "offense": 1.15,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "damage_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MAW_OF_THE_VOID",
+      "name": "Maw of the Void",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Charged black ring plus a damage-up. Clears rooms and heals off kills.",
+        "offense": 1.65,
+        "aoe": 1.7,
+        "tracking": 0.2,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "aura",
+        "charged"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MEGA_BLAST",
+      "name": "Mega Blast",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Enormous sustained laser. Deletes a boss outright.",
+        "offense": 1.6,
+        "aoe": 1.9,
+        "tracking": 0,
+        "defense": 1.1,
+        "evasion": 0
+      },
+      "tags": [
+        "active",
+        "laser"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MERCURIUS",
+      "name": "Mercurius",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Speed up.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0.2
+      },
+      "tags": [
+        "speed_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MISSING_NO",
+      "name": "Missing No.",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Rerolls your whole build on new floors. Pure variance.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "reroll"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MOMS_BRA",
+      "name": "Mom's Bra",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Freezes the room briefly.",
+        "offense": 1,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1.1,
+        "evasion": 0
+      },
+      "tags": [
+        "active"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MOMS_CONTACTS",
+      "name": "Mom's Contacts",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Freeze on hit. Small but real crowd control.",
+        "offense": 1.15,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "freezing"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MOMS_EYE",
+      "name": "Mom's Eye",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Backwards shot chance.",
+        "offense": 1.2,
+        "aoe": 1.15,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "multishot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MOMS_KNIFE",
+      "name": "Mom's Knife",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Devastating single-target, poor against swarms. Beast-unfriendly.",
+        "offense": 2.3,
+        "aoe": 0.75,
+        "tracking": 0.55,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "knife",
+        "piercing",
+        "charged",
+        "replaces_tears"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MOMS_PAD",
+      "name": "Mom's Pad",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Fears the room briefly.",
+        "offense": 1,
+        "aoe": 1.1,
+        "tracking": 0,
+        "defense": 1.12,
+        "evasion": 0
+      },
+      "tags": [
+        "active"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MOMS_PEARL",
+      "name": "Mom's Pearl",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Range and a chance at soul hearts.",
+        "offense": 1.02,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.12,
+        "evasion": 0
+      },
+      "tags": [
+        "soul_hearts"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MONSTROS_LUNG",
+      "name": "Monstro's Lung",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Charged shotgun blast. Huge burst, awkward against movers.",
+        "offense": 1.6,
+        "aoe": 1.75,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "multishot",
+        "charged"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MONSTROS_TOOTH",
+      "name": "Monstro's Tooth",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Monstro drops on a target. Free damage on a short charge.",
+        "offense": 1.25,
+        "aoe": 1.2,
+        "tracking": 0.4,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "active"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MR_MEGA",
+      "name": "Mr. Mega",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Much bigger bombs.",
+        "offense": 1.05,
+        "aoe": 1.3,
+        "tracking": 0,
+        "defense": 0.95,
+        "evasion": 0
+      },
+      "tags": [
+        "bombs",
+        "explosive"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MUTANT_SPIDER",
+      "name": "Mutant Spider",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Quad shot. More coverage than Inner Eye.",
+        "offense": 1.5,
+        "aoe": 1.4,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "multishot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MY_LITTLE_UNICORN",
+      "name": "My Little Unicorn",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Invincible melee charge for a few seconds.",
+        "offense": 1.15,
+        "aoe": 1.15,
+        "tracking": 0,
+        "defense": 1.4,
+        "evasion": 0
+      },
+      "tags": [
+        "active",
+        "invincibility"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MY_REFLECTION",
+      "name": "My Reflection",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Boomerang tears with a damage bonus. Awkward but strong.",
+        "offense": 1.3,
+        "aoe": 1.3,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "boomerang"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_NUMBER_ONE",
+      "name": "Number One",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Tears up at the cost of all range.",
+        "offense": 1.2,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "tears_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_ODD_MUSHROOM_THICK",
+      "name": "Odd Mushroom (Large)",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Damage up, rate down.",
+        "offense": 1.18,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.1,
+        "evasion": 0
+      },
+      "tags": [
+        "damage_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_OLD_BANDAGE",
+      "name": "Old Bandage",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Container and blue-heart pickups.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.15,
+        "evasion": 0
+      },
+      "tags": [
+        "health_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_OUIJA_BOARD",
+      "name": "Ouija Board",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Spectral tears. Positioning freedom.",
+        "offense": 1.05,
+        "aoe": 1.1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0.05
+      },
+      "tags": [
+        "spectral"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_PENTAGRAM",
+      "name": "Pentagram",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Flat damage.",
+        "offense": 1.18,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "damage_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_PISCES",
+      "name": "Pisces",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Tears up with knockback.",
+        "offense": 1.15,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "tears_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_PLACENTA",
+      "name": "Placenta",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Container plus slow regeneration.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.25,
+        "evasion": 0
+      },
+      "tags": [
+        "health_up",
+        "heal"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_PLAYDOUGH_COOKIE",
+      "name": "Playdough Cookie",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Rotating tear effects.",
+        "offense": 1.25,
+        "aoe": 1.3,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0.05
+      },
+      "tags": [
+        "multishot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_POLYPHEMUS",
+      "name": "Polyphemus",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Enormous slow tears. Melts bosses, struggles with movement.",
+        "offense": 2.2,
+        "aoe": 0.95,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "damage_up",
+        "piercing"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_PROPTOSIS",
+      "name": "Proptosis",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Triple damage that decays with distance. Punishing but powerful.",
+        "offense": 1.6,
+        "aoe": 0.85,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "damage_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_PYRO",
+      "name": "Pyro",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Ninety-nine bombs. Utility more than combat.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.1,
+        "evasion": 0
+      },
+      "tags": [
+        "bombs"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_PYROMANIAC",
+      "name": "Pyromaniac",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Explosions heal you. Turns Dr. Fetus and Ipecac safe.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.4,
+        "evasion": 0
+      },
+      "tags": [
+        "damage_reduction",
+        "heal"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_ROBO_BABY_2",
+      "name": "Robo-Baby 2.0",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Directable laser familiar. Reliable chip damage.",
+        "offense": 1.2,
+        "aoe": 1.1,
+        "tracking": 0.75,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar",
+        "laser"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_ROID_RAGE",
+      "name": "Roid Rage",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Speed and range. Marginal.",
+        "offense": 1.06,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0.15
+      },
+      "tags": [
+        "speed_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_ROTTEN_TOMATO",
+      "name": "Rotten Tomato",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Enemies target the familiar instead of you.",
+        "offense": 1.05,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1.1,
+        "evasion": 0
+      },
+      "tags": [
+        "proc"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_RUBBER_CEMENT",
+      "name": "Rubber Cement",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Bouncing tears. Chaotic extra hits.",
+        "offense": 1.2,
+        "aoe": 1.35,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "bouncing"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SACRED_HEART",
+      "name": "Sacred Heart",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Homing plus a large damage multiplier. Best-in-slot for Delirium.",
+        "offense": 1.95,
+        "aoe": 1.1,
+        "tracking": 0.95,
+        "defense": 1.3,
+        "evasion": 0
+      },
+      "tags": [
+        "homing",
+        "damage_up",
+        "heal"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SACRIFICIAL_DAGGER",
+      "name": "Sacrificial Dagger",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "High-damage orbital that also blocks shots. Excellent all-round.",
+        "offense": 1.45,
+        "aoe": 1.35,
+        "tracking": 0.6,
+        "defense": 1.1,
+        "evasion": 0
+      },
+      "tags": [
+        "orbital"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SAD_BOMBS",
+      "name": "Sad Bombs",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Bombs fire tears on detonation.",
+        "offense": 1.05,
+        "aoe": 1.25,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "bombs",
+        "multishot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SAD_ONION",
+      "name": "Sad Onion",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Baseline calibration item. Everything else is measured against this.",
+        "offense": 1.22,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "tears_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SAGITTARIUS",
+      "name": "Sagittarius",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Piercing tears and speed.",
+        "offense": 1.15,
+        "aoe": 1.3,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "piercing",
+        "speed_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SATURNUS",
+      "name": "Saturnus",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Orbital tear rings. Good area denial.",
+        "offense": 1.3,
+        "aoe": 1.45,
+        "tracking": 0.3,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "orbital"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SCAPULAR",
+      "name": "Scapular",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "A soul heart every room you enter at low health.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.28,
+        "evasion": 0
+      },
+      "tags": [
+        "shield"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SCORPIO",
+      "name": "Scorpio",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Poison tears.",
+        "offense": 1.2,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "dot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SERAPHIM",
+      "name": "Seraphim",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Sacred Heart familiar. Homing damage plus a small heal chance.",
+        "offense": 1.3,
+        "aoe": 1.15,
+        "tracking": 0.9,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar",
+        "homing"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SERPENTS_KISS",
+      "name": "Serpent's Kiss",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Poison on hit, self-damage on contact.",
+        "offense": 1.25,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "dot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SISTER_MAGGY",
+      "name": "Sister Maggy",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Slightly beefier Bobby.",
+        "offense": 1.15,
+        "aoe": 1.05,
+        "tracking": 0.7,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_THE_SMALL_ROCK",
+      "name": "Small Rock",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Damage and a container, speed down.",
+        "offense": 1.15,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.08,
+        "evasion": 0
+      },
+      "tags": [
+        "damage_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SOUL_OF_LAZARUS",
+      "name": "Soul of Lazarus",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Single-use revive.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.25,
+        "evasion": 0
+      },
+      "tags": [
+        "extra_life"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SOY_MILK",
+      "name": "Soy Milk",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Machine-gun tiny tears. Transformative with any damage multiplier.",
+        "offense": 1.3,
+        "aoe": 1.25,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "tears_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SPELUNKER_HAT",
+      "name": "Spelunker Hat",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Room reveals. Not a combat item.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0.05
+      },
+      "tags": [
+        "mapping"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SPIDER_MOD",
+      "name": "Spider Mod",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Minor familiar with occasional item drops.",
+        "offense": 1.08,
+        "aoe": 1.1,
+        "tracking": 0.6,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SPIDERBITE",
+      "name": "Spiderbite",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Slowing tears. Mild defensive value.",
+        "offense": 1.15,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "slowing"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SPIRIT_OF_THE_NIGHT",
+      "name": "Spirit of the Night",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Flight and spectral tears.",
+        "offense": 1.05,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0.45
+      },
+      "tags": [
+        "flight",
+        "spectral"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SPIRIT_SHACKLES",
+      "name": "Spirit Shackles",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "A second chance per room-clear. Quietly one of the best defensive items.",
+        "offense": 1.05,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1.6,
+        "evasion": 0
+      },
+      "tags": [
+        "extra_life"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SPIRIT_SWORD",
+      "name": "Spirit Sword",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Melee swing that reflects projectiles. Strong but demands close range.",
+        "offense": 1.85,
+        "aoe": 1.3,
+        "tracking": 0,
+        "defense": 1.15,
+        "evasion": 0
+      },
+      "tags": [
+        "melee",
+        "reflect",
+        "replaces_tears"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SPOON_BENDER",
+      "name": "Spoon Bender",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Homing on its own. Contributes almost nothing but the tracking is the point.",
+        "offense": 1.05,
+        "aoe": 1,
+        "tracking": 0.9,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "homing"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_STAR_OF_BETHLEHEM",
+      "name": "Star of Bethlehem",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Points at the boss.",
+        "offense": 1.1,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "utility"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_STEM_CELL",
+      "name": "Stem Cell",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Container and heal.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.12,
+        "evasion": 0
+      },
+      "tags": [
+        "health_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_STEVEN",
+      "name": "Steven",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Small damage up.",
+        "offense": 1.1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "damage_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_STOP_WATCH",
+      "name": "Stop Watch",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Slows every enemy after you take a hit.",
+        "offense": 1.05,
+        "aoe": 1.1,
+        "tracking": 0,
+        "defense": 1.3,
+        "evasion": 0
+      },
+      "tags": [
+        "slowing"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SUCCUBUS",
+      "name": "Succubus",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Aura that boosts your damage substantially. Under-rated.",
+        "offense": 1.55,
+        "aoe": 1.25,
+        "tracking": 0.6,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar",
+        "aura"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SULFURIC_ACID",
+      "name": "Sulfuric Acid",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Damage up that also opens doors.",
+        "offense": 1.3,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "dot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SWORN_PROTECTOR",
+      "name": "Sworn Protector",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Blocks shots aimed at you.",
+        "offense": 1.05,
+        "aoe": 1.05,
+        "tracking": 0.55,
+        "defense": 1.3,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SYNTHOIL",
+      "name": "Synthoil",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Damage and range.",
+        "offense": 1.28,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "damage_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_TAMMYS_HEAD",
+      "name": "Tammy's Head",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Burst of tears in every direction.",
+        "offense": 1.2,
+        "aoe": 1.45,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "active",
+        "multishot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_TAURUS",
+      "name": "Taurus",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Invincibility on a speed threshold. Clunky but real.",
+        "offense": 1.1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.25,
+        "evasion": 0.1
+      },
+      "tags": [
+        "invincibility",
+        "speed_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_TECH_X",
+      "name": "Tech X",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Charged ring. Covers space and pierces, scales hard with damage.",
+        "offense": 1.9,
+        "aoe": 1.65,
+        "tracking": 0.35,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "laser",
+        "piercing",
+        "charged"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_TECH_5",
+      "name": "Tech.5",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Free laser on top of an unchanged tear build. Pure addition.",
+        "offense": 1.6,
+        "aoe": 1.2,
+        "tracking": 0.3,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "laser"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_TECHNOLOGY",
+      "name": "Technology",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Continuous piercing laser. Reliable, unspectacular, always fine.",
+        "offense": 1.55,
+        "aoe": 1.15,
+        "tracking": 0.3,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "laser",
+        "piercing"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_TECHNOLOGY_2",
+      "name": "Technology 2",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Permanent thin laser alongside weakened tears. Great with multipliers.",
+        "offense": 1.45,
+        "aoe": 1.1,
+        "tracking": 0.3,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "laser"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_THE_BATTERY",
+      "name": "The Battery",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Double active charge. Only as good as the active.",
+        "offense": 1.05,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "charge"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_BELT",
+      "name": "The Belt",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Speed.",
+        "offense": 1.02,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0.12
+      },
+      "tags": [
+        "speed_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_THE_BIBLE",
+      "name": "The Bible",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Temporary flight. Situationally lethal against Satan.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.15,
+        "evasion": 0.3
+      },
+      "tags": [
+        "active",
+        "flight"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_THE_HALO",
+      "name": "The Halo",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Every stat up plus a container. Broadly excellent.",
+        "offense": 1.3,
+        "aoe": 1.1,
+        "tracking": 0,
+        "defense": 1.3,
+        "evasion": 0.05
+      },
+      "tags": [
+        "damage_up",
+        "health_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_THE_HOURGLASS",
+      "name": "The Hourglass",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Slows the room.",
+        "offense": 1,
+        "aoe": 1.1,
+        "tracking": 0,
+        "defense": 1.25,
+        "evasion": 0
+      },
+      "tags": [
+        "active",
+        "slowing"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_THE_INNER_EYE",
+      "name": "The Inner Eye",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Triple shot at a rate penalty. Consistently strong.",
+        "offense": 1.45,
+        "aoe": 1.35,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "multishot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_THE_JAR",
+      "name": "The Jar",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Stored hearts for emergencies.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.2,
+        "evasion": 0
+      },
+      "tags": [
+        "active",
+        "heal"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_THE_LADDER",
+      "name": "The Ladder",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Crosses gaps. Nearly inert.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0.05
+      },
+      "tags": [
+        "utility"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_THE_MARK",
+      "name": "The Mark",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Damage, speed and a black heart.",
+        "offense": 1.3,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0.1
+      },
+      "tags": [
+        "damage_up",
+        "speed_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_THE_MIND",
+      "name": "The Mind",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Full mapping. Barely a combat item.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0.1
+      },
+      "tags": [
+        "mapping"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_THE_NAIL",
+      "name": "The Nail",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Soul heart, damage and breakable floors.",
+        "offense": 1.2,
+        "aoe": 1.2,
+        "tracking": 0,
+        "defense": 1.25,
+        "evasion": 0
+      },
+      "tags": [
+        "active",
+        "soul_hearts"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_THE_PACT",
+      "name": "The Pact",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Damage, tears and two soul hearts.",
+        "offense": 1.22,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.1,
+        "evasion": 0
+      },
+      "tags": [
+        "damage_up",
+        "tears_up",
+        "soul_hearts"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_THE_PARASITE",
+      "name": "The Parasite",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Tears split on impact.",
+        "offense": 1.15,
+        "aoe": 1.4,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "multishot"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_THE_POOP",
+      "name": "The Poop",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Places a poop. It is a poop.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "utility"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_THE_WIZ",
+      "name": "The Wiz",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Double diagonal spectral shots. Awkward aim, real damage.",
+        "offense": 1.4,
+        "aoe": 1.3,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "multishot",
+        "spectral"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_TINY_PLANET",
+      "name": "Tiny Planet",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Turns your tears into orbitals. Strange but genuinely effective.",
+        "offense": 1.15,
+        "aoe": 1.3,
+        "tracking": 0.4,
+        "defense": 1.1,
+        "evasion": 0
+      },
+      "tags": [
+        "orbital"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_THE_TORN_CARD",
+      "name": "Torn Card",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Occasional damaging burst.",
+        "offense": 1.05,
+        "aoe": 1.15,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0.05
+      },
+      "tags": [
+        "active"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_TORN_PHOTO",
+      "name": "Torn Photo",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Tears and speed.",
+        "offense": 1.12,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0.05
+      },
+      "tags": [
+        "tears_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_TRANSCENDENCE",
+      "name": "Transcendence",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Flight, nothing else.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0.38
+      },
+      "tags": [
+        "flight"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_TRINITY_SHIELD",
+      "name": "Trinity Shield",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Blocks everything from the direction you face.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.35,
+        "evasion": 0
+      },
+      "tags": [
+        "shield"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_TRISAGION",
+      "name": "Trisagion",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Short piercing beams. Excellent damage, poor reach.",
+        "offense": 1.7,
+        "aoe": 1.3,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "laser",
+        "piercing",
+        "replaces_tears"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_TWISTED_PAIR",
+      "name": "Twisted Pair",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Two half-strength Incubi. Almost as good, in two bodies.",
+        "offense": 1.55,
+        "aoe": 1.2,
+        "tracking": 0.65,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_URIELS_VESTMENT",
+      "name": "Uriel's Vestment",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Flight-adjacent angel item.",
+        "offense": 1.05,
+        "aoe": 1.05,
+        "tracking": 0,
+        "defense": 1.1,
+        "evasion": 0.3
+      },
+      "tags": [
+        "flight"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_VIRGO",
+      "name": "Virgo",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Immunity to status effects and free pills.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.2,
+        "evasion": 0
+      },
+      "tags": [
+        "damage_reduction"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_WAFER",
+      "name": "Wafer",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Pure survivability. Carries glass-cannon drafts through the Beast.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.85,
+        "evasion": 0
+      },
+      "tags": [
+        "damage_reduction"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_YUM_HEART",
+      "name": "Yum Heart",
+      "scraped": null,
+      "rated": {
+        "source": "hand",
+        "note": "Repeatable healing. Slow but limitless.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.35,
+        "evasion": 0
+      },
+      "tags": [
+        "active",
+        "heal"
+      ]
+    }
+  ]
+}

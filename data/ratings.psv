@@ -1,0 +1,218 @@
+# Hand-assigned combat ratings. This file is the `rated` layer and nothing else.
+# Quality, pools, type and stat deltas are NOT here on purpose — those are the
+# `scraped` layer and come from items.xml / itempools.xml via tools/scrape.mjs.
+#
+# Format: id|name|offense|aoe|tracking|defense|evasion|tags|note
+# Ranges: offense 0.5-3.0 | aoe 0.5-3.0 | tracking 0-1 | defense 0.8-2.5 | evasion 0-1
+# Neutral item is 1.0|1.0|0.0|1.0|0.0. Sad Onion (1.22 offense) is the anchor.
+
+# --- Tear replacements and the top of the damage ladder -----------------------
+COLLECTIBLE_BRIMSTONE|Brimstone|2.40|1.60|0.30|1.00|0.00|laser,piercing,charged,replaces_tears|Charged laser. Enormous single-target, wasted shots on blink.
+COLLECTIBLE_MOMS_KNIFE|Mom's Knife|2.30|0.75|0.55|1.00|0.00|knife,piercing,charged,replaces_tears|Devastating single-target, poor against swarms. Beast-unfriendly.
+COLLECTIBLE_TECH_X|Tech X|1.90|1.65|0.35|1.00|0.00|laser,piercing,charged|Charged ring. Covers space and pierces, scales hard with damage.
+COLLECTIBLE_DR_FETUS|Dr. Fetus|1.85|2.10|0.20|0.90|0.00|explosive,replaces_tears|Room-clearing blast damage at the cost of blowing yourself up.
+COLLECTIBLE_IPECAC|Ipecac|1.70|2.20|0.15|0.85|0.00|explosive,dot,replaces_tears|Arcing poison bombs. Enormous clear, constant self-damage risk.
+COLLECTIBLE_TECHNOLOGY|Technology|1.55|1.15|0.30|1.00|0.00|laser,piercing|Continuous piercing laser. Reliable, unspectacular, always fine.
+COLLECTIBLE_TECHNOLOGY_2|Technology 2|1.45|1.10|0.30|1.00|0.00|laser|Permanent thin laser alongside weakened tears. Great with multipliers.
+COLLECTIBLE_TECH_5|Tech.5|1.60|1.20|0.30|1.00|0.00|laser|Free laser on top of an unchanged tear build. Pure addition.
+COLLECTIBLE_SPIRIT_SWORD|Spirit Sword|1.85|1.30|0.00|1.15|0.00|melee,reflect,replaces_tears|Melee swing that reflects projectiles. Strong but demands close range.
+COLLECTIBLE_C_SECTION|C Section|1.80|1.25|0.20|1.00|0.00|replaces_tears|Fetus wave with no travel time. Very high uptime damage.
+COLLECTIBLE_MONSTROS_LUNG|Monstro's Lung|1.60|1.75|0.00|1.00|0.00|multishot,charged|Charged shotgun blast. Huge burst, awkward against movers.
+COLLECTIBLE_MAW_OF_THE_VOID|Maw of the Void|1.65|1.70|0.20|1.05|0.00|aura,charged|Charged black ring plus a damage-up. Clears rooms and heals off kills.
+
+# --- Homing and tracking ------------------------------------------------------
+COLLECTIBLE_SACRED_HEART|Sacred Heart|1.95|1.10|0.95|1.30|0.00|homing,damage_up,heal|Homing plus a large damage multiplier. Best-in-slot for Delirium.
+COLLECTIBLE_GODHEAD|Godhead|2.05|1.20|0.95|1.00|0.00|homing,aura,damage_up|Homing tears with a damaging aura. Trivialises erratic targets.
+COLLECTIBLE_SPOON_BENDER|Spoon Bender|1.05|1.00|0.90|1.00|0.00|homing|Homing on its own. Contributes almost nothing but the tracking is the point.
+COLLECTIBLE_HOLY_LIGHT|Holy Light|1.35|1.15|0.00|1.05|0.00|proc|Random light beams. Spiky damage, no reliability.
+COLLECTIBLE_SPIRIT_SHACKLES|Spirit Shackles|1.05|1.05|0.00|1.60|0.00|extra_life|A second chance per room-clear. Quietly one of the best defensive items.
+COLLECTIBLE_TRISAGION|Trisagion|1.70|1.30|0.00|1.00|0.00|laser,piercing,replaces_tears|Short piercing beams. Excellent damage, poor reach.
+
+# --- Familiars ----------------------------------------------------------------
+COLLECTIBLE_INCUBUS|Incubus|1.75|1.20|0.70|1.00|0.00|familiar|Copies your tears at full damage. The best familiar in the game.
+COLLECTIBLE_TWISTED_PAIR|Twisted Pair|1.55|1.20|0.65|1.00|0.00|familiar|Two half-strength Incubi. Almost as good, in two bodies.
+COLLECTIBLE_BROTHER_BOBBY|Brother Bobby|1.12|1.05|0.70|1.00|0.00|familiar|Small independent damage. Better than nothing, barely.
+COLLECTIBLE_SISTER_MAGGY|Sister Maggy|1.15|1.05|0.70|1.00|0.00|familiar|Slightly beefier Bobby.
+COLLECTIBLE_ROBO_BABY_2|Robo-Baby 2.0|1.20|1.10|0.75|1.00|0.00|familiar,laser|Directable laser familiar. Reliable chip damage.
+COLLECTIBLE_LIL_BRIMSTONE|Lil Brimstone|1.35|1.25|0.70|1.00|0.00|familiar,laser,charged|Familiar Brimstone. Meaningful damage that aims itself.
+COLLECTIBLE_DEMON_BABY|Demon Baby|1.25|1.30|0.70|1.10|0.00|familiar|Autofires at anything close. Great passive room control.
+COLLECTIBLE_LITTLE_STEVEN|Little Steven|1.15|1.05|0.85|1.00|0.00|familiar,homing|Homing familiar shots.
+COLLECTIBLE_SERAPHIM|Seraphim|1.30|1.15|0.90|1.05|0.00|familiar,homing|Sacred Heart familiar. Homing damage plus a small heal chance.
+COLLECTIBLE_LIL_HAUNT|Lil Haunt|1.15|1.10|0.70|1.15|0.00|familiar|Fears and body-blocks. Half its value is defensive.
+COLLECTIBLE_DADS_RING|Dad's Ring|1.10|1.20|0.00|1.10|0.00|aura|Slowing aura. Cheap survivability against swarms.
+COLLECTIBLE_KING_BABY|King Baby|1.20|1.15|0.60|1.00|0.00|familiar|Rallies other familiars. Scales with how many you have.
+COLLECTIBLE_BFFS|BFFS!|1.35|1.25|0.00|1.10|0.00|familiar_boost|Doubles every familiar you own. Dead on its own, huge in a familiar draft.
+COLLECTIBLE_HIVE_MIND|Hive Mind|1.20|1.25|0.00|1.00|0.00|familiar_boost|Boosts familiars and blue flies. Situational multiplier.
+COLLECTIBLE_BOX_OF_FRIENDS|Box of Friends|1.25|1.30|0.00|1.05|0.00|active,familiar_boost|Duplicates your familiars for a room. Boss-fight burst.
+COLLECTIBLE_SPIDER_MOD|Spider Mod|1.08|1.10|0.60|1.00|0.00|familiar|Minor familiar with occasional item drops.
+
+# --- Orbitals -----------------------------------------------------------------
+COLLECTIBLE_SACRIFICIAL_DAGGER|Sacrificial Dagger|1.45|1.35|0.60|1.10|0.00|orbital|High-damage orbital that also blocks shots. Excellent all-round.
+COLLECTIBLE_CUBE_OF_MEAT|Cube of Meat|1.20|1.25|0.60|1.20|0.00|orbital|Stacks into a real damage source and a shield.
+COLLECTIBLE_BALL_OF_BANDAGES|Ball of Bandages|1.15|1.20|0.60|1.20|0.00|orbital|Cube of Meat's soul-heart cousin.
+COLLECTIBLE_HALO_OF_FLIES|Halo of Flies|1.12|1.20|0.55|1.25|0.00|orbital|Two shot-blocking flies. Defensively better than it looks.
+COLLECTIBLE_DISTANT_ADMIRATION|Distant Admiration|1.10|1.15|0.55|1.15|0.00|orbital|Single orbital fly.
+COLLECTIBLE_TINY_PLANET|Tiny Planet|1.15|1.30|0.40|1.10|0.00|orbital|Turns your tears into orbitals. Strange but genuinely effective.
+COLLECTIBLE_SATURNUS|Saturnus|1.30|1.45|0.30|1.05|0.00|orbital|Orbital tear rings. Good area denial.
+
+# --- Damage and tears stats ---------------------------------------------------
+COLLECTIBLE_SAD_ONION|Sad Onion|1.22|1.00|0.00|1.00|0.00|tears_up|Baseline calibration item. Everything else is measured against this.
+COLLECTIBLE_THE_INNER_EYE|The Inner Eye|1.45|1.35|0.00|1.00|0.00|multishot|Triple shot at a rate penalty. Consistently strong.
+COLLECTIBLE_MUTANT_SPIDER|Mutant Spider|1.50|1.40|0.00|1.00|0.00|multishot|Quad shot. More coverage than Inner Eye.
+COLLECTIBLE_20_20|20/20|1.55|1.30|0.00|1.00|0.00|multishot|Double shot with no rate penalty. Straight damage doubling.
+COLLECTIBLE_THE_WIZ|The Wiz|1.40|1.30|0.00|1.00|0.00|multishot,spectral|Double diagonal spectral shots. Awkward aim, real damage.
+COLLECTIBLE_CRICKETS_HEAD|Cricket's Head|1.55|1.00|0.00|1.00|0.00|damage_up|Large flat damage multiplier. Pure offense.
+COLLECTIBLE_CRICKETS_BODY|Cricket's Body|1.25|1.55|0.00|1.00|0.00|multishot|Tears split on impact. Strong crowd coverage.
+COLLECTIBLE_MAGIC_MUSHROOM|Magic Mushroom|1.50|1.05|0.00|1.15|0.00|damage_up,heal|Damage, speed, size and a full heal. Always a good pick.
+COLLECTIBLE_POLYPHEMUS|Polyphemus|2.20|0.95|0.00|1.00|0.00|damage_up,piercing|Enormous slow tears. Melts bosses, struggles with movement.
+COLLECTIBLE_PROPTOSIS|Proptosis|1.60|0.85|0.00|1.00|0.00|damage_up|Triple damage that decays with distance. Punishing but powerful.
+COLLECTIBLE_EVES_MASCARA|Eve's Mascara|1.55|1.05|0.00|1.00|0.00|damage_up|Double damage, halved rate and speed. Net strongly positive.
+COLLECTIBLE_ODD_MUSHROOM_THICK|Odd Mushroom (Large)|1.18|1.00|0.00|1.10|0.00|damage_up|Damage up, rate down.
+COLLECTIBLE_BLOOD_OF_THE_MARTYR|Blood of the Martyr|1.20|1.00|0.00|1.00|0.00|damage_up|Small flat damage.
+COLLECTIBLE_ROID_RAGE|Roid Rage|1.06|1.00|0.00|1.00|0.15|speed_up|Speed and range. Marginal.
+COLLECTIBLE_LUNCH|Lunch|1.00|1.00|0.00|1.10|0.00|health_up|One container.
+COLLECTIBLE_MAGIC_SCAB|Magic Scab|1.02|1.00|0.00|1.15|0.00|health_up,luck_up|A container and a point of luck.
+COLLECTIBLE_CANCER|Cancer|1.30|1.00|0.00|1.00|0.00|tears_up|Large flat tears up. Quietly excellent.
+COLLECTIBLE_SPIDERBITE|Spiderbite|1.15|1.00|0.00|1.05|0.00|slowing|Slowing tears. Mild defensive value.
+COLLECTIBLE_NUMBER_ONE|Number One|1.20|1.00|0.00|1.00|0.00|tears_up|Tears up at the cost of all range.
+COLLECTIBLE_SOY_MILK|Soy Milk|1.30|1.25|0.00|1.00|0.00|tears_up|Machine-gun tiny tears. Transformative with any damage multiplier.
+COLLECTIBLE_ALMOND_MILK|Almond Milk|1.25|1.20|0.00|1.00|0.00|tears_up|Soy Milk with random effects mixed in.
+COLLECTIBLE_STEVEN|Steven|1.10|1.00|0.00|1.00|0.00|damage_up|Small damage up.
+COLLECTIBLE_SYNTHOIL|Synthoil|1.28|1.00|0.00|1.00|0.00|damage_up|Damage and range.
+COLLECTIBLE_TORN_PHOTO|Torn Photo|1.12|1.00|0.00|1.00|0.05|tears_up|Tears and speed.
+COLLECTIBLE_LIL_LOKI|Lil Loki|1.25|1.45|0.00|1.00|0.00|familiar,multishot|Cross-shooting familiar. Good coverage.
+
+# --- Defensive and survivability ----------------------------------------------
+COLLECTIBLE_WAFER|Wafer|1.00|1.00|0.00|1.85|0.00|damage_reduction|Pure survivability. Carries glass-cannon drafts through the Beast.
+COLLECTIBLE_HOLY_MANTLE|Holy Mantle|1.00|1.00|0.00|1.75|0.00|shield|A free hit every room. The single best defensive passive.
+COLLECTIBLE_GNAWED_LEAF|Gnawed Leaf|1.00|1.00|0.00|1.55|0.00|invincibility|Invincible while standing still. Awkward, but it does not die.
+COLLECTIBLE_THE_MIND|The Mind|1.00|1.00|0.00|1.05|0.10|mapping|Full mapping. Barely a combat item.
+COLLECTIBLE_DEAD_CAT|Dead Cat|1.00|1.00|0.00|1.45|0.00|extra_life|Nine lives at one container. Great on paper, fragile in practice.
+COLLECTIBLE_ONE_UP|1up!|1.00|1.00|0.00|1.50|0.00|extra_life|One clean extra life.
+COLLECTIBLE_LAZARUS_RAGS|Lazarus' Rags|1.00|1.00|0.00|1.40|0.00|extra_life|A revive with a damage bump attached.
+COLLECTIBLE_GUPPYS_COLLAR|Guppy's Collar|1.00|1.00|0.00|1.35|0.00|extra_life|Coin-flip revive, repeatable.
+COLLECTIBLE_BROKEN_ANKH|Broken Ankh|1.00|1.00|0.00|1.30|0.00|extra_life|Occasional revive as Whore of Babylon.
+COLLECTIBLE_SOUL_OF_LAZARUS|Soul of Lazarus|1.00|1.00|0.00|1.25|0.00|extra_life|Single-use revive.
+COLLECTIBLE_THE_HALO|The Halo|1.30|1.10|0.00|1.30|0.05|damage_up,health_up|Every stat up plus a container. Broadly excellent.
+COLLECTIBLE_MOMS_PEARL|Mom's Pearl|1.02|1.00|0.00|1.12|0.00|soul_hearts|Range and a chance at soul hearts.
+COLLECTIBLE_BLOOD_BAG|Blood Bag|1.02|1.00|0.00|1.15|0.05|health_up,speed_up|A container, a heal and speed.
+COLLECTIBLE_STEM_CELL|Stem Cell|1.00|1.00|0.00|1.12|0.00|health_up|Container and heal.
+COLLECTIBLE_HALLOWED_GROUND|Hallowed Ground|1.15|1.05|0.00|1.20|0.00|proc|Creation of a strong buff zone. Inconsistent.
+COLLECTIBLE_PYRO|Pyro|1.00|1.00|0.00|1.10|0.00|bombs|Ninety-nine bombs. Utility more than combat.
+COLLECTIBLE_HOST_HAT|Host Hat|1.00|1.00|0.00|1.35|0.00|damage_reduction|Immunity to explosions and falling damage. Perfect Ipecac insurance.
+COLLECTIBLE_PYROMANIAC|Pyromaniac|1.00|1.00|0.00|1.40|0.00|damage_reduction,heal|Explosions heal you. Turns Dr. Fetus and Ipecac safe.
+COLLECTIBLE_THE_BATTERY|The Battery|1.05|1.05|0.00|1.05|0.00|charge|Double active charge. Only as good as the active.
+COLLECTIBLE_NINE_VOLT|9 Volt|1.05|1.05|0.00|1.05|0.00|charge|Faster active recharge.
+COLLECTIBLE_TAURUS|Taurus|1.10|1.00|0.00|1.25|0.10|invincibility,speed_up|Invincibility on a speed threshold. Clunky but real.
+COLLECTIBLE_STOP_WATCH|Stop Watch|1.05|1.10|0.00|1.30|0.00|slowing|Slows every enemy after you take a hit.
+COLLECTIBLE_BUCKET_OF_LARD|Bucket of Lard|1.00|1.00|0.00|1.22|0.00|health_up|Two containers, speed down.
+COLLECTIBLE_INFAMY|Infamy|1.00|1.00|0.00|1.30|0.00|reflect|Blocks shots on a coin flip.
+COLLECTIBLE_CAFFEINE_PILL|Caffeine Pill|1.02|1.00|0.00|1.05|0.10|speed_up|Speed and a pill.
+COLLECTIBLE_SCAPULAR|Scapular|1.00|1.00|0.00|1.28|0.00|shield|A soul heart every room you enter at low health.
+
+# --- Mobility and flight ------------------------------------------------------
+COLLECTIBLE_FATE|Fate|1.00|1.00|0.00|1.10|0.40|flight,soul_hearts|Flight and an eternal heart.
+COLLECTIBLE_TRANSCENDENCE|Transcendence|1.00|1.00|0.00|1.00|0.38|flight|Flight, nothing else.
+COLLECTIBLE_LORD_OF_THE_PIT|Lord of the Pit|1.10|1.00|0.00|1.00|0.45|flight,speed_up|Flight and speed.
+COLLECTIBLE_HOLY_GRAIL|Holy Grail|1.00|1.00|0.00|1.15|0.40|flight,health_up|Flight and a heart container.
+COLLECTIBLE_SPIRIT_OF_THE_NIGHT|Spirit of the Night|1.05|1.00|0.00|1.05|0.45|flight,spectral|Flight and spectral tears.
+COLLECTIBLE_DADS_LOST_COIN|Dad's Lost Coin|1.05|1.00|0.00|1.00|0.10|range_up|Range and a coin.
+COLLECTIBLE_BELT|The Belt|1.02|1.00|0.00|1.00|0.12|speed_up|Speed.
+COLLECTIBLE_MERCURIUS|Mercurius|1.00|1.00|0.00|1.00|0.20|speed_up|Speed up.
+COLLECTIBLE_THE_TORN_CARD|Torn Card|1.05|1.15|0.00|1.00|0.05|active|Occasional damaging burst.
+COLLECTIBLE_SPELUNKER_HAT|Spelunker Hat|1.00|1.00|0.00|1.05|0.05|mapping|Room reveals. Not a combat item.
+
+# --- Spectral, piercing, utility shot mods ------------------------------------
+COLLECTIBLE_OUIJA_BOARD|Ouija Board|1.05|1.10|0.00|1.00|0.05|spectral|Spectral tears. Positioning freedom.
+COLLECTIBLE_CUPIDS_ARROW|Cupid's Arrow|1.05|1.35|0.00|1.00|0.00|piercing|Piercing tears.
+COLLECTIBLE_MY_REFLECTION|My Reflection|1.30|1.30|0.00|1.00|0.00|boomerang|Boomerang tears with a damage bonus. Awkward but strong.
+COLLECTIBLE_RUBBER_CEMENT|Rubber Cement|1.20|1.35|0.00|1.05|0.00|bouncing|Bouncing tears. Chaotic extra hits.
+COLLECTIBLE_LOKIS_HORNS|Loki's Horns|1.25|1.45|0.00|1.00|0.00|multishot|Chance to fire in four directions.
+COLLECTIBLE_ANTI_GRAVITY|Anti-Gravity|1.40|1.30|0.00|1.00|0.00|charged|Tears hang then fire. Big burst if you can set it up.
+COLLECTIBLE_CONTINUUM|Continuum|1.10|1.20|0.00|1.00|0.05|spectral|Tears wrap the screen.
+COLLECTIBLE_GODS_FLESH|God's Flesh|1.20|1.15|0.00|1.00|0.00|proc|Shrinks enemies on hit.
+COLLECTIBLE_SULFURIC_ACID|Sulfuric Acid|1.30|1.05|0.00|1.00|0.00|dot|Damage up that also opens doors.
+COLLECTIBLE_SCORPIO|Scorpio|1.20|1.05|0.00|1.00|0.00|dot|Poison tears.
+COLLECTIBLE_SERPENTS_KISS|Serpent's Kiss|1.25|1.05|0.00|1.05|0.00|dot|Poison on hit, self-damage on contact.
+COLLECTIBLE_COMMON_COLD|Common Cold|1.12|1.00|0.00|1.00|0.00|dot|Occasional poison.
+COLLECTIBLE_MOMS_CONTACTS|Mom's Contacts|1.15|1.05|0.00|1.05|0.00|freezing|Freeze on hit. Small but real crowd control.
+COLLECTIBLE_MOMS_EYE|Mom's Eye|1.20|1.15|0.00|1.00|0.00|multishot|Backwards shot chance.
+COLLECTIBLE_FIRE_MIND|Fire Mind|1.25|1.55|0.00|0.92|0.00|explosive,proc|Exploding tears. Fun, and it will kill you.
+COLLECTIBLE_THE_PARASITE|The Parasite|1.15|1.40|0.00|1.00|0.00|multishot|Tears split on impact.
+COLLECTIBLE_COMPOUND_FRACTURE|Compound Fracture|1.20|1.35|0.00|1.00|0.00|multishot|Bone shrapnel on impact.
+COLLECTIBLE_PLAYDOUGH_COOKIE|Playdough Cookie|1.25|1.30|0.00|1.00|0.05|multishot|Rotating tear effects.
+COLLECTIBLE_HAEMOLACRIA|Haemolacria|1.55|1.60|0.00|1.00|0.00|multishot|Arcing tears that burst into a spread. Big and messy.
+COLLECTIBLE_LACHRYPHAGY|Lachryphagy|1.35|1.30|0.00|1.00|0.00|charged|Tears grow as they feed. Rewards patience.
+COLLECTIBLE_EYE_OF_BELIAL|Eye of Belial|1.45|1.25|0.60|1.00|0.00|piercing,homing|Piercing tears that home after the first hit.
+COLLECTIBLE_APPLE_OF_SODOM|Apple of Sodom|1.10|1.00|0.00|1.05|0.00|proc|Blue flies on damage taken.
+COLLECTIBLE_SAD_BOMBS|Sad Bombs|1.05|1.25|0.00|1.00|0.00|bombs,multishot|Bombs fire tears on detonation.
+COLLECTIBLE_BOBS_CURSE|Bob's Curse|1.05|1.20|0.00|1.00|0.00|bombs,dot|Poison bombs and extra bombs.
+COLLECTIBLE_MR_MEGA|Mr. Mega|1.05|1.30|0.00|0.95|0.00|bombs,explosive|Much bigger bombs.
+COLLECTIBLE_BRIMSTONE_BOMBS|Brimstone Bombs|1.10|1.40|0.00|0.95|0.00|bombs,laser|Bombs fire lasers in eight directions.
+
+# --- Actives ------------------------------------------------------------------
+COLLECTIBLE_BOOK_OF_SHADOWS|Book of Shadows|1.00|1.00|0.00|1.45|0.00|active,shield|On-demand invulnerability. Answers any one dangerous pattern.
+COLLECTIBLE_THE_NAIL|The Nail|1.20|1.20|0.00|1.25|0.00|active,soul_hearts|Soul heart, damage and breakable floors.
+COLLECTIBLE_MY_LITTLE_UNICORN|My Little Unicorn|1.15|1.15|0.00|1.40|0.00|active,invincibility|Invincible melee charge for a few seconds.
+COLLECTIBLE_CRACK_THE_SKY|Crack the Sky|1.35|1.50|0.30|1.00|0.00|active|Light beams across the room. Strong boss burst.
+COLLECTIBLE_THE_BIBLE|The Bible|1.00|1.00|0.00|1.15|0.30|active,flight|Temporary flight. Situationally lethal against Satan.
+COLLECTIBLE_TAMMYS_HEAD|Tammy's Head|1.20|1.45|0.00|1.05|0.00|active,multishot|Burst of tears in every direction.
+COLLECTIBLE_MONSTROS_TOOTH|Monstro's Tooth|1.25|1.20|0.40|1.00|0.00|active|Monstro drops on a target. Free damage on a short charge.
+COLLECTIBLE_THE_HOURGLASS|The Hourglass|1.00|1.10|0.00|1.25|0.00|active,slowing|Slows the room.
+COLLECTIBLE_BUTTER_BEAN|Butter Bean|1.00|1.05|0.00|1.20|0.00|active,reflect|Knockback that reflects projectiles. Cheap panic button.
+COLLECTIBLE_MEGA_BLAST|Mega Blast|1.60|1.90|0.00|1.10|0.00|active,laser|Enormous sustained laser. Deletes a boss outright.
+COLLECTIBLE_D6|D6|1.25|1.20|0.00|1.05|0.00|active,reroll|Rerolls items. Its value is upstream of combat, but it is real.
+COLLECTIBLE_DEAD_SEA_SCROLLS|Dead Sea Scrolls|1.05|1.05|0.00|1.05|0.00|active|Random active each use.
+COLLECTIBLE_HOW_TO_JUMP|How to Jump|1.00|1.00|0.00|1.05|0.20|active|Jump over hazards.
+COLLECTIBLE_YUM_HEART|Yum Heart|1.00|1.00|0.00|1.35|0.00|active,heal|Repeatable healing. Slow but limitless.
+COLLECTIBLE_BOOK_OF_REVELATIONS|Book of Revelations|1.00|1.00|0.00|1.30|0.00|active,soul_hearts|Soul hearts on demand.
+COLLECTIBLE_THE_JAR|The Jar|1.00|1.00|0.00|1.20|0.00|active,heal|Stored hearts for emergencies.
+
+# --- Devil deal staples -------------------------------------------------------
+COLLECTIBLE_THE_MARK|The Mark|1.30|1.00|0.00|1.05|0.10|damage_up,speed_up|Damage, speed and a black heart.
+COLLECTIBLE_THE_PACT|The Pact|1.22|1.00|0.00|1.10|0.00|damage_up,tears_up,soul_hearts|Damage, tears and two soul hearts.
+COLLECTIBLE_ABADDON|Abaddon|1.45|1.05|0.00|1.05|0.10|damage_up,speed_up|Large damage up, converts your health to black hearts.
+COLLECTIBLE_DARK_MATTER|Dark Matter|1.35|1.15|0.00|1.05|0.00|damage_up,proc|Damage up and a strong fear chance.
+COLLECTIBLE_BLACK_CANDLE|Black Candle|1.00|1.00|0.00|1.20|0.00|curse_immunity|Curse immunity and a black heart.
+COLLECTIBLE_PENTAGRAM|Pentagram|1.18|1.00|0.00|1.00|0.00|damage_up|Flat damage.
+COLLECTIBLE_MARK_OF_THE_BEAST|Mark of the Beast|1.15|1.00|0.00|1.05|0.00|damage_up|Small damage and a black heart.
+COLLECTIBLE_LIL_MONSTRO|Lil Monstro|1.28|1.35|0.65|1.00|0.00|familiar,multishot,charged|Charged familiar shotgun.
+COLLECTIBLE_SUCCUBUS|Succubus|1.55|1.25|0.60|1.05|0.00|familiar,aura|Aura that boosts your damage substantially. Under-rated.
+COLLECTIBLE_LIL_ABADDON|Lil Abaddon|1.45|1.40|0.65|1.00|0.00|familiar,charged|Familiar Maw of the Void.
+COLLECTIBLE_ATHAME|Athame|1.35|1.45|0.15|0.98|0.00|aura,proc|Black rings on kills. Snowballs through packs.
+COLLECTIBLE_EVIL_EYE|Evil Eye|1.30|1.20|0.55|1.00|0.00|familiar,proc|Fires a strong eye tear periodically.
+COLLECTIBLE_ROTTEN_TOMATO|Rotten Tomato|1.05|1.05|0.00|1.10|0.00|proc|Enemies target the familiar instead of you.
+
+# --- Angel room and quality-of-run -------------------------------------------
+COLLECTIBLE_DUALITY|Duality|1.10|1.05|0.00|1.15|0.00|utility|Both deal rooms open. Upstream value again.
+COLLECTIBLE_EUCHARIST|Eucharist|1.15|1.05|0.00|1.20|0.00|utility|Guaranteed angel rooms.
+COLLECTIBLE_CENSER|Censer|1.05|1.15|0.00|1.35|0.00|aura,slowing|Slowing aura around you. Strongly defensive.
+COLLECTIBLE_SWORN_PROTECTOR|Sworn Protector|1.05|1.05|0.55|1.30|0.00|familiar|Blocks shots aimed at you.
+COLLECTIBLE_HOLY_WATER|Holy Water|1.05|1.15|0.00|1.05|0.00|active|Thrown poison pool.
+COLLECTIBLE_TRINITY_SHIELD|Trinity Shield|1.00|1.00|0.00|1.35|0.00|shield|Blocks everything from the direction you face.
+COLLECTIBLE_URIELS_VESTMENT|Uriel's Vestment|1.05|1.05|0.00|1.10|0.30|flight|Flight-adjacent angel item.
+
+# --- Weak and negative picks --------------------------------------------------
+COLLECTIBLE_THE_POOP|The Poop|1.00|1.00|0.00|1.05|0.00|utility|Places a poop. It is a poop.
+COLLECTIBLE_CURSED_EYE|Cursed Eye|1.20|1.15|0.00|0.88|0.00|charged,multishot|Charged burst that teleports you when interrupted.
+COLLECTIBLE_MOMS_BRA|Mom's Bra|1.00|1.05|0.00|1.10|0.00|active|Freezes the room briefly.
+COLLECTIBLE_MOMS_PAD|Mom's Pad|1.00|1.10|0.00|1.12|0.00|active|Fears the room briefly.
+COLLECTIBLE_BOBS_ROTTEN_HEAD|Bob's Rotten Head|1.10|1.20|0.00|1.00|0.00|active,dot|Thrown poison bomb.
+COLLECTIBLE_THE_LADDER|The Ladder|1.00|1.00|0.00|1.00|0.05|utility|Crosses gaps. Nearly inert.
+COLLECTIBLE_GUPPYS_HAIR_BALL|Guppy's Hair Ball|1.10|1.15|0.30|1.05|0.00|orbital|Swinging ball that grows with kills.
+COLLECTIBLE_ISAACS_HEART|Isaac's Heart|1.00|1.00|0.00|0.90|0.00|drawback|You cannot take damage but your heart can. Usually a downgrade.
+COLLECTIBLE_MISSING_NO|Missing No.|1.00|1.00|0.00|1.00|0.00|reroll|Rerolls your whole build on new floors. Pure variance.
+COLLECTIBLE_BLACK_LOTUS|Black Lotus|1.02|1.00|0.00|1.15|0.00|health_up,soul_hearts|One of each heart type.
+COLLECTIBLE_STAR_OF_BETHLEHEM|Star of Bethlehem|1.10|1.05|0.00|1.05|0.00|utility|Points at the boss.
+COLLECTIBLE_PLACENTA|Placenta|1.00|1.00|0.00|1.25|0.00|health_up,heal|Container plus slow regeneration.
+COLLECTIBLE_OLD_BANDAGE|Old Bandage|1.00|1.00|0.00|1.15|0.00|health_up|Container and blue-heart pickups.
+COLLECTIBLE_THE_SMALL_ROCK|Small Rock|1.15|1.00|0.00|1.08|0.00|damage_up|Damage and a container, speed down.
+COLLECTIBLE_PISCES|Pisces|1.15|1.05|0.00|1.05|0.00|tears_up|Tears up with knockback.
+COLLECTIBLE_LEO|Leo|1.05|1.05|0.00|1.00|0.00|utility|Crush rocks by walking.
+COLLECTIBLE_LIBRA|Libra|1.10|1.05|0.00|1.10|0.00|utility|Averages your stats. Rarely what you want.
+COLLECTIBLE_AQUARIUS|Aquarius|1.15|1.35|0.00|1.05|0.00|dot|Creepy trail behind you. Passive area damage.
+COLLECTIBLE_SAGITTARIUS|Sagittarius|1.15|1.30|0.00|1.00|0.00|piercing,speed_up|Piercing tears and speed.
+COLLECTIBLE_CAPRICORN|Capricorn|1.20|1.05|0.00|1.15|0.05|damage_up,tears_up,health_up|A little of everything.
+COLLECTIBLE_GEMINI|Gemini|1.15|1.05|0.55|1.10|0.00|familiar|Tethered familiar that rams enemies.
+COLLECTIBLE_ARIES|Aries|1.15|1.10|0.00|1.05|0.10|speed_up|Damage enemies by running into them.
+COLLECTIBLE_VIRGO|Virgo|1.00|1.00|0.00|1.20|0.00|damage_reduction|Immunity to status effects and free pills.

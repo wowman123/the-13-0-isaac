@@ -1,0 +1,9 @@
+<items gfxroot="gfx/items/" version="1">
+  <passive id="1" name="The Sad Onion" description="Tears up" gfx="onion.png" quality="1" cache="firedelay" />
+  <passive id="118" name="Brimstone" description="Blood laser barrage" gfx="brim.png" quality="4" cache="damage" tags="laser" />
+  <active id="114" name="Mom's Knife" description="Stab stab" gfx="knife.png" quality="4" cache="damage" />
+  <passive id="108" name="Wafer" description="Damage reduction" gfx="wafer.png" quality="3" maxhearts="2" />
+  <familiar id="360" name="Incubus" description="Copies your tears" gfx="incubus.png" quality="4" soulhearts="4" />
+  <passive id="999" name="Totally New Item" description="Not hand rated" gfx="new.png" quality="2" cache="damage speed" />
+  <trinket id="1" name="Gulp!" description="ignored" />
+</items>
