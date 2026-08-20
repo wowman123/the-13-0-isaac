@@ -1,0 +1,53 @@
+<!doctype html>
+<!-- Source for the app icons. Render with: node tools/build-icons.mjs -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="style.css">
+<style>
+  html, body { margin: 0; padding: 0; background: none; }
+  body { display: flex; align-items: center; justify-content: center; }
+  .icon {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background-color: var(--floor);
+    background-image: url("room-floor.png");
+    background-size: 45% 45%;
+  }
+  .icon { padding: 7%; }
+  /* A maskable icon gets cropped to a circle on some launchers, so the mark
+     has to sit inside the safe zone rather than run to the edge. */
+  .icon.pad { padding: 17%; }
+  .plate {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--parch);
+    border-style: solid;          /* width set in script; % is invalid here */
+    border-color: var(--cream);
+  }
+  .mark { font-family: var(--pixel); color: var(--red); line-height: 1; white-space: nowrap; }
+  .mark .z { color: var(--cream); text-shadow: 0.05em 0.05em 0 #00000059; }
+</style>
+</head>
+<body>
+  <div class="icon">
+    <div class="plate">
+      <span class="mark">13-<span class="z">0</span></span>
+    </div>
+  </div>
+<script>
+  const q = new URLSearchParams(location.search);
+  const size = Number(q.get('size') ?? 512);
+  document.body.style.width = document.body.style.height = `${size}px`;
+  if (q.get('maskable') === '1') document.querySelector('.icon').classList.add('pad');
+  // Scale the wordmark to the plate rather than to the viewport, so the
+  // maskable variant stays proportionate after its padding is applied.
+  const plateEl = document.querySelector('.plate');
+  // border-width takes no percentage, so scale it to the icon here.
+  plateEl.style.borderWidth = `${Math.max(2, Math.round(size * 0.028))}px`;
+  plateEl.style.boxShadow = `inset 0 0 0 ${Math.max(1, Math.round(size * 0.014))}px #34201a`;
+  const plate = plateEl.getBoundingClientRect();
+  document.querySelector('.mark').style.fontSize = `${plate.width * 0.30}px`;
+</script>
+</body>
+</html>

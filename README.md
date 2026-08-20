@@ -180,6 +180,45 @@ One typographic gotcha worth knowing before you edit strings: Silkscreen's Latin
 subset has no `→` (U+2192), so arrows use `»` and empty states use `?` rather
 than `—`, which renders as a solid bar at display sizes.
 
+## On a phone
+
+The site is a PWA: `manifest.webmanifest` plus `sw.js` make it installable to a
+home screen, where it opens without browser chrome and works with no
+connection.
+
+The service worker precaches the shell and the data — code, ratings, boss
+weights, fonts, room art — but deliberately not the ~180 sprites. Fetching all
+of them during install would make the first load crawl on mobile data, so they
+are cached as they are actually seen. Navigations are network-first so a deploy
+is picked up, falling back to the cached shell when offline; sprites, fonts and
+room art are cache-first because they never change without a filename change.
+
+Bump `CACHE` in `sw.js` when shipping — that constant is what evicts the
+previous version.
+
+Two ways to get it onto a phone:
+
+**Deployed.** Once Pages is live, open the URL and use *Add to Home Screen*
+(Share menu on iOS, the ⋮ menu on Android). That is the only route that gets
+you offline support, because service workers require a secure context and
+Pages is HTTPS.
+
+**On your own network,** for testing without deploying:
+
+```
+npm start
+```
+
+The server binds every interface and prints its LAN address alongside
+`localhost`. Open that address on a phone on the same Wi-Fi. It is plain HTTP,
+so the site works but will not install or run offline there — `npm start` says
+so on startup rather than leaving you to wonder.
+
+Touch targets follow `(hover: none) and (pointer: coarse)` rather than a width
+breakpoint, so they grow for fingers and not for a narrow desktop window. The
+frame and layout respect `env(safe-area-inset-*)`, so a notch or a rounded
+corner does not clip the stonework.
+
 ## Deploying
 
 `.github/workflows/pages.yml` publishes to GitHub Pages on every push to the
@@ -248,6 +287,9 @@ assets/sprites/       one 64px PNG per item, keyed by collectible id
 assets/room-frame.png room border, used as a CSS border-image
 assets/room-floor.png mirrored floor tile from the room interior
 assets/og-image.png   social card, rendered from assets/og-template.html
+assets/icon-*.png     PWA icons, rendered from assets/icon-template.html
+manifest.webmanifest  PWA manifest
+sw.js                 service worker: offline shell + runtime sprite cache
 404.html              styled not-found page for Pages
 .github/workflows/    ci.yml (every branch) and pages.yml (deploy from main)
 tools/                scrape, build, calibrate, validate, serve

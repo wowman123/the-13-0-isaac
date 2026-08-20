@@ -1,0 +1,17 @@
+{
+  "name": "The 13-0 — Isaac draft odds",
+  "short_name": "The 13-0",
+  "description": "Pick five items, see your odds of clearing all thirteen fights.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#734136",
+  "theme_color": "#734136",
+  "categories": ["games", "utilities"],
+  "icons": [
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

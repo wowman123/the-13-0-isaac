@@ -59,6 +59,21 @@ function fmtPct(p) {
 
 // ---------------------------------------------------------------- boot
 init();
+registerServiceWorker();
+
+/**
+ * Offline support. Service workers need a secure context, so this is a no-op
+ * over plain http on a LAN address — the site still works, it just will not
+ * install or run offline there.
+ */
+function registerServiceWorker() {
+  if (!('serviceWorker' in navigator) || !window.isSecureContext) return;
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch((err) => {
+      console.warn('service worker registration failed:', err.message);
+    });
+  });
+}
 
 async function init() {
   let items;

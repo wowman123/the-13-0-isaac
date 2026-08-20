@@ -61,7 +61,7 @@
 
 body {
   margin: 0;
-  padding: var(--frame);
+  padding: calc(var(--frame) + env(safe-area-inset-top)) calc(var(--frame) + env(safe-area-inset-right)) calc(var(--frame) + env(safe-area-inset-bottom)) calc(var(--frame) + env(safe-area-inset-left));
   color: var(--ink);
   font: 15px/1.6 var(--sans);
   background-color: var(--floor);
@@ -80,6 +80,10 @@ body {
   z-index: 60;
   pointer-events: none;
   border: var(--frame) solid transparent;
+  border-top-width: calc(var(--frame) + env(safe-area-inset-top));
+  border-bottom-width: calc(var(--frame) + env(safe-area-inset-bottom));
+  border-left-width: calc(var(--frame) + env(safe-area-inset-left));
+  border-right-width: calc(var(--frame) + env(safe-area-inset-right));
   border-image: url("room-frame.png") var(--frame-slice) round;
 }
 @media (max-width: 560px) { .room-frame { border-image-repeat: stretch; } }
@@ -103,7 +107,7 @@ a { color: inherit; }
    the gap between the frame and the bar. Both are background-attachment:fixed
    at the same size, so the tiles line up exactly. */
 .topbar {
-  position: sticky; top: var(--frame); z-index: 40;
+  position: sticky; top: calc(var(--frame) + env(safe-area-inset-top)); z-index: 40;
   padding-top: .9rem; margin-bottom: .4rem;
   background-color: var(--floor);
   background-image:
@@ -381,5 +385,28 @@ td.is-strong { color: var(--red); }
   .slot { min-height: 0; }
   .slot-tags { margin-top: .2rem; }
   .prose { padding: 1.1rem 1rem 1.5rem; }
+}
+
+/* Touch targets. A pointer that cannot hover is a finger, so grow anything
+   that was sized for a cursor to something a thumb can actually hit. */
+@media (hover: none) and (pointer: coarse) {
+  .tabs a { padding: .7rem .85rem; }
+  .btn { padding: .75rem 1rem; }
+  .slot-remove { width: 40px; height: 40px; font-size: 15px; top: -3px; right: -3px; }
+  .swap { padding: .8rem .7rem; }
+  .picker-item { padding: .7rem .55rem; }
+  .input { padding: .75rem .8rem; font-size: 16px; } /* 16px stops iOS zooming on focus */
+  .items-table thead th[data-sort] button { padding: .9rem .55rem; }
+  .brand { padding: .35rem 0; }
+}
+
+/* The coarse-pointer padding above pushes the brand plus three tabs past a
+   narrow viewport. Keep the tap height, buy the width back horizontally.
+   Must follow the block above to win on equal specificity. */
+@media (max-width: 440px) {
+  .topbar-inner { gap: .5rem; flex-wrap: wrap; justify-content: center; }
+  .tabs { gap: .3rem; }
+  .tabs a { padding-left: .55rem; padding-right: .55rem; font-size: 11px; }
+  .brand-mark { font-size: 21px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }

@@ -40,9 +40,9 @@ jobs:
         run: |
           mkdir -p _site
           cp -r index.html assets src data _site/
-          cp 404.html robots.txt _site/
+          cp 404.html robots.txt manifest.webmanifest sw.js _site/
           touch _site/.nojekyll
-          rm -f _site/assets/og-template.html
+          rm -f _site/assets/og-template.html _site/assets/icon-template.html
           du -sh _site
 
       - uses: actions/configure-pages@v5
