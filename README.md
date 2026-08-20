@@ -180,9 +180,19 @@ than `—`, which renders as a solid bar at display sizes.
 
 ## Deploying
 
-`.github/workflows/pages.yml` publishes to GitHub Pages on every push to
-`main`. It runs `npm run check` first, so a failing test or a drifted
-calibration blocks the deploy rather than shipping.
+`.github/workflows/pages.yml` publishes to GitHub Pages on every push to the
+repository's **default branch**, whatever it is called — the job compares
+`github.ref_name` against `github.event.repository.default_branch` rather than
+hardcoding `main`. It runs `npm run check` first, so a failing test or a
+drifted calibration blocks the deploy rather than shipping.
+
+Two things have to be true before anything publishes:
+
+1. **The repo must be public**, or on a paid plan. GitHub Pages is not
+   available for private repositories on GitHub Free.
+2. **Settings → Pages → Source must be set to "GitHub Actions"**, not "Deploy
+   from a branch". Until then the workflow runs and produces an artifact that
+   nothing serves.
 
 The published bundle is assembled explicitly — `index.html`, `assets`, `src`,
 `data`, `404.html`, `robots.txt` — so the tools and the test suite are not

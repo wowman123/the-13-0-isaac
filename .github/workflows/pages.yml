@@ -2,7 +2,10 @@ name: deploy
 
 on:
   push:
-    branches: [main]
+    # Deploy whatever the repository's default branch happens to be, rather
+    # than a hardcoded name — the job below gates on it. This repo's default
+    # is not `main`, and hardcoding it meant this workflow never fired.
+    branches: ["**"]
   workflow_dispatch:
 
 permissions:
@@ -17,6 +20,9 @@ concurrency:
 
 jobs:
   build:
+    # workflow_dispatch has no branch filter, so gate here rather than on the
+    # trigger: a manual run from a side branch should not publish it.
+    if: github.ref_name == github.event.repository.default_branch
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
