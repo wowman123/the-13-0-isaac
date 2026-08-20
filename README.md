@@ -111,6 +111,33 @@ build reads it as **eleven floor bosses, then Delirium, then The Beast**. If
 that is the wrong reading, it is thirteen lines in `data/bosses.json` and a
 re-run of `npm run calibrate`.
 
+## Design
+
+The look takes its cues from [Isaacle](https://isaacle.net/): a tiled pixel
+brick wall behind parchment panels with thick cream frames, blood-red pixel
+headings, and a coral-to-green scale for good and bad news. That scale does
+real work here — it drives the per-fight ladder bars and the hero meter through
+one shared `oddsColour()` ramp, so a red row means the same thing everywhere.
+
+Two things were built rather than borrowed:
+
+- **The brick wall is procedural** — an inline SVG tile of two offset courses
+  with `shape-rendering: crispEdges`, defined in `:root` as `--brick-tile`. No
+  game sprites are redistributed here.
+- **The CSS is written from scratch** in that visual language, not lifted from
+  the source site.
+
+Type is [Silkscreen](https://github.com/googlefonts/silkscreen) by Jason Kottke,
+under the SIL Open Font License 1.1 — the license text ships alongside the font
+in `assets/fonts/`. It is self-hosted (16 KB for both weights) so the design
+does not depend on a third-party font CDN at render time. Long prose keeps a
+system sans, because a pixel face is a poor way to read three paragraphs about
+soft caps.
+
+One typographic gotcha worth knowing before you edit strings: Silkscreen's Latin
+subset has no `→` (U+2192), so arrows use `»` and empty states use `?` rather
+than `—`, which renders as a solid bar at display sizes.
+
 ## Layout
 
 ```
@@ -123,6 +150,7 @@ data/ratings.psv      the hand layer. edit this one
 data/bosses.json      boss weights. all boss knowledge lives here
 data/config.json      solved slope + difficulty. generated
 data/items.json       generated. do not edit
+assets/fonts/         self-hosted Silkscreen (OFL 1.1) + its license
 tools/                scrape, build, calibrate, validate, serve
 test/                 39 tests over the engine, the data and the parser
 ```

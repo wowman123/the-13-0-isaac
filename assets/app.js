@@ -31,6 +31,12 @@ const state = {
 
 const DRAFT_SIZE = 5;
 const shortId = (id) => id.replace(/^COLLECTIBLE_/, '');
+
+/** Coral through amber to green — the same scale the guess feedback uses. */
+function oddsColour(t) {
+  const clamped = Math.max(0, Math.min(1, t));
+  return `hsl(${2 + clamped * 140} 74% ${72 - clamped * 8}%)`;
+}
 const byId = (id) => state.items.find((i) => i.id === id);
 const pct = (p) => p * 100;
 
@@ -151,8 +157,10 @@ function renderSlots() {
 }
 
 function renderHero(total, complete, count) {
-  $('#odds-value').textContent = complete ? fmtPct(total) : '—';
-  $('#odds-fill').style.width = complete ? `${Math.min(100, pct(total) * 2)}%` : '0%';
+  $('#odds-value').textContent = complete ? fmtPct(total) : '???';
+  const fill = $('#odds-fill');
+  fill.style.width = complete ? `${Math.max(2, Math.min(100, pct(total)))}%` : '0%';
+  fill.style.background = complete ? oddsColour(total / 0.5) : 'transparent';
 
   const verdict = $('#odds-verdict');
   if (!complete) {
@@ -163,11 +171,11 @@ function renderHero(total, complete, count) {
 
   const p = pct(total);
   const [text, colour] =
-    p >= 40 ? ['God roll. This is the run you tell people about.', 'var(--gold)']
-    : p >= 20 ? ['Genuinely strong. This clears more often than it does not fail.', 'var(--gold)']
-    : p >= 8 ? ['Above the median draft. Playable.', 'var(--ax-evasion)']
-    : p >= 2 ? ['Right around the median. Most runs look like this.', 'var(--muted)']
-    : ['Below median. Something here has to carry.', 'var(--blood)'];
+    p >= 40 ? ['God roll. The run you tell people about.', 'var(--ax-evasion)']
+    : p >= 20 ? ['Genuinely strong. This clears more often than it fails.', 'var(--ax-evasion)']
+    : p >= 8 ? ['Above the median draft. Playable.', 'var(--ink)']
+    : p >= 2 ? ['Right around the median. Most runs look like this.', 'var(--ink-soft)']
+    : ['Below median. Something here has to carry.', 'var(--red)'];
 
   verdict.textContent = text;
   verdict.style.color = colour;
@@ -194,7 +202,7 @@ function renderAxes(build, complete) {
         ]),
         el('span', {
           className: `axis-val${v === NEUTRAL[axis] ? ' is-neutral' : ''}`,
-          textContent: complete ? (multiplicative(axis) ? `×${v.toFixed(2)}` : v.toFixed(2)) : '—',
+          textContent: complete ? (multiplicative(axis) ? `×${v.toFixed(2)}` : v.toFixed(2)) : '?',
         }),
       ]);
     }),
@@ -212,8 +220,6 @@ function renderLadder(perBoss, complete) {
     ...perBoss.map((b, i) => {
       const isWorst = i === worstIndex;
       const special = b.id === 'BOSS_DELIRIUM' || b.id === 'BOSS_THE_BEAST';
-      // Green through amber to red as the fight gets less likely.
-      const hue = Math.round(b.p * 120);
 
       return el('li', {
         className: `ladder-row${isWorst ? ' is-worst' : ''}${special ? ' is-special' : ''}`,
@@ -223,9 +229,9 @@ function renderLadder(perBoss, complete) {
         el('span', { className: 'ladder-name', textContent: b.name }),
         el('div', { className: 'ladder-track' }, el('div', {
           className: 'ladder-bar',
-          style: `width:${complete ? pct(b.p) : 0}%; background: hsl(${hue} 62% 52%)`,
+          style: `width:${complete ? pct(b.p) : 0}%; background:${oddsColour(b.p)}`,
         })),
-        el('span', { className: 'ladder-val', textContent: complete ? `${pct(b.p).toFixed(0)}%` : '—' }),
+        el('span', { className: 'ladder-val', textContent: complete ? `${pct(b.p).toFixed(0)}%` : '?' }),
       ]);
     }),
   );
@@ -269,7 +275,7 @@ function renderSwaps(complete, current) {
     ...candidates.slice(0, 5).map((c) =>
       el('button', { className: 'swap', dataset: { slot: c.slot, swap: c.item.id } }, [
         el('span', { className: 'swap-text' }, [
-          el('span', { className: 'swap-out', textContent: `slot ${c.slot + 1} · ${byId(state.draft[c.slot]).name} → ` }),
+          el('span', { className: 'swap-out', textContent: `slot ${c.slot + 1} · ${byId(state.draft[c.slot]).name} » ` }),
           el('span', { className: 'swap-in', textContent: c.item.name }),
         ]),
         el('span', { className: 'swap-delta', textContent: `${fmtPct(c.total)}%  (+${(pct(c.gain)).toFixed(1)})` }),
@@ -389,7 +395,7 @@ function buildMethodView() {
   );
 
   $('#quality-fallback').textContent = Object.entries(QUALITY_OFFENSE)
-    .map(([q, v]) => `Q${q} → ${v.toFixed(2)}`)
+    .map(([q, v]) => `Q${q} » ${v.toFixed(2)}`)
     .join(' · ');
 
   const fmtMult = (v) => (v == null ? '—' : `×${v}`);
