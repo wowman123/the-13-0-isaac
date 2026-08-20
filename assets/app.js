@@ -32,6 +32,11 @@ const state = {
 const DRAFT_SIZE = 5;
 const shortId = (id) => id.replace(/^COLLECTIBLE_/, '');
 
+const sprite = (id) => el('img', {
+  className: 'sprite', src: `assets/sprites/${id}.png`,
+  alt: '', loading: 'lazy', width: 64, height: 64,
+});
+
 /** Coral through amber to green — the same scale the guess feedback uses. */
 function oddsColour(t) {
   const clamped = Math.max(0, Math.min(1, t));
@@ -146,7 +151,10 @@ function renderSlots() {
     const r = state.ratings.get(id);
     button.replaceChildren(
       el('span', { className: 'slot-index', textContent: `SLOT ${i + 1}` }),
-      el('span', { className: 'slot-name', textContent: item.name }),
+      el('span', { className: 'slot-main' }, [
+        sprite(id),
+        el('span', { className: 'slot-name', textContent: item.name }),
+      ]),
       el('span', { className: 'slot-tags' }, [
         ...item.tags.slice(0, 3).map((t) => el('span', { className: 'tag', textContent: t })),
         r.source !== 'hand' ? el('span', { className: 'tag', textContent: r.source }) : null,
@@ -315,6 +323,7 @@ function renderPickerList(query) {
         className: 'picker-item',
         dataset: picked.has(item.id) ? { pick: item.id, picked: '' } : { pick: item.id },
       }, [
+        sprite(item.id),
         el('span', { className: 'picker-name', textContent: item.name }),
         el('span', { className: 'picker-vec', textContent: vec }),
         item.rated?.note ? el('span', { className: 'picker-note', textContent: item.rated.note }) : null,
@@ -365,7 +374,7 @@ function renderItemsTable() {
       };
 
       return el('tr', {}, [
-        el('td', { className: 'col-name', textContent: item.name }),
+        el('td', { className: 'col-name' }, [sprite(item.id), el('span', { textContent: item.name })]),
         ...AXES.map(cell),
         item.scraped?.quality != null
           ? el('td', { textContent: `Q${item.scraped.quality}` })

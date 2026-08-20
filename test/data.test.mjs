@@ -53,6 +53,14 @@ test('scraped stays null until the scrape layer is generated', () => {
   }
 });
 
+test('every item has sprite art', () => {
+  // A trinket or a card has no collectible sprite, so this doubles as a check
+  // that nothing non-collectible has crept into the dataset.
+  const sprites = new Set(load('data/sprites.json').sprites);
+  const artless = items.filter((i) => !sprites.has(i.id)).map((i) => i.name);
+  assert.deepEqual(artless, [], `no sprite for: ${artless.join(', ')}`);
+});
+
 test('the ladder is 13 fights, indexed 1..13', () => {
   assert.equal(bosses.length, 13);
   assert.deepEqual(bosses.map((b) => b.index), Array.from({ length: 13 }, (_, i) => i + 1));

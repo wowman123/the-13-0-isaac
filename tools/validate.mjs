@@ -41,6 +41,18 @@ if (!scrapeLayer) {
   );
 }
 
+// 1c. Every item has art. This is the check that catches an entry which is not
+// actually a collectible — a trinket or a card will have no collectible sprite.
+const spriteIds = new Set(load('data/sprites.json').sprites);
+const artless = items.filter((i) => !spriteIds.has(i.id));
+check(
+  'every item has sprite art',
+  artless.length ? 'FAIL' : 'PASS',
+  artless.length
+    ? `${artless.length} without art (is it actually a collectible?): ${artless.slice(0, 5).map((i) => i.name).join(', ')}`
+    : `${spriteIds.size} sprites`,
+);
+
 // 2. Coverage: how much of the set is still riding on auto defaults.
 const bySource = {};
 for (const item of items) {

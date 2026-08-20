@@ -67,7 +67,7 @@ COLLECTIBLE_MAGIC_MUSHROOM|Magic Mushroom|1.50|1.05|0.00|1.15|0.00|damage_up,hea
 COLLECTIBLE_POLYPHEMUS|Polyphemus|2.20|0.95|0.00|1.00|0.00|damage_up,piercing|Enormous slow tears. Melts bosses, struggles with movement.
 COLLECTIBLE_PROPTOSIS|Proptosis|1.60|0.85|0.00|1.00|0.00|damage_up|Triple damage that decays with distance. Punishing but powerful.
 COLLECTIBLE_EVES_MASCARA|Eve's Mascara|1.55|1.05|0.00|1.00|0.00|damage_up|Double damage, halved rate and speed. Net strongly positive.
-COLLECTIBLE_ODD_MUSHROOM_THICK|Odd Mushroom (Large)|1.18|1.00|0.00|1.10|0.00|damage_up|Damage up, rate down.
+COLLECTIBLE_ODD_MUSHROOM_THICK|Odd Mushroom (Thick)|1.18|1.00|0.00|1.10|0.00|damage_up|Damage up, rate down.
 COLLECTIBLE_BLOOD_OF_THE_MARTYR|Blood of the Martyr|1.20|1.00|0.00|1.00|0.00|damage_up|Small flat damage.
 COLLECTIBLE_ROID_RAGE|Roid Rage|1.06|1.00|0.00|1.00|0.15|speed_up|Speed and range. Marginal.
 COLLECTIBLE_LUNCH|Lunch|1.00|1.00|0.00|1.10|0.00|health_up|One container.
@@ -91,12 +91,10 @@ COLLECTIBLE_DEAD_CAT|Dead Cat|1.00|1.00|0.00|1.45|0.00|extra_life|Nine lives at 
 COLLECTIBLE_ONE_UP|1up!|1.00|1.00|0.00|1.50|0.00|extra_life|One clean extra life.
 COLLECTIBLE_LAZARUS_RAGS|Lazarus' Rags|1.00|1.00|0.00|1.40|0.00|extra_life|A revive with a damage bump attached.
 COLLECTIBLE_GUPPYS_COLLAR|Guppy's Collar|1.00|1.00|0.00|1.35|0.00|extra_life|Coin-flip revive, repeatable.
-COLLECTIBLE_BROKEN_ANKH|Broken Ankh|1.00|1.00|0.00|1.30|0.00|extra_life|Occasional revive as Whore of Babylon.
-COLLECTIBLE_SOUL_OF_LAZARUS|Soul of Lazarus|1.00|1.00|0.00|1.25|0.00|extra_life|Single-use revive.
 COLLECTIBLE_THE_HALO|The Halo|1.30|1.10|0.00|1.30|0.05|damage_up,health_up|Every stat up plus a container. Broadly excellent.
-COLLECTIBLE_MOMS_PEARL|Mom's Pearl|1.02|1.00|0.00|1.12|0.00|soul_hearts|Range and a chance at soul hearts.
+COLLECTIBLE_MOMS_PEARLS|Mom's Pearls|1.02|1.00|0.00|1.12|0.00|soul_hearts|Range and a chance at soul hearts.
 COLLECTIBLE_BLOOD_BAG|Blood Bag|1.02|1.00|0.00|1.15|0.05|health_up,speed_up|A container, a heal and speed.
-COLLECTIBLE_STEM_CELL|Stem Cell|1.00|1.00|0.00|1.12|0.00|health_up|Container and heal.
+COLLECTIBLE_STEM_CELLS|Stem Cells|1.00|1.00|0.00|1.12|0.00|health_up|Container and heal.
 COLLECTIBLE_HALLOWED_GROUND|Hallowed Ground|1.15|1.05|0.00|1.20|0.00|proc|Creation of a strong buff zone. Inconsistent.
 COLLECTIBLE_PYRO|Pyro|1.00|1.00|0.00|1.10|0.00|bombs|Ninety-nine bombs. Utility more than combat.
 COLLECTIBLE_HOST_HAT|Host Hat|1.00|1.00|0.00|1.35|0.00|damage_reduction|Immunity to explosions and falling damage. Perfect Ipecac insurance.
@@ -119,7 +117,6 @@ COLLECTIBLE_SPIRIT_OF_THE_NIGHT|Spirit of the Night|1.05|1.00|0.00|1.05|0.45|fli
 COLLECTIBLE_DADS_LOST_COIN|Dad's Lost Coin|1.05|1.00|0.00|1.00|0.10|range_up|Range and a coin.
 COLLECTIBLE_BELT|The Belt|1.02|1.00|0.00|1.00|0.12|speed_up|Speed.
 COLLECTIBLE_MERCURIUS|Mercurius|1.00|1.00|0.00|1.00|0.20|speed_up|Speed up.
-COLLECTIBLE_THE_TORN_CARD|Torn Card|1.05|1.15|0.00|1.00|0.05|active|Occasional damaging burst.
 COLLECTIBLE_SPELUNKER_HAT|Spelunker Hat|1.00|1.00|0.00|1.05|0.05|mapping|Room reveals. Not a combat item.
 
 # --- Spectral, piercing, utility shot mods ------------------------------------
@@ -144,7 +141,6 @@ COLLECTIBLE_PLAYDOUGH_COOKIE|Playdough Cookie|1.25|1.30|0.00|1.00|0.05|multishot
 COLLECTIBLE_HAEMOLACRIA|Haemolacria|1.55|1.60|0.00|1.00|0.00|multishot|Arcing tears that burst into a spread. Big and messy.
 COLLECTIBLE_LACHRYPHAGY|Lachryphagy|1.35|1.30|0.00|1.00|0.00|charged|Tears grow as they feed. Rewards patience.
 COLLECTIBLE_EYE_OF_BELIAL|Eye of Belial|1.45|1.25|0.60|1.00|0.00|piercing,homing|Piercing tears that home after the first hit.
-COLLECTIBLE_APPLE_OF_SODOM|Apple of Sodom|1.10|1.00|0.00|1.05|0.00|proc|Blue flies on damage taken.
 COLLECTIBLE_SAD_BOMBS|Sad Bombs|1.05|1.25|0.00|1.00|0.00|bombs,multishot|Bombs fire tears on detonation.
 COLLECTIBLE_BOBS_CURSE|Bob's Curse|1.05|1.20|0.00|1.00|0.00|bombs,dot|Poison bombs and extra bombs.
 COLLECTIBLE_MR_MEGA|Mr. Mega|1.05|1.30|0.00|0.95|0.00|bombs,explosive|Much bigger bombs.
@@ -175,7 +171,6 @@ COLLECTIBLE_ABADDON|Abaddon|1.45|1.05|0.00|1.05|0.10|damage_up,speed_up|Large da
 COLLECTIBLE_DARK_MATTER|Dark Matter|1.35|1.15|0.00|1.05|0.00|damage_up,proc|Damage up and a strong fear chance.
 COLLECTIBLE_BLACK_CANDLE|Black Candle|1.00|1.00|0.00|1.20|0.00|curse_immunity|Curse immunity and a black heart.
 COLLECTIBLE_PENTAGRAM|Pentagram|1.18|1.00|0.00|1.00|0.00|damage_up|Flat damage.
-COLLECTIBLE_MARK_OF_THE_BEAST|Mark of the Beast|1.15|1.00|0.00|1.05|0.00|damage_up|Small damage and a black heart.
 COLLECTIBLE_LIL_MONSTRO|Lil Monstro|1.28|1.35|0.65|1.00|0.00|familiar,multishot,charged|Charged familiar shotgun.
 COLLECTIBLE_SUCCUBUS|Succubus|1.55|1.25|0.60|1.05|0.00|familiar,aura|Aura that boosts your damage substantially. Under-rated.
 COLLECTIBLE_LIL_ABADDON|Lil Abaddon|1.45|1.40|0.65|1.00|0.00|familiar,charged|Familiar Maw of the Void.
@@ -190,7 +185,6 @@ COLLECTIBLE_CENSER|Censer|1.05|1.15|0.00|1.35|0.00|aura,slowing|Slowing aura aro
 COLLECTIBLE_SWORN_PROTECTOR|Sworn Protector|1.05|1.05|0.55|1.30|0.00|familiar|Blocks shots aimed at you.
 COLLECTIBLE_HOLY_WATER|Holy Water|1.05|1.15|0.00|1.05|0.00|active|Thrown poison pool.
 COLLECTIBLE_TRINITY_SHIELD|Trinity Shield|1.00|1.00|0.00|1.35|0.00|shield|Blocks everything from the direction you face.
-COLLECTIBLE_URIELS_VESTMENT|Uriel's Vestment|1.05|1.05|0.00|1.10|0.30|flight|Flight-adjacent angel item.
 
 # --- Weak and negative picks --------------------------------------------------
 COLLECTIBLE_THE_POOP|The Poop|1.00|1.00|0.00|1.05|0.00|utility|Places a poop. It is a poop.

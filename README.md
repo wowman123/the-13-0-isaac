@@ -27,7 +27,7 @@ part that cannot be scraped and is where the game's feel lives. It lives in
 
 ### This repository ships the hand layer only
 
-`data/items.json` currently has `scraped: null` on all 187 records. The game
+`data/items.json` currently has `scraped: null` on all 181 records. The game
 files are not redistributable and were not available when the ratings were
 written, so nothing was guessed to fill the gap. To populate it:
 
@@ -92,9 +92,10 @@ different seed, so the fit has to generalise rather than memorise its own sample
 
 ```
 $ npm run validate
-[  ok  ] every item has at least one tag                187 items
+[  ok  ] every item has at least one tag                181 items
 [ .... ] every item has quality + at least one pool     no scrape layer
-[ info ] rating coverage                                187 hand-rated, 0 auto
+[  ok  ] every item has sprite art                      181 sprites
+[ info ] rating coverage                                181 hand-rated, 0 auto
 [  ok  ] no item exceeds offense 3.0                    max 2.40
 [  ok  ] median 13-0 chance in 2-8%                     5.05%
 [  ok  ] top 1% of drafts above 40%                     44.73%
@@ -110,6 +111,45 @@ The schema names Delirium and The Beast explicitly and refers to a generic
 build reads it as **eleven floor bosses, then Delirium, then The Beast**. If
 that is the wrong reading, it is thirteen lines in `data/bosses.json` and a
 re-run of `npm run calibrate`.
+
+## Sprites
+
+Each item renders its in-game sprite in the slots, the picker and the table.
+`assets/sprites/` holds one 64px PNG per item, keyed by collectible id, built
+from an HD sprite pack with:
+
+```
+python3 tools/build-sprites.py "/path/to/TBOI HD Sprites"   # needs Pillow
+```
+
+Only items present in `data/ratings.psv` are emitted, so the repo carries ~180
+sprites rather than a whole pack. Source art is 512x512 with inconsistent
+padding, so each sprite is trimmed to its alpha bounding box and fitted into a
+common box — otherwise a tall item and a wide one render at very different
+apparent sizes in the same row.
+
+The sprite art is from The Binding of Isaac and belongs to its authors. It is
+included here for a fan tool, not licensed by this project; the sprite pack
+itself is not committed, only the derived per-item PNGs.
+
+### The art check earns its keep
+
+Matching the dataset against the pack immediately found nine items with no
+collectible sprite, and every one was a real defect in the hand layer:
+
+- **Wrong name** — `Mom's Pearl`, `Stem Cell` and `Odd Mushroom (Large)` were
+  renamed to `Mom's Pearls`, `Stem Cells` and `Odd Mushroom (Thick)`. In the
+  first two cases the singular is a *trinket* and the plural is the collectible.
+- **Trinkets, not collectibles** — Apple of Sodom, Broken Ankh and Torn Card
+  were removed.
+- **Not collectibles at all** — Soul of Lazarus is a soul stone; Mark of the
+  Beast and Uriel's Vestment do not appear anywhere in a pack covering 717
+  collectibles. Removed.
+
+That is the schema's "never type it from memory" principle catching the author
+in the act, which is why `every item has sprite art` is now a test: a trinket or
+a card has no collectible sprite, so the check doubles as a guard against
+non-collectibles creeping back into the pool.
 
 ## Design
 
@@ -151,8 +191,9 @@ data/bosses.json      boss weights. all boss knowledge lives here
 data/config.json      solved slope + difficulty. generated
 data/items.json       generated. do not edit
 assets/fonts/         self-hosted Silkscreen (OFL 1.1) + its license
+assets/sprites/       one 64px PNG per item, keyed by collectible id
 tools/                scrape, build, calibrate, validate, serve
-test/                 39 tests over the engine, the data and the parser
+test/                 40 tests over the engine, the data and the parser
 ```
 
 Ratings are one person's opinion, argued in public. Everything else is
