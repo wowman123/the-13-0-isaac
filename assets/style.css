@@ -259,8 +259,14 @@ thead th {
   font: 10px var(--pixel); text-transform: uppercase; color: var(--ink);
   padding: .7rem .55rem; border-bottom: 4px solid var(--ink);
 }
-.items-table thead th[data-sort] { cursor: pointer; user-select: none; }
-.items-table thead th[data-sort]:hover { color: var(--red); }
+/* The sortable header is a real button; the th keeps the padding and aria-sort. */
+.items-table thead th[data-sort] { padding: 0; }
+.items-table thead th[data-sort] button {
+  font: inherit; color: inherit; text-transform: inherit; letter-spacing: inherit;
+  background: none; border: 0; padding: .7rem .55rem; width: 100%;
+  text-align: inherit; cursor: pointer;
+}
+.items-table thead th[data-sort]:hover button { color: var(--red); }
 th.col-name, th.col-note { text-align: left; }
 th[aria-sort] { color: var(--red); }
 th[aria-sort]::after { content: " \25BC"; font-size: 8px; }
@@ -330,6 +336,12 @@ td.is-strong { color: var(--red); }
 /* ----------------------------------------------------------------- footer */
 .footer { padding: 1.4rem 0 2.5rem; }
 .footer p { margin: 0; font: 10px/1.7 var(--pixel); text-transform: uppercase; color: #f2ece0a8; text-shadow: 2px 2px 0 #0000006b; }
+.footer-legal { margin-top: .7rem !important; max-width: 72ch; font-family: var(--sans) !important; font-size: 11.5px !important; line-height: 1.6 !important; text-transform: none !important; color: #f2ece08c !important; }
+.footer-legal a { color: #f2ece0c4; }
+
+.load-error { max-width: 60ch; margin: 3rem auto; }
+.load-error h2 { color: var(--red); margin-bottom: .6rem; }
+.load-error p { font-size: 13px; color: var(--ink-soft); }
 
 :focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
 

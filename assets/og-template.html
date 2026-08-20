@@ -1,0 +1,48 @@
+<!doctype html>
+<!-- Source for assets/og-image.png. Render with: node tools/build-og.mjs -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="style.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body { width: 1200px; height: 630px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .card { width: 1096px; height: 526px; padding: 54px 60px; display: flex; flex-direction: column; justify-content: space-between; }
+  .mark { font: 96px/1 var(--pixel); color: var(--red); letter-spacing: .02em; }
+  .mark .z { color: var(--cream); text-shadow: 4px 4px 0 #00000059; }
+  .tagline { margin-top: 18px; font: 27px/1.45 var(--pixel); text-transform: uppercase; color: var(--ink); }
+  .sub { margin-top: 14px; font-family: var(--sans); font-size: 21px; color: var(--ink-soft); max-width: 46ch; }
+  .row { display: flex; align-items: center; gap: 18px; }
+  .row img { width: 84px; height: 84px; object-fit: contain; }
+  .bars { display: flex; gap: 7px; align-items: flex-end; }
+  .bars i { display: block; width: 26px; border: 3px solid var(--ink); }
+  .foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; }
+</style>
+</head>
+<body>
+  <div class="card slab">
+    <div>
+      <div class="mark">13-<span class="z">0</span></div>
+      <div class="tagline">Isaac draft odds</div>
+      <div class="sub">Pick five items, see your odds of clearing all thirteen fights. Ratings by hand, odds by arithmetic.</div>
+    </div>
+    <div class="foot">
+      <div class="row">
+        <img src="sprites/COLLECTIBLE_BRIMSTONE.png" alt="">
+        <img src="sprites/COLLECTIBLE_SACRED_HEART.png" alt="">
+        <img src="sprites/COLLECTIBLE_MOMS_KNIFE.png" alt="">
+        <img src="sprites/COLLECTIBLE_INCUBUS.png" alt="">
+        <img src="sprites/COLLECTIBLE_WAFER.png" alt="">
+      </div>
+      <div class="bars">
+        <i style="height:26px;background:hsl(6 74% 71%)"></i>
+        <i style="height:38px;background:hsl(34 74% 70%)"></i>
+        <i style="height:50px;background:hsl(62 74% 69%)"></i>
+        <i style="height:62px;background:hsl(90 74% 67%)"></i>
+        <i style="height:76px;background:hsl(118 74% 66%)"></i>
+        <i style="height:92px;background:hsl(142 74% 65%)"></i>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

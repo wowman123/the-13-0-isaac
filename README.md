@@ -178,6 +178,47 @@ One typographic gotcha worth knowing before you edit strings: Silkscreen's Latin
 subset has no `→` (U+2192), so arrows use `»` and empty states use `?` rather
 than `—`, which renders as a solid bar at display sizes.
 
+## Deploying
+
+`.github/workflows/pages.yml` publishes to GitHub Pages on every push to
+`main`. It runs `npm run check` first, so a failing test or a drifted
+calibration blocks the deploy rather than shipping.
+
+The published bundle is assembled explicitly — `index.html`, `assets`, `src`,
+`data`, `404.html`, `robots.txt` — so the tools and the test suite are not
+served. `.nojekyll` stops GitHub from running the files through Jekyll.
+
+`.github/workflows/ci.yml` runs on every branch and pull request. Besides the
+test suite it asserts two structural things: that the project still has zero
+dependencies, and that `data/items.json` is not stale relative to
+`data/ratings.psv`.
+
+The site works from a subdirectory (`user.github.io/the-13-0-isaac/`) — every
+path in the page is relative, and routing is hash-based, so there is no
+base-path configuration to get wrong.
+
+To regenerate the social card after a design change:
+
+```
+npm start                    # in one shell
+node tools/build-og.mjs      # in another; needs playwright
+```
+
+## Licensing, in short
+
+- **`LICENSE`** — MIT, covering the engine, tools, tests, site and the ratings.
+- **`NOTICE.md`** — what MIT does *not* cover: the sprite art belongs to the
+  game's authors, the font is OFL, and scraped game data is never redistributed
+  here. Read this before publishing a fork.
+
+This is an unofficial fan tool with no affiliation to the game's authors or
+publisher, stated both in `NOTICE.md` and in the site footer. Removing the
+sprite art is one command and breaks nothing:
+
+```
+rm -rf assets/sprites && node tools/build-items.mjs
+```
+
 ## Layout
 
 ```
@@ -192,6 +233,9 @@ data/config.json      solved slope + difficulty. generated
 data/items.json       generated. do not edit
 assets/fonts/         self-hosted Silkscreen (OFL 1.1) + its license
 assets/sprites/       one 64px PNG per item, keyed by collectible id
+assets/og-image.png   social card, rendered from assets/og-template.html
+404.html              styled not-found page for Pages
+.github/workflows/    ci.yml (every branch) and pages.yml (deploy from main)
 tools/                scrape, build, calibrate, validate, serve
 test/                 40 tests over the engine, the data and the parser
 ```

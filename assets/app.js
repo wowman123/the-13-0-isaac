@@ -35,6 +35,9 @@ const shortId = (id) => id.replace(/^COLLECTIBLE_/, '');
 const sprite = (id) => el('img', {
   className: 'sprite', src: `assets/sprites/${id}.png`,
   alt: '', loading: 'lazy', width: 64, height: 64,
+  // Sprite art is optional and separately licensed. If assets/sprites has been
+  // removed, collapse the image rather than leaving a broken icon everywhere.
+  onerror() { this.remove(); },
 });
 
 /** Coral through amber to green — the same scale the guess feedback uses. */
@@ -58,11 +61,22 @@ function fmtPct(p) {
 init();
 
 async function init() {
-  const [items, bosses, config] = await Promise.all([
-    fetch('data/items.json').then((r) => r.json()),
-    fetch('data/bosses.json').then((r) => r.json()),
-    fetch('data/config.json').then((r) => r.json()),
-  ]);
+  let items;
+  let bosses;
+  let config;
+
+  try {
+    [items, bosses, config] = await Promise.all(
+      ['data/items.json', 'data/bosses.json', 'data/config.json'].map(async (path) => {
+        const res = await fetch(path);
+        if (!res.ok) throw new Error(`${path} returned ${res.status}`);
+        return res.json();
+      }),
+    );
+  } catch (err) {
+    showLoadFailure(err);
+    return;
+  }
 
   state.items = items.items;
   state.scrapeLayer = items.scrapeLayer;
@@ -77,6 +91,17 @@ async function init() {
 
   readHash();
   window.addEventListener('hashchange', readHash);
+}
+
+/** The page is useless without its data, so say so instead of sitting blank. */
+function showLoadFailure(err) {
+  document.querySelector('main').replaceChildren(
+    el('section', { className: 'panel load-error' }, [
+      el('h2', { textContent: 'Could not load the item data' }),
+      el('p', { textContent: String(err.message ?? err) }),
+      el('p', { textContent: 'This site reads data/*.json over HTTP. Opening index.html straight from disk will not work — serve the folder instead (npm start).' }),
+    ]),
+  );
 }
 
 // ---------------------------------------------------------------- routing
@@ -363,6 +388,8 @@ function renderItemsTable() {
     else th.removeAttribute('aria-sort');
   }
 
+  $('.items-table th.col-quality').hidden = !state.scrapeLayer;
+
   $('#items-body').replaceChildren(
     ...rows.map((item) => {
       const r = state.ratings.get(item.id);
@@ -376,9 +403,9 @@ function renderItemsTable() {
       return el('tr', {}, [
         el('td', { className: 'col-name' }, [sprite(item.id), el('span', { textContent: item.name })]),
         ...AXES.map(cell),
-        item.scraped?.quality != null
-          ? el('td', { textContent: `Q${item.scraped.quality}` })
-          : el('td', {}, el('span', { className: 'q-pending', textContent: 'not scraped' })),
+        state.scrapeLayer
+          ? el('td', { textContent: item.scraped?.quality != null ? `Q${item.scraped.quality}` : '—' })
+          : null,
         el('td', { className: 'col-note', textContent: item.rated?.note ?? `auto-rated from tags: ${item.tags.join(', ') || 'none'}` }),
       ]);
     }),

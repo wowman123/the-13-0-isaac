@@ -5,6 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The 13-0 — Isaac draft odds</title>
 <meta name="description" content="Pick five items, see your odds of a 13-0 run of The Binding of Isaac.">
+<link rel="canonical" href="https://wowman123.github.io/the-13-0-isaac/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The 13-0">
+<meta property="og:title" content="The 13-0 — Isaac draft odds">
+<meta property="og:description" content="Pick five items, see your odds of clearing all thirteen fights. Ratings by hand, odds by arithmetic.">
+<meta property="og:url" content="https://wowman123.github.io/the-13-0-isaac/">
+<meta property="og:image" content="https://wowman123.github.io/the-13-0-isaac/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The 13-0 — a draft odds calculator for The Binding of Isaac.">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The 13-0 — Isaac draft odds">
+<meta name="twitter:description" content="Pick five items, see your odds of clearing all thirteen fights.">
+<meta name="twitter:image" content="https://wowman123.github.io/the-13-0-isaac/assets/og-image.png">
+
+<meta name="theme-color" content="#6e4139">
 <link rel="preload" href="assets/fonts/silkscreen-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/style.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='13' font-size='13'>🩸</text></svg>">
@@ -89,22 +107,22 @@
     </div>
 
     <div class="filters">
-      <input type="search" id="item-search" class="input" placeholder="Search name, tag or note…" autocomplete="off">
-      <select id="item-tag" class="input"></select>
-      <span class="filter-count" id="item-count"></span>
+      <input type="search" id="item-search" class="input" placeholder="Search name, tag or note…" aria-label="Search items by name, tag or note" autocomplete="off">
+      <select id="item-tag" class="input" aria-label="Filter items by tag"></select>
+      <span class="filter-count" id="item-count" role="status" aria-live="polite"></span>
     </div>
 
     <div class="table-scroll">
       <table class="items-table">
         <thead>
           <tr>
-            <th class="col-name" data-sort="name">Item</th>
-            <th data-sort="offense">Off</th>
-            <th data-sort="aoe">AoE</th>
-            <th data-sort="tracking">Trk</th>
-            <th data-sort="defense">Def</th>
-            <th data-sort="evasion">Eva</th>
-            <th class="col-quality" data-sort="quality">Quality</th>
+            <th class="col-name" data-sort="name"><button type="button">Item</button></th>
+            <th data-sort="offense"><button type="button">Off</button></th>
+            <th data-sort="aoe"><button type="button">AoE</button></th>
+            <th data-sort="tracking"><button type="button">Trk</button></th>
+            <th data-sort="defense"><button type="button">Def</button></th>
+            <th data-sort="evasion"><button type="button">Eva</button></th>
+            <th class="col-quality" data-sort="quality"><button type="button">Quality</button></th>
             <th class="col-note">Note</th>
           </tr>
         </thead>
@@ -162,6 +180,13 @@
       <p>Each fight carries a weight vector over the five axes. Item ratings never encode boss-specific knowledge — the boss weights do all of that.</p>
       <p>The multiplicative axes go through <code>log()</code> so that neutral sits at zero and a halving mirrors a doubling. Tracking and evasion are already bounded 0–1 and are used directly. A fight's score is the weighted sum, and the chance of clearing it is <code>sigmoid(slope × (score − threshold))</code>. The run is the product of all thirteen.</p>
 
+      <div class="callout">
+        <b>The thirteen fights are an interpretation.</b> The source schema names Delirium and The Beast
+        alongside a generic &ldquo;bosses 1&ndash;12&rdquo; ramp, which totals fourteen fights for a thing called 13-0.
+        This build reads it as eleven floor bosses, then Delirium, then The Beast. If that reading is wrong,
+        the weights below are the only thing that needs changing.
+      </div>
+
       <div class="table-scroll">
         <table class="ref-table" id="boss-table">
           <thead><tr><th>#</th><th>Fight</th><th>off</th><th>aoe</th><th>trk</th><th>def</th><th>eva</th><th>threshold</th></tr></thead>
@@ -177,6 +202,10 @@
       </ul>
       <div class="callout" id="calibration"></div>
       <p>The solver fits on one seed; <code>tools/validate.mjs</code> re-checks on a different one, so the fit has to generalise rather than memorise its own sample.</p>
+
+      <h2>What this is not</h2>
+      <p>Hitting a target distribution is not the same as being right. Every rating here was assigned by hand and calibrated so that random drafts land where the schema says they should — but no rating has been checked against how the game actually plays. Treat the number as a well-argued opinion with arithmetic on top, not as a measurement.</p>
+      <p>The ratings live one-per-line in <code>data/ratings.psv</code> precisely so that disagreeing with one is a one-line diff. If a number looks wrong to you, it might be.</p>
     </div>
   </section>
 
@@ -184,11 +213,16 @@
 
 <footer class="wrap footer">
   <p>Ratings are one person's opinion, argued in public. Everything else is arithmetic.</p>
+  <p class="footer-legal">
+    Unofficial fan tool. Not affiliated with, endorsed by, or sponsored by Edmund McMillen or Nicalis.
+    <em>The Binding of Isaac</em> and its sprite art belong to their authors.
+    <a href="https://github.com/wowman123/the-13-0-isaac">Source and ratings on GitHub</a>.
+  </p>
 </footer>
 
-<dialog id="picker" class="picker">
+<dialog id="picker" class="picker" aria-label="Choose an item">
   <form method="dialog" class="picker-head">
-    <input type="search" id="picker-search" class="input" placeholder="Search items…" autocomplete="off">
+    <input type="search" id="picker-search" class="input" placeholder="Search items…" aria-label="Search items to add to the draft" autocomplete="off">
     <button class="btn btn-quiet" value="cancel">Close</button>
   </form>
   <ul class="picker-list" id="picker-list"></ul>
