@@ -17,14 +17,13 @@
 }
 
 /* ------------------------------------------------------------------ tokens
-   Visual language borrowed from Isaacle: a pixel brick dungeon wall behind
-   parchment panels, blood-red pixel headings, and a coral-to-green scale for
-   good and bad news. The brick is generated here rather than shipped as game
-   art. */
+   Visual language borrowed from Isaacle: parchment panels on a dungeon floor,
+   blood-red pixel headings, and a coral-to-green scale for good and bad news.
+   The room art is a supplied Isaac room texture — see NOTICE.md. */
 
 :root {
-  --brick-mortar: #4a2a23;
-  --brick: #6e4139;
+  --floor: #734136;
+  --floor-deep: #4a2a23;
   --parch: #d9bd91;
   --parch-dim: #c8a877;
   --parch-deep: #b8935f;
@@ -48,23 +47,42 @@
   --pixel: "Silkscreen", ui-monospace, "Courier New", monospace;
   --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
-  /* Two brick courses, offset, with hard edges so it reads as pixel art. */
-  --brick-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='32' shape-rendering='crispEdges'%3E%3Crect width='64' height='32' fill='%234a2a23'/%3E%3Crect x='1' y='1' width='30' height='13' fill='%236e4139'/%3E%3Crect x='33' y='1' width='30' height='13' fill='%23764b40'/%3E%3Crect x='0' y='17' width='14' height='13' fill='%23734940'/%3E%3Crect x='16' y='17' width='30' height='13' fill='%23683d35'/%3E%3Crect x='48' y='17' width='16' height='13' fill='%23714239'/%3E%3Crect x='6' y='4' width='3' height='2' fill='%2360382f'/%3E%3Crect x='40' y='7' width='4' height='2' fill='%23684036'/%3E%3Crect x='22' y='21' width='3' height='2' fill='%235d3730'/%3E%3C/svg%3E");
+  /* Room art. The frame is a border-image so the stonework stays at its own
+     resolution instead of being upscaled to fill a wide viewport; the floor is
+     a mirrored tile from the room's interior. */
+  --frame: 44px;
+  --frame-slice: 54;
 }
+
+@media (max-width: 900px) { :root { --frame: 26px; } }
+@media (max-width: 560px) { :root { --frame: 14px; } }
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
+  padding: var(--frame);
   color: var(--ink);
   font: 15px/1.6 var(--sans);
-  background-color: var(--brick-mortar);
+  background-color: var(--floor);
   background-image:
-    radial-gradient(115% 75% at 50% 0%, #00000000 38%, #00000073 100%),
-    var(--brick-tile);
-  background-size: auto, 128px 64px;
+    radial-gradient(120% 80% at 50% 0%, #00000000 42%, #00000059 100%),
+    url("room-floor.png");
+  background-size: auto, 256px 256px;
   background-attachment: fixed;
 }
+
+/* The room's stone border, pinned to the viewport so the page reads as
+   something happening inside a room rather than on an endless wall. */
+.room-frame {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  border: var(--frame) solid transparent;
+  border-image: url("room-frame.png") var(--frame-slice) round;
+}
+@media (max-width: 560px) { .room-frame { border-image-repeat: stretch; } }
 
 .wrap { width: min(1120px, 100% - 1.6rem); margin-inline: auto; }
 
@@ -80,7 +98,20 @@ a { color: inherit; }
 }
 
 /* ----------------------------------------------------------------- topbar */
-.topbar { position: sticky; top: 0; z-index: 40; padding-top: .9rem; margin-bottom: .4rem; }
+/* Stops below the room frame, which paints above it. The padding strip repeats
+   the body's fixed floor background so scrolling content cannot show through
+   the gap between the frame and the bar. Both are background-attachment:fixed
+   at the same size, so the tiles line up exactly. */
+.topbar {
+  position: sticky; top: var(--frame); z-index: 40;
+  padding-top: .9rem; margin-bottom: .4rem;
+  background-color: var(--floor);
+  background-image:
+    radial-gradient(120% 80% at 50% 0%, #00000000 42%, #00000059 100%),
+    url("room-floor.png");
+  background-size: auto, 256px 256px;
+  background-attachment: fixed;
+}
 .topbar-inner {
   display: flex; align-items: center; justify-content: space-between;
   gap: 1rem; padding: .55rem .9rem;

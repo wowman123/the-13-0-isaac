@@ -159,13 +159,15 @@ headings, and a coral-to-green scale for good and bad news. That scale does
 real work here — it drives the per-fight ladder bars and the hero meter through
 one shared `oddsColour()` ramp, so a red row means the same thing everywhere.
 
-Two things were built rather than borrowed:
+The background is a supplied Isaac room texture rather than a flat colour. Its
+interior is nearly uniform, so upscaling the whole image to fill a wide viewport
+would only blur it; instead the stone border is a CSS `border-image` pinned to
+the viewport at its own resolution, and the floor is a mirror-tiled patch from
+the room's interior. The page reads as something happening inside a room, and
+the sticky header stops below the frame rather than sliding under it.
 
-- **The brick wall is procedural** — an inline SVG tile of two offset courses
-  with `shape-rendering: crispEdges`, defined in `:root` as `--brick-tile`. No
-  game sprites are redistributed here.
-- **The CSS is written from scratch** in that visual language, not lifted from
-  the source site.
+The CSS is written from scratch in that visual language, not lifted from the
+source site.
 
 Type is [Silkscreen](https://github.com/googlefonts/silkscreen) by Jason Kottke,
 under the SIL Open Font License 1.1 — the license text ships alongside the font
@@ -243,6 +245,8 @@ data/config.json      solved slope + difficulty. generated
 data/items.json       generated. do not edit
 assets/fonts/         self-hosted Silkscreen (OFL 1.1) + its license
 assets/sprites/       one 64px PNG per item, keyed by collectible id
+assets/room-frame.png room border, used as a CSS border-image
+assets/room-floor.png mirrored floor tile from the room interior
 assets/og-image.png   social card, rendered from assets/og-template.html
 404.html              styled not-found page for Pages
 .github/workflows/    ci.yml (every branch) and pages.yml (deploy from main)
