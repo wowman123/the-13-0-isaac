@@ -227,13 +227,14 @@ repository's **default branch**, whatever it is called — the job compares
 hardcoding `main`. It runs `npm run check` first, so a failing test or a
 drifted calibration blocks the deploy rather than shipping.
 
-Two things have to be true before anything publishes:
+**Making the repository public is the only step.** The deploy job is gated on
+`github.event.repository.visibility == 'public'`, so while the repo is private
+it is skipped rather than failed — Pages is unavailable for private repos on
+GitHub Free, and failing red on every push for that is a misleading signal, not
+a code problem. The job starts running by itself once the repo is public.
 
-1. **The repo must be public**, or on a paid plan. GitHub Pages is not
-   available for private repositories on GitHub Free.
-2. **Settings → Pages → Source must be set to "GitHub Actions"**, not "Deploy
-   from a branch". Until then the workflow runs and produces an artifact that
-   nothing serves.
+`actions/configure-pages` runs with `enablement: true`, so it switches Pages on
+through the API rather than requiring a visit to Settings → Pages.
 
 The published bundle is assembled explicitly — `index.html`, `assets`, `src`,
 `data`, `404.html`, `robots.txt` — so the tools and the test suite are not

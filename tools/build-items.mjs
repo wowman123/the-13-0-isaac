@@ -97,7 +97,11 @@ items.sort((a, b) => a.name.localeCompare(b.name));
 
 writeFileSync(
   join(root, 'data/items.json'),
-  `${JSON.stringify({ generated: new Date().toISOString().slice(0, 10), scrapeLayer: existsSync(scrapedPath), items }, null, 2)}\n`,
+  // No build timestamp here on purpose. The output must be reproducible from
+  // its inputs alone, or CI's "generated files are current" check compares a
+  // fresh build against a committed one and fails on any day but the commit
+  // day. Git already records when this was generated.
+  `${JSON.stringify({ scrapeLayer: existsSync(scrapedPath), items }, null, 2)}\n`,
 );
 
 console.log(`build-items: ${items.length} items written`);

@@ -20,14 +20,21 @@ concurrency:
 
 jobs:
   build:
-    # workflow_dispatch has no branch filter, so gate here rather than on the
-    # trigger: a manual run from a side branch should not publish it.
-    if: github.ref_name == github.event.repository.default_branch
+    # Two gates, both needed:
+    #  - workflow_dispatch has no branch filter, so a manual run from a side
+    #    branch must not publish it.
+    #  - Pages is unavailable for a private repo on GitHub Free. Skipping while
+    #    private reports this honestly as "not applicable" rather than failing
+    #    red on every push for something that is not a code problem. The job
+    #    starts running by itself the moment the repo is made public.
+    if: >-
+      github.ref_name == github.event.repository.default_branch &&
+      github.event.repository.visibility == 'public'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
 
@@ -45,7 +52,12 @@ jobs:
           rm -f _site/assets/og-template.html _site/assets/icon-template.html
           du -sh _site
 
+      # enablement turns Pages on via the API if it is not already, so going
+      # public is the only manual step — no Settings visit required.
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
