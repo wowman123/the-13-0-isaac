@@ -6,6 +6,7 @@
 import { runOdds, AXES, NEUTRAL } from '../src/engine.js';
 import { composeDraft, findSynergies, synergyStrength, transformationProgress } from '../src/synergy.js';
 import { resolveRating, TAG_TABLE, QUALITY_OFFENSE } from '../src/ratings.js';
+import { pendingFamilies, leaningCells, pullCompletion } from '../src/draft.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -242,6 +243,8 @@ function startRun() {
     picks: [],
     history: [], // { pool, quality, candidates: [id], chosen: id }
     roll: null,
+    leaning: [],   // families this roll was bent toward, if any
+    pulled: null,  // id of the item the lean put in front of you
     respins: { pool: RESPINS, quality: RESPINS },
     finished: false,
   };
@@ -252,8 +255,18 @@ function startRun() {
 /** Roll both axes. Uniform over viable cells, so a roll always has something in it. */
 function rollFresh() {
   const cells = viableCells();
-  run.roll = cells.length ? pickRandom(cells) : null;
-  run.candidates = run.roll ? sample(cell(run.roll.pool, run.roll.quality), OFFER).map((i) => i.id) : [];
+  const pending = pendingFamilies(run.picks.map(byId), state.transformations);
+  const reachable = leaningCells(cells, pending, ({ pool, quality }) => cell(pool, quality));
+
+  run.leaning = reachable !== cells ? pending : [];
+  run.roll = reachable.length ? pickRandom(reachable) : null;
+  run.candidates = [];
+  run.pulled = null;
+  if (!run.roll) return;
+
+  const offer = sample(cell(run.roll.pool, run.roll.quality), OFFER);
+  run.pulled = pullCompletion(offer, cell(run.roll.pool, run.roll.quality), run.leaning, pickRandom);
+  run.candidates = offer.map((i) => i.id);
 }
 
 /**
@@ -273,7 +286,10 @@ function respin(axis) {
 
   run.respins[axis] -= 1;
   run.roll = axis === 'pool' ? { pool: pickRandom(options), quality } : { pool, quality: pickRandom(options) };
-  run.candidates = sample(cell(run.roll.pool, run.roll.quality), OFFER).map((i) => i.id);
+  const cellItems = cell(run.roll.pool, run.roll.quality);
+  const offer = sample(cellItems, OFFER);
+  run.pulled = pullCompletion(offer, cellItems, run.leaning ?? [], pickRandom);
+  run.candidates = offer.map((i) => i.id);
   renderRun();
 }
 
@@ -356,6 +372,17 @@ function renderRoll() {
     $(`#respin-${axis}-left`).textContent = left;
     $(`#respin-${axis}`).disabled = left <= 0 || run.finished;
   }
+
+  // When the roll was bent toward a family you are two into, say so. A hidden
+  // thumb on the scale would just read as luck.
+  const lean = $('#roll-lean');
+  const names = (run.leaning ?? [])
+    .map((f) => state.transformations.transformations.find((t) => t.family === f)?.name)
+    .filter(Boolean);
+  lean.hidden = !names.length;
+  lean.textContent = names.length
+    ? `You are two into ${names.join(' and ')}, so this roll went looking for the third.`
+    : '';
 }
 
 function renderCandidates() {
@@ -379,13 +406,19 @@ function renderCandidates() {
       const clashes = preview.filter((r) => r.conflict);
       const forms = transformPreview(id);
 
-      return el('li', {}, el('button', { className: 'candidate', dataset: { pick: id } }, [
+      return el('li', {}, el('button', {
+        className: `candidate${id === run.pulled ? ' is-pulled' : ''}`,
+        dataset: { pick: id },
+      }, [
         sprite(id),
         el('span', { className: 'candidate-body' }, [
           el('span', { className: 'candidate-name', textContent: item.name }),
           el('span', { className: 'candidate-note', textContent: item.rated?.note ?? `Tags: ${item.tags.join(', ') || 'none'}` }),
           preview.length || forms.length
             ? el('span', { className: 'candidate-syn' }, [
+                ...(id === run.pulled
+                  ? [el('span', { className: 'syn-tag is-pulled', textContent: 'The run put this here' })]
+                  : []),
                 ...forms.map((t) => el('span', {
                   className: `syn-tag is-form${t.completes ? ' is-complete' : ''}`,
                   title: t.note,

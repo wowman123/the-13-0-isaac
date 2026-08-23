@@ -1,55 +1,105 @@
 {
-  "note": "Three items from one family transform Isaac. The family tags come from the game's own item metadata, not from a list typed here. Two real transformations are unreachable in this data: only one item carries the bob tag and two carry devil, so Bob and Leviathan can never complete.",
+  "note": "Three items from one family transform Isaac. The family tags come from the game's own item metadata, not from a list typed here. Two real transformations are unreachable in this data: only one item carries the bob tag and two carry devil, so Bob and Leviathan can never complete. Payouts are sized so the best build that transforms is worth about the same as the best build that ignores transformations entirely: three of a family costs three of five picks and family membership does not correlate with power, so unscaled payouts made a transformation a consolation prize. Multiplicative axes scale their distance from 1; bounded axes move a share of their remaining headroom and stop at 0.85, because multiplying them saturates every transformation at a perfect axis.",
   "threshold": 3,
   "transformations": [
     {
-      "id": "GUPPY", "family": "guppy", "name": "Guppy",
-      "effect": { "evasion": 0.55, "aoe": 1.25, "defense": 1.1 },
+      "id": "GUPPY",
+      "family": "guppy",
+      "name": "Guppy",
+      "effect": {
+        "evasion": 0.849,
+        "aoe": 1.725,
+        "defense": 1.29
+      },
       "note": "Flight, and every hit you take throws out blue flies that fight for you."
     },
     {
-      "id": "BEELZEBUB", "family": "fly", "name": "Beelzebub",
-      "effect": { "evasion": 0.55, "aoe": 1.15 },
+      "id": "BEELZEBUB",
+      "family": "fly",
+      "name": "Beelzebub",
+      "effect": {
+        "evasion": 0.849,
+        "aoe": 1.435
+      },
       "note": "Flight, and the flies already orbiting you stop being decoration."
     },
     {
-      "id": "SERAPHIM", "family": "angel", "name": "Seraphim",
-      "effect": { "evasion": 0.5, "defense": 1.2, "offense": 1.08 },
+      "id": "SERAPHIM",
+      "family": "angel",
+      "name": "Seraphim",
+      "effect": {
+        "evasion": 0.833,
+        "defense": 1.58,
+        "offense": 1.232
+      },
       "note": "Flight and a soul heart. Angel rooms stop being a detour and start being a plan."
     },
     {
-      "id": "FUN_GUY", "family": "mushroom", "name": "Fun Guy",
-      "effect": { "defense": 1.25 },
+      "id": "FUN_GUY",
+      "family": "mushroom",
+      "name": "Fun Guy",
+      "effect": {
+        "defense": 1.725
+      },
       "note": "A heart container and a heal. Quietly one of the better ones to stumble into."
     },
     {
-      "id": "SPUN", "family": "syringe", "name": "Spun",
-      "effect": { "offense": 1.18, "evasion": 0.4 },
+      "id": "SPUN",
+      "family": "syringe",
+      "name": "Spun",
+      "effect": {
+        "offense": 1.522,
+        "evasion": 0.799
+      },
       "note": "Speed, damage and rate together, plus a pill every floor."
     },
     {
-      "id": "YES_MOTHER", "family": "mom", "name": "Yes Mother?",
-      "effect": { "offense": 1.2 },
+      "id": "YES_MOTHER",
+      "family": "mom",
+      "name": "Yes Mother?",
+      "effect": {
+        "offense": 1.58
+      },
       "note": "Straight damage and rate. No trick to it, and none needed."
     },
     {
-      "id": "CONJOINED", "family": "baby", "name": "Conjoined",
-      "effect": { "offense": 1.15, "aoe": 1.3 },
+      "id": "CONJOINED",
+      "family": "baby",
+      "name": "Conjoined",
+      "effect": {
+        "offense": 1.435,
+        "aoe": 1.87
+      },
       "note": "Two extra heads firing alongside you, covering angles you are not aiming at."
     },
     {
-      "id": "SPIDER_BABY", "family": "spider", "name": "Spider Baby",
-      "effect": { "aoe": 1.2, "defense": 1.12 },
+      "id": "SPIDER_BABY",
+      "family": "spider",
+      "name": "Spider Baby",
+      "effect": {
+        "aoe": 1.58,
+        "defense": 1.348
+      },
       "note": "Blue spiders spawn every time you are hit, so taking damage buys you something."
     },
     {
-      "id": "BOOK_WORM", "family": "book", "name": "Book Worm",
-      "effect": { "offense": 1.1, "defense": 1.1 },
+      "id": "BOOK_WORM",
+      "family": "book",
+      "name": "Book Worm",
+      "effect": {
+        "offense": 1.29,
+        "defense": 1.29
+      },
       "note": "Every book fires twice. Worth more the more actives you were already carrying."
     },
     {
-      "id": "POOP", "family": "poop", "name": "Poop",
-      "effect": { "defense": 1.12, "aoe": 1.06 },
+      "id": "POOP",
+      "family": "poop",
+      "name": "Poop",
+      "effect": {
+        "defense": 1.348,
+        "aoe": 1.174
+      },
       "note": "The least glamorous transformation in the game. It is still three free stat points."
     }
   ]

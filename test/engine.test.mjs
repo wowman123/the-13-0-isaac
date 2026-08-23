@@ -3,13 +3,14 @@ import assert from 'node:assert/strict';
 import { softCap, union, composeBuild, toScoreSpace, bossOdds, NEUTRAL } from '../src/engine.js';
 import { resolveRating, fromTags, fromQuality } from '../src/ratings.js';
 import { matches, applySynergies, tagCensus } from '../src/synergy.js';
+import { pendingFamilies, completes, leaningCells, pullCompletion } from '../src/draft.js';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
-const RULES = JSON.parse(
-  readFileSync(join(dirname(fileURLToPath(import.meta.url)), '../data/synergies.json'), 'utf8'),
-).rules;
+const here = dirname(fileURLToPath(import.meta.url));
+const RULES = JSON.parse(readFileSync(join(here, '../data/synergies.json'), 'utf8')).rules;
+const FORMS = JSON.parse(readFileSync(join(here, '../data/transformations.json'), 'utf8'));
 
 const close = (a, b, eps = 1e-9) => assert.ok(Math.abs(a - b) < eps, `${a} !== ${b}`);
 const item = (over) => ({ ...NEUTRAL, ...over });
@@ -200,4 +201,52 @@ test('the auto fallback uses quality and tags together, not one or the other', (
   close(q0.evasion, 0.35);
   assert.ok(q4.offense > q0.offense, 'quality must still separate them');
   close(q4.offense, 1.6);
+});
+
+
+// ------------------------------------------------------------------- draft
+const SPEC = { threshold: 3, transformations: [{ id: 'F', family: 'fly', name: 'Beelzebub', effect: {} }] };
+const tagged = (id, ...tags) => ({ id, tags });
+
+test('a family is pending only one pick short of the threshold', () => {
+  assert.deepEqual(pendingFamilies([tagged('a', 'fly')], SPEC), []);
+  assert.deepEqual(pendingFamilies([tagged('a', 'fly'), tagged('b', 'fly')], SPEC), ['fly']);
+  // Already complete is not pending — the run has nothing left to hunt.
+  assert.deepEqual(pendingFamilies([tagged('a', 'fly'), tagged('b', 'fly'), tagged('c', 'fly')], SPEC), []);
+});
+
+test('the roll leans only when a cell can actually finish the family', () => {
+  const cells = [{ k: 'cold' }, { k: 'hot' }];
+  const itemsIn = (c) => (c.k === 'hot' ? [tagged('z', 'fly')] : [tagged('y')]);
+  assert.deepEqual(leaningCells(cells, ['fly'], itemsIn), [{ k: 'hot' }]);
+  // Nothing pending, or nothing reachable: the roll stays honest.
+  assert.equal(leaningCells(cells, [], itemsIn), cells);
+  assert.equal(leaningCells(cells, ['spider'], itemsIn), cells);
+});
+
+test('the pull seats a completing item without growing the offer', () => {
+  const offer = [tagged('a'), tagged('b'), tagged('c')];
+  const cellItems = [...offer, tagged('fin', 'fly')];
+  const pulled = pullCompletion(offer, cellItems, ['fly'], (l) => l[0]);
+  assert.equal(pulled, 'fin');
+  assert.equal(offer.length, 3, 'the offer must stay the size it promised');
+  assert.ok(offer.some((i) => completes(i, ['fly'])));
+});
+
+test('the pull does nothing when the draw already showed the third item', () => {
+  const offer = [tagged('a'), tagged('fin', 'fly')];
+  assert.equal(pullCompletion(offer, offer, ['fly'], (l) => l[0]), null);
+  assert.deepEqual(offer.map((i) => i.id), ['a', 'fin']);
+});
+
+test('transformation payouts leave bounded axes room to move', () => {
+  for (const t of FORMS.transformations) {
+    for (const [axis, v] of Object.entries(t.effect)) {
+      if (axis === 'tracking' || axis === 'evasion') {
+        assert.ok(v > 0 && v <= 0.85, `${t.id}: ${axis} ${v} saturates the axis`);
+      } else {
+        assert.ok(v > 1, `${t.id}: ${axis} ${v} is not a payout`);
+      }
+    }
+  }
 });

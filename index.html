@@ -77,6 +77,7 @@
           <span class="roll-val" id="roll-quality">&mdash;</span>
         </div>
       </div>
+      <p class="roll-lean" id="roll-lean" hidden></p>
       <div class="respins">
         <button id="respin-pool" class="btn btn-quiet">Respin pool <b id="respin-pool-left">3</b></button>
         <button id="respin-quality" class="btn btn-quiet">Respin quality <b id="respin-quality-left">3</b></button>
@@ -91,7 +92,7 @@
 
     <section class="panel" id="progress-panel" hidden>
       <h2>Transformations in progress</h2>
-      <p class="panel-note">Three items from one family transform Isaac. Two is not a transformation, but it is a reason to take the third.</p>
+      <p class="panel-note">Three items from one family transform Isaac. Two is not a transformation, but it is a reason to take the third &mdash; and once you are holding two, the run starts hunting the third for you.</p>
       <div id="progress" class="progress"></div>
     </section>
 
@@ -237,6 +238,11 @@
         </table>
       </div>
       <p>Because rules read the whole build rather than pairs, the draft stops being &ldquo;take the biggest number&rdquo;. During a run each candidate shows what it would combine with, so a weaker item that fits can beat a stronger one that does not.</p>
+
+      <h2>Transformations, and what they are worth</h2>
+      <p>Three items from one family transform Isaac. The families come from the game&rsquo;s own item metadata rather than a list typed here, which means two real transformations &mdash; Bob and Leviathan &mdash; can never complete: the data carries one <em>bob</em> item and two <em>devil</em> items.</p>
+      <p>A transformation is expensive in a way a synergy is not. It costs three of five picks, and family membership does not correlate with power, so the three items are usually not the three you would otherwise take. At the game&rsquo;s own payouts that made transforming strictly worse than ignoring transformations: the best build that transformed came in <strong>5.8 points</strong> below the best build overall. A mechanic that is never correct is not a decision. So the payouts here are scaled until those two ceilings meet &mdash; the best transformed build and the best untransformed build now land within a fraction of a point of each other. Multiplicative axes scale their distance from 1; tracking and evasion move a share of the headroom they have left and stop short of a perfect axis, because multiplying a bounded axis just saturates it.</p>
+      <p>Sizing the payout is only half of it. A roll draws from one Pool &times; Quality cell out of roughly a hundred, and a family&rsquo;s items are scattered across a handful of them, so a player deliberately chasing a family used to finish it about <strong>4%</strong> of the time. That is a lottery, not a plan. Once you are holding two of a family you have spent a pick you would not otherwise have spent, and the run answers it: the roll leans toward a cell where the third item lives, and that item is guaranteed a seat among the six. The page says so on the roll rather than quietly weighting the dice. Two of a family is almost never an accident, so a player chasing nothing meets this on about a fifth of one roll per run. Chasing now completes about <strong>24%</strong> of the time. It still costs median score against simply taking the best item every round &mdash; it should, since you are passing on better items &mdash; but it pays at the top, which is where a 13-0 is decided.</p>
 
       <h2>Tag-derived defaults</h2>
       <p>The top items are hand-rated. Everything else inherits from its tags, so nothing ever ships unrated.</p>

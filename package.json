@@ -10,6 +10,7 @@
     "scrape": "node tools/scrape.mjs",
     "calibrate": "node tools/calibrate.mjs",
     "validate": "node tools/validate.mjs",
+    "balance": "node tools/balance.mjs",
     "test": "node --test test/*.test.mjs",
     "check": "npm run build && npm test && npm run validate"
   },
