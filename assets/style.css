@@ -284,12 +284,16 @@ select.input { text-transform: uppercase; }
 
 /* ladder ---------------------------------------------------------------- */
 .ladder { list-style: none; margin: 0; padding: 0; display: grid; gap: .28rem; }
-.ladder-row { display: grid; grid-template-columns: 20px minmax(78px, 118px) 1fr 44px; align-items: center; gap: .5rem; }
+.ladder-row, .ladder-head { display: grid; grid-template-columns: 20px minmax(74px, 108px) 34px 1fr 34px; align-items: center; gap: .5rem; }
+.ladder-head { font: 9px var(--pixel); text-transform: uppercase; color: var(--ink-faint); padding-bottom: .2rem; }
+.ladder-head span:nth-child(3), .ladder-head span:nth-child(5) { text-align: right; }
+.ladder-clear { font: 10px var(--pixel); text-align: right; color: var(--ink-faint); }
+.ladder-legend { margin: .9rem 0 0; font-size: 12.5px; line-height: 1.5; color: var(--ink-soft); }
 .ladder-i { font: 11.5px var(--pixel); color: var(--ink-faint); text-align: right; }
 .ladder-name { font: 11px var(--pixel); text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ladder-track { height: 13px; background: var(--parch-deep); border: 3px solid var(--ink); }
 .ladder-bar { height: 100%; transition: width .4s steps(12, end); }
-.ladder-val { font: 11.5px var(--pixel); text-align: right; color: var(--ink-soft); }
+.ladder-val { font: 11.5px var(--pixel); text-align: right; color: var(--ink); }
 .ladder-row.is-worst .ladder-name, .ladder-row.is-worst .ladder-val { color: var(--red); }
 .ladder-row.is-special .ladder-name { color: var(--red-deep); }
 
@@ -388,6 +392,11 @@ td.is-strong { color: var(--red); }
 :focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
 
 @media (max-width: 720px) { .col-note, td.col-note { display: none; } }
+@media (max-width: 480px) {
+  /* Drop the per-fight column before the survival curve, which is the point. */
+  .ladder-row, .ladder-head { grid-template-columns: 18px minmax(64px, 92px) 1fr 32px; }
+  .ladder-clear, .ladder-head span:nth-child(3) { display: none; }
+}
 @media (max-width: 480px) {
   .slot { min-height: 0; }
   .slot-tags { margin-top: .2rem; }

@@ -425,27 +425,45 @@ function renderAxes(build) {
 }
 
 function renderLadder(perBoss) {
-  // Only the first fight at the minimum is flagged, so a tie doesn't light up
-  // half the ladder.
-  const worstIndex = perBoss.reduce((best, b, i) => (b.p < perBoss[best].p ? i : best), 0);
+  // Per-fight odds alone are hard to read: thirteen bars all sit near the same
+  // height and none of them is the number at the top of the page. What people
+  // actually want to know is where runs end, so the bar tracks how many runs
+  // are still alive on arrival. It starts near full, decays, and its last value
+  // IS the headline figure — the chart and the number finally agree.
+  let alive = 1;
+  const rows = perBoss.map((b) => {
+    const before = alive;
+    alive *= b.p;
+    return { ...b, reach: before, survive: alive, drop: before - alive };
+  });
+
+  // The fight that ends the most runs, which is not always the one with the
+  // worst odds — a coin flip late costs less than a small risk taken early.
+  const deadliest = rows.reduce((worst, r, i) => (r.drop > rows[worst].drop ? i : worst), 0);
 
   $('#ladder').replaceChildren(
-    ...perBoss.map((b, i) => {
-      const special = b.id === 'BOSS_DELIRIUM' || b.id === 'BOSS_THE_BEAST';
+    ...rows.map((r, i) => {
+      const special = r.id === 'BOSS_DELIRIUM' || r.id === 'BOSS_THE_BEAST';
+      const lost = Math.round(r.drop * 100);
       return el('li', {
-        className: `ladder-row${i === worstIndex ? ' is-worst' : ''}${special ? ' is-special' : ''}`,
-        title: state.bosses.find((x) => x.id === b.id)?.note ?? '',
+        className: `ladder-row${i === deadliest ? ' is-worst' : ''}${special ? ' is-special' : ''}`,
+        title: `${r.name}: clears ${pct(r.p).toFixed(0)}% of the time. Of 100 runs starting out, ${Math.round(r.survive * 100)} are still alive after it.`,
       }, [
-        el('span', { className: 'ladder-i', textContent: b.index }),
-        el('span', { className: 'ladder-name', textContent: b.name }),
+        el('span', { className: 'ladder-i', textContent: r.index }),
+        el('span', { className: 'ladder-name', textContent: r.name }),
+        el('span', { className: 'ladder-clear', textContent: `${pct(r.p).toFixed(0)}%` }),
         el('div', { className: 'ladder-track' }, el('div', {
           className: 'ladder-bar',
-          style: `width:${pct(b.p)}%; background:${oddsColour(b.p)}`,
+          style: `width:${Math.max(0.6, pct(r.survive))}%; background:${oddsColour(r.survive)}`,
         })),
-        el('span', { className: 'ladder-val', textContent: `${pct(b.p).toFixed(0)}%` }),
+        el('span', { className: 'ladder-val', textContent: `${pct(r.survive) < 1 ? pct(r.survive).toFixed(1) : Math.round(pct(r.survive))}` }),
       ]);
     }),
   );
+
+  const worst = rows[deadliest];
+  $('#ladder-legend').textContent =
+    `${worst.name} ends the most runs — ${Math.round(worst.drop * 100)} of every 100 that start.`;
 }
 
 /**

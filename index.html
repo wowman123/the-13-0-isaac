@@ -129,9 +129,13 @@
 
       <div class="results-col">
         <section class="panel">
-          <h2>The ladder</h2>
-          <p class="panel-note">Per-fight odds. The run is the product of all thirteen, so the worst row costs you the most.</p>
+          <h2>Where runs end</h2>
+          <p class="panel-note">Out of 100 runs, how many are still alive on arrival at each fight. The bar decays as the run goes on, and its final value is the number above.</p>
+          <div class="ladder-head" aria-hidden="true">
+            <span></span><span>Fight</span><span>Clears</span><span></span><span>Alive</span>
+          </div>
           <ol class="ladder" id="ladder"></ol>
+          <p class="ladder-legend" id="ladder-legend"></p>
         </section>
       </div>
 
