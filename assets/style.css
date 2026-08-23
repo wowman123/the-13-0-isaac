@@ -52,6 +52,11 @@
 
 * { box-sizing: border-box; }
 
+/* The hidden attribute sets display:none at the very bottom of the cascade, so
+   any element given a display here (.results is a grid) ignores it. This is the
+   guard: hidden must always win. */
+[hidden] { display: none !important; }
+
 body {
   margin: 0;
   padding: calc(var(--frame) + env(safe-area-inset-top)) calc(var(--frame) + env(safe-area-inset-right)) calc(var(--frame) + env(safe-area-inset-bottom)) calc(var(--frame) + env(safe-area-inset-left));
@@ -227,6 +232,14 @@ select.input { text-transform: uppercase; }
 @media (max-width: 480px) { .build-strip { grid-template-columns: repeat(5, 1fr); } .build-cell-name { display: none; } }
 
 .hero-actions { margin-top: 1.4rem; }
+
+/* Sprites are decorative: the name is always adjacent as real text.
+   The source art is the game's own 32x32 pixels, so it must not be smoothed on
+   the way up — pixelated keeps the grid the artist actually drew. */
+.sprite {
+  display: block; width: 34px; height: 34px; object-fit: contain; flex: none;
+  image-rendering: pixelated;
+}
 
 /* ----------------------------------------------------------------- panels */
 .results { display: grid; gap: 1rem; grid-template-columns: repeat(2, 1fr); align-items: start; }

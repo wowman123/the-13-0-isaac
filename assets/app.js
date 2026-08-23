@@ -333,8 +333,9 @@ function renderCandidates() {
   }
 
   $('#candidates-title').textContent = `Choose 1 of ${run.candidates.length}`;
-  $('#candidates-note').textContent = run.candidates.length < OFFER
-    ? `Only ${run.candidates.length} items sit where those two rolls cross. Thin intersections are part of the game.`
+  const n = run.candidates.length;
+  $('#candidates-note').textContent = n < OFFER
+    ? `Only ${n} item${n === 1 ? '' : 's'} sit${n === 1 ? 's' : ''} where those two rolls cross. Thin intersections are part of the game.`
     : 'These are the items sitting where those two rolls cross.';
 
   host.replaceChildren(
