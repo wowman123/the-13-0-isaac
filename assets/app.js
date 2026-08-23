@@ -4,7 +4,7 @@
  */
 
 import { runOdds, AXES, NEUTRAL } from '../src/engine.js';
-import { composeDraft, findSynergies, synergyStrength, transformationProgress } from '../src/synergy.js';
+import { composeDraft, findSynergies, synergyStrength, transformationProgress, findTransformations } from '../src/synergy.js';
 import { resolveRating, TAG_TABLE, QUALITY_OFFENSE } from '../src/ratings.js';
 import { pendingFamilies, leaningCells, pullCompletion } from '../src/draft.js';
 
@@ -296,8 +296,11 @@ function respin(axis) {
 function choose(id) {
   if (run.finished || !run.candidates.includes(id)) return;
 
+  const before = new Set(findTransformations(run.picks.map(byId), state.transformations).map((t) => t.id));
   run.history.push({ ...run.roll, candidates: [...run.candidates], chosen: id });
   run.picks.push(id);
+  const earned = findTransformations(run.picks.map(byId), state.transformations)
+    .filter((t) => !before.has(t.id));
 
   if (run.picks.length >= ROUNDS) {
     run.finished = true;
@@ -308,6 +311,60 @@ function choose(id) {
     rollFresh();
   }
   renderRun();
+  // After the render, so the announcement lands over a board that already shows
+  // the pick. A single pick can in principle finish two families, so it queues.
+  if (earned.length) announce(earned);
+}
+
+// ------------------------------------------------------- the announcement
+/**
+ * Three of a family is the loudest thing that happens in a five-pick draft, and
+ * a badge in a side panel was not carrying it. The run stops and says so.
+ */
+let announceQueue = [];
+let announceReturn = null;
+
+function announce(list) {
+  announceQueue = [...announceQueue, ...list];
+  if (!$('#transform-pop').hidden) return; // already showing; it will drain
+  announceReturn = document.activeElement;
+  showNextAnnouncement();
+}
+
+function showNextAnnouncement() {
+  const t = announceQueue.shift();
+  const pop = $('#transform-pop');
+
+  if (!t) {
+    pop.hidden = true;
+    pop.classList.remove('is-open');
+    if (announceReturn?.isConnected) announceReturn.focus();
+    else $('#btn-restart')?.focus();
+    announceReturn = null;
+    return;
+  }
+
+  $('#transform-pop-name').textContent = t.name;
+  $('#transform-pop-note').textContent = t.note ?? '';
+  $('#transform-pop-effect').textContent = effectLabel(t);
+
+  // The three items that did it, in the order they were taken.
+  const trio = run.picks.map(byId).filter((i) => (i.tags ?? []).includes(t.family)).slice(0, t.need);
+  $('#transform-trio').replaceChildren(
+    ...trio.map((item, i) => el('li', {
+      className: 'transform-piece',
+      style: `--step: ${i}`,
+      title: item.name,
+    }, [sprite(item.id), el('span', { textContent: item.name })])),
+  );
+
+  $('#transform-go').textContent = run.finished ? 'See the damage' : 'Continue';
+  pop.hidden = false;
+  // Force a reflow so the entry animation replays on a second announcement.
+  pop.classList.remove('is-open');
+  void pop.offsetWidth;
+  pop.classList.add('is-open');
+  $('#transform-go').focus();
 }
 
 /** Odds for an arbitrary set of item ids, synergies included. */
@@ -329,7 +386,9 @@ function transformPreview(candidateId) {
   const held = run.picks.map(byId);
   const before = new Map(transformationProgress(held, state.transformations).map((t) => [t.id, t.held]));
   return transformationProgress([...held, byId(candidateId)], state.transformations)
-    .filter((t) => t.held > (before.get(t.id) ?? 0))
+    // A fourth item of a family you have already transformed adds nothing, so
+    // it must not advertise "completes" a second time.
+    .filter((t) => t.held > (before.get(t.id) ?? 0) && (before.get(t.id) ?? 0) < t.need)
     .map((t) => ({ ...t, completes: t.held >= t.need }));
 }
 
@@ -791,9 +850,17 @@ function wireEvents() {
     if (button) choose(button.dataset.pick);
   });
 
+  $('#transform-go').addEventListener('click', showNextAnnouncement);
+  $('#transform-scrim').addEventListener('click', showNextAnnouncement);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !$('#transform-pop').hidden) showNextAnnouncement();
+  });
+
   $('#respin-pool').addEventListener('click', () => respin('pool'));
   $('#respin-quality').addEventListener('click', () => respin('quality'));
   $('#btn-restart').addEventListener('click', () => {
+    announceQueue = [];
+    if (!$('#transform-pop').hidden) showNextAnnouncement();
     history.replaceState(null, '', '#/draft');
     startRun();
   });

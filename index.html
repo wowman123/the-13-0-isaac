@@ -299,6 +299,20 @@
 </footer>
 
 
+<!-- Transformation announcement. Lives outside the views because it covers
+     all of them, and starts hidden so a no-JS load never shows an empty slab. -->
+<div class="transform-pop" id="transform-pop" hidden>
+  <div class="transform-scrim" id="transform-scrim"></div>
+  <div class="transform-card" role="alertdialog" aria-modal="true" aria-labelledby="transform-pop-name" id="transform-card">
+    <p class="transform-eyebrow">Transformation</p>
+    <h2 class="transform-name" id="transform-pop-name">&mdash;</h2>
+    <ol class="transform-trio" id="transform-trio"></ol>
+    <p class="transform-note" id="transform-pop-note"></p>
+    <p class="transform-effect" id="transform-pop-effect"></p>
+    <button class="btn transform-go" id="transform-go">Continue</button>
+  </div>
+</div>
+
 <script type="module" src="assets/app.js"></script>
 </body>
 </html>

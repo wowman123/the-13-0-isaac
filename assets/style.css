@@ -474,3 +474,97 @@ td.is-strong { color: var(--red); }
   .brand-mark { font-size: 21px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* Transformation announcement ---------------------------------------------
+   Three of a family is the loudest thing in a five-pick draft. It gets the
+   whole screen: the room dims, a plaque punches in, and the three items that
+   did it stamp down one after another. */
+.transform-pop {
+  position: fixed; inset: 0; z-index: 90;
+  display: grid; place-items: center;
+  padding: calc(var(--frame) + 1rem) 1rem;
+  padding-bottom: calc(var(--frame) + 1rem + env(safe-area-inset-bottom));
+}
+.transform-pop[hidden] { display: none !important; }
+
+.transform-scrim {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, #1207059e 0%, #0a0403d6 100%);
+  cursor: pointer;
+  animation: transform-dim .18s ease-out both;
+}
+
+.transform-card {
+  position: relative; width: min(30rem, 100%);
+  display: grid; justify-items: center; gap: .55rem; text-align: center;
+  background: var(--parch); border: 4px solid var(--ink);
+  box-shadow: 8px 8px 0 #00000059, inset 0 0 0 3px var(--parch-deep);
+  padding: 1.5rem 1.35rem 1.35rem;
+  animation: transform-punch .34s cubic-bezier(.2, 1.5, .45, 1) both;
+}
+
+.transform-eyebrow {
+  margin: 0; font: 10px var(--pixel); letter-spacing: .22em; text-transform: uppercase;
+  color: var(--cream); background: var(--red); border: 3px solid var(--ink);
+  padding: .3rem .6rem;
+}
+.transform-name {
+  margin: .1rem 0 .2rem; font: 30px/1.1 var(--pixel); text-transform: uppercase;
+  color: var(--red); text-shadow: 3px 3px 0 var(--ink);
+  animation: transform-flicker .5s steps(1) both;
+}
+
+/* The three that did it. */
+.transform-trio {
+  list-style: none; margin: .2rem 0; padding: 0;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem;
+}
+.transform-piece {
+  display: grid; justify-items: center; gap: .25rem; width: 6.1rem;
+  background: var(--parch-dim); border: 3px solid var(--ink); padding: .45rem .3rem;
+  animation: transform-stamp .26s cubic-bezier(.2, 1.6, .4, 1) both;
+  animation-delay: calc(.2s + var(--step) * .11s);
+}
+.transform-piece .sprite { width: 56px; height: 56px; }
+.transform-piece span {
+  font-family: var(--sans); font-size: 10.5px; line-height: 1.25; color: var(--ink-soft);
+}
+
+.transform-note {
+  margin: 0; font-family: var(--sans); font-size: 13px; line-height: 1.5; color: var(--ink-soft);
+  max-width: 26rem;
+}
+.transform-effect {
+  margin: 0; font: 11px var(--pixel); color: #10321d;
+  background: var(--good); border: 3px solid var(--ink); padding: .3rem .55rem;
+}
+.transform-go { margin-top: .45rem; }
+
+@keyframes transform-dim { from { opacity: 0; } to { opacity: 1; } }
+@keyframes transform-punch {
+  from { opacity: 0; transform: translateY(14px) scale(.9); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes transform-stamp {
+  from { opacity: 0; transform: scale(1.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+/* Two frames of Isaac's own pickup blink, not a smooth fade. */
+@keyframes transform-flicker {
+  0%, 20% { opacity: 0; }
+  21%, 40% { opacity: 1; }
+  41%, 52% { opacity: 0; }
+  53%, 100% { opacity: 1; }
+}
+
+@media (max-width: 480px) {
+  .transform-card { padding: 1.15rem .9rem 1rem; }
+  .transform-name { font-size: 22px; }
+  .transform-piece { width: 5rem; }
+  .transform-piece .sprite { width: 44px; height: 44px; }
+}
+
+/* Motion is decoration here — the words are the message. */
+@media (prefers-reduced-motion: reduce) {
+  .transform-scrim, .transform-card, .transform-piece, .transform-name { animation: none; }
+}
