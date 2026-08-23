@@ -4,7 +4,7 @@
  */
 
 import { runOdds, AXES, NEUTRAL } from '../src/engine.js';
-import { composeDraft, findSynergies, synergyStrength } from '../src/synergy.js';
+import { composeDraft, findSynergies, synergyStrength, transformationProgress } from '../src/synergy.js';
 import { resolveRating, TAG_TABLE, QUALITY_OFFENSE } from '../src/ratings.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -116,10 +116,11 @@ async function init() {
   let bosses;
   let config;
   let synergies;
+  let transformations;
 
   try {
-    [items, bosses, config, synergies] = await Promise.all(
-      ['data/items.json', 'data/bosses.json', 'data/config.json', 'data/synergies.json'].map(async (path) => {
+    [items, bosses, config, synergies, transformations] = await Promise.all(
+      ['data/items.json', 'data/bosses.json', 'data/config.json', 'data/synergies.json', 'data/transformations.json'].map(async (path) => {
         const res = await fetch(path);
         if (!res.ok) throw new Error(`${path} returned ${res.status}`);
         return res.json();
@@ -135,6 +136,7 @@ async function init() {
   state.bosses = bosses;
   state.config = config;
   state.rules = synergies.rules;
+  state.transformations = transformations;
   for (const item of state.items) state.ratings.set(item.id, resolveRating(item));
 
   buildItemsView();
@@ -294,12 +296,25 @@ function choose(id) {
 
 /** Odds for an arbitrary set of item ids, synergies included. */
 function oddsFor(ids) {
-  const { build, fired } = composeDraft(
+  const { build, fired, transformed } = composeDraft(
     ids.map((id) => byId(id)),
     ids.map((id) => state.ratings.get(id)),
     state.rules,
+    state.transformations,
   );
-  return { build, fired, ...runOdds(build, state.bosses, state.config) };
+  return { build, fired, transformed, ...runOdds(build, state.bosses, state.config) };
+}
+
+/**
+ * What taking this candidate does to transformation progress: completing one is
+ * a milestone, and moving from one to two is why the third pick later matters.
+ */
+function transformPreview(candidateId) {
+  const held = run.picks.map(byId);
+  const before = new Map(transformationProgress(held, state.transformations).map((t) => [t.id, t.held]));
+  return transformationProgress([...held, byId(candidateId)], state.transformations)
+    .filter((t) => t.held > (before.get(t.id) ?? 0))
+    .map((t) => ({ ...t, completes: t.held >= t.need }));
 }
 
 /**
@@ -325,6 +340,7 @@ function renderRun() {
   renderRoll();
   renderCandidates();
   renderBuildStrip();
+  renderProgress();
 
   if (done) renderResults();
   writeHash();
@@ -361,14 +377,20 @@ function renderCandidates() {
       const preview = synergyPreview(id);
       const gains = preview.filter((r) => !r.conflict);
       const clashes = preview.filter((r) => r.conflict);
+      const forms = transformPreview(id);
 
       return el('li', {}, el('button', { className: 'candidate', dataset: { pick: id } }, [
         sprite(id),
         el('span', { className: 'candidate-body' }, [
           el('span', { className: 'candidate-name', textContent: item.name }),
           el('span', { className: 'candidate-note', textContent: item.rated?.note ?? `Tags: ${item.tags.join(', ') || 'none'}` }),
-          preview.length
+          preview.length || forms.length
             ? el('span', { className: 'candidate-syn' }, [
+                ...forms.map((t) => el('span', {
+                  className: `syn-tag is-form${t.completes ? ' is-complete' : ''}`,
+                  title: t.note,
+                  textContent: t.completes ? `Completes ${t.name}` : `${t.name} ${t.held}/${t.need}`,
+                })),
                 ...gains.map((r) => el('span', { className: 'syn-tag', title: r.note, textContent: r.name })),
                 ...clashes.map((r) => el('span', { className: 'syn-tag is-clash', title: r.note, textContent: r.name })),
               ])
@@ -396,13 +418,46 @@ function renderBuildStrip() {
   );
 }
 
+/** Families you are partway into, so a third pick is an informed choice. */
+function renderProgress() {
+  const host = $('#progress');
+  const partial = transformationProgress(run.picks.map(byId), state.transformations)
+    .filter((t) => t.held < t.need);
+
+  $('#progress-panel').hidden = run.finished || !partial.length;
+  if (!partial.length) return;
+
+  host.replaceChildren(
+    ...partial.map((t) => el('div', { className: 'progress-row', title: t.note }, [
+      el('span', { className: 'progress-name', textContent: t.name }),
+      el('span', { className: 'progress-pips' },
+        Array.from({ length: t.need }, (_, i) =>
+          el('i', { className: `pip${i < t.held ? ' is-on' : ''}` }))),
+      el('span', { className: 'progress-count', textContent: `${t.held}/${t.need}` }),
+    ])),
+  );
+}
+
 function renderResults() {
-  const { build, perBoss, total, fired } = oddsFor(run.picks);
+  const { build, perBoss, total, fired, transformed } = oddsFor(run.picks);
+  renderTransformed(transformed);
   renderHero(total);
   renderAxes(build);
   renderLadder(perBoss);
   renderSynergies(fired);
   renderPassed(total);
+}
+
+function renderTransformed(transformed) {
+  $('#transformed-panel').hidden = !transformed.length;
+  if (!transformed.length) return;
+  $('#transformed').replaceChildren(
+    ...transformed.map((t) => el('div', { className: 'synergy is-form' }, [
+      el('span', { className: 'synergy-name', textContent: t.name }),
+      el('span', { className: 'synergy-effect', textContent: effectLabel(t) }),
+      el('span', { className: 'synergy-note', textContent: t.note }),
+    ])),
+  );
 }
 
 /** What the five items did to each other, strongest first. */

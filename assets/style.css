@@ -242,6 +242,20 @@ select.input { text-transform: uppercase; }
   .synergy-effect { text-align: left; }
 }
 
+/* Transformations --------------------------------------------------------- */
+.syn-tag.is-form { color: #2a1c00; background: var(--mid); }
+.syn-tag.is-form.is-complete { color: #f6efe0; background: var(--red); border-color: var(--ink); }
+
+.progress { display: grid; gap: .4rem; }
+.progress-row { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: .6rem; }
+.progress-name { font: 11.5px var(--pixel); text-transform: uppercase; }
+.progress-pips { display: flex; gap: .3rem; }
+.pip { width: 14px; height: 14px; border: 3px solid var(--ink); background: var(--parch-deep); }
+.pip.is-on { background: var(--mid); }
+.progress-count { font: 11px var(--pixel); color: var(--ink-soft); min-width: 30px; text-align: right; }
+
+.synergy.is-form { border-left-color: var(--mid); }
+
 /* The build so far ------------------------------------------------------- */
 .build-strip { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: .5rem; }
 .build-cell {

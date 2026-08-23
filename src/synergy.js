@@ -92,6 +92,28 @@ export function synergyStrength(rule) {
 }
 
 /**
+ * Transformations are the game's own three-of-a-family mechanic. The family
+ * tags come from the item metadata rather than a list written here, so this
+ * stays correct as the data is re-scraped.
+ *
+ * They are kept separate from synergy rules because they behave differently:
+ * a fixed threshold, a name the player recognises, and — the part that matters
+ * while drafting — meaningful partial progress. Two of a family is not a
+ * synergy, but it is very much a reason to take the third.
+ */
+export function transformationProgress(items, spec) {
+  const census = tagCensus(items);
+  return spec.transformations
+    .map((t) => ({ ...t, held: census.get(t.family) ?? 0, need: spec.threshold }))
+    .filter((t) => t.held > 0)
+    .sort((a, b) => b.held - a.held);
+}
+
+export function findTransformations(items, spec) {
+  return transformationProgress(items, spec).filter((t) => t.held >= spec.threshold);
+}
+
+/**
  * The whole composition, in one call: multiply the five items together, find
  * which rules the set triggers, and fold them in.
  *
@@ -99,7 +121,11 @@ export function synergyStrength(rule) {
  * cannot be worth one thing on the page and another in the numbers that set
  * the difficulty.
  */
-export function composeDraft(items, ratings, rules) {
+export function composeDraft(items, ratings, rules, transformations = null) {
   const fired = findSynergies(items, rules);
-  return { build: applySynergies(composeBuild(ratings), fired), fired };
+  const transformed = transformations ? findTransformations(items, transformations) : [];
+  // Transformations fold in through the same path as synergies — they are
+  // effects on the same axes, and share the same ceilings.
+  const build = applySynergies(composeBuild(ratings), [...fired, ...transformed]);
+  return { build, fired, transformed };
 }
