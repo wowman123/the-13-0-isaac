@@ -262,8 +262,8 @@
         }
       },
       "effect": {
-        "offense": 0.72,
-        "aoe": 0.8
+        "offense": 0.65,
+        "aoe": 0.72
       },
       "conflict": true,
       "note": "Two items both want to replace your tears. One wins outright and the other is mostly wasted."
@@ -277,7 +277,7 @@
         }
       },
       "effect": {
-        "offense": 0.88,
+        "offense": 0.84,
         "tracking": 0.0
       },
       "conflict": true,
@@ -297,7 +297,7 @@
         ]
       },
       "effect": {
-        "defense": 0.88
+        "defense": 0.82
       },
       "conflict": true,
       "note": "Explosions with nothing to cushion the ones that catch you."
@@ -315,8 +315,8 @@
         ]
       },
       "effect": {
-        "defense": 0.9,
-        "offense": 0.95
+        "defense": 0.86,
+        "offense": 0.92
       },
       "conflict": true,
       "note": "A melee build that cannot reposition spends the fight taking hits to give them."
@@ -347,8 +347,8 @@
         }
       },
       "effect": {
-        "offense": 0.9,
-        "aoe": 0.9
+        "offense": 0.86,
+        "aoe": 0.86
       },
       "conflict": true,
       "note": "You hold one active item. A second means picking which to carry and leaving the other on the floor."
@@ -459,6 +459,153 @@
       },
       "conflict": true,
       "note": "Two damage items and not one thing that keeps you upright. Fights end fast, one way or the other."
+    },
+    {
+      "id": "MULTISHOT_WASTED",
+      "name": "Wasted volley",
+      "when": {
+        "tags": [
+          "replaces_tears",
+          "multishot"
+        ]
+      },
+      "effect": {
+        "offense": 0.82,
+        "aoe": 0.85
+      },
+      "conflict": true,
+      "note": "A tear replacement does not fire tears, so the extra shots you paid for never happen."
+    },
+    {
+      "id": "RATE_WASTED",
+      "name": "Rate you cannot use",
+      "when": {
+        "tags": [
+          "replaces_tears",
+          "tears_up"
+        ]
+      },
+      "effect": {
+        "offense": 0.85
+      },
+      "conflict": true,
+      "note": "Fire rate feeds a tear you no longer shoot. The item is close to a blank pick."
+    },
+    {
+      "id": "RATE_ON_CHARGED",
+      "name": "Charge ignores rate",
+      "when": {
+        "tags": [
+          "charged",
+          "tears_up"
+        ]
+      },
+      "effect": {
+        "offense": 0.88
+      },
+      "conflict": true,
+      "note": "A charged weapon fires when the charge fills, not when the tear timer says so."
+    },
+    {
+      "id": "FLIGHT_REDUNDANT",
+      "name": "Already flying",
+      "when": {
+        "tagCount": {
+          "flight": 2
+        }
+      },
+      "effect": {
+        "offense": 0.9,
+        "defense": 0.94
+      },
+      "conflict": true,
+      "note": "Flight does not stack. The second one bought you nothing a pick could have bought instead."
+    },
+    {
+      "id": "SPECTRAL_REDUNDANT",
+      "name": "Already spectral",
+      "when": {
+        "tagCount": {
+          "spectral": 2
+        }
+      },
+      "effect": {
+        "offense": 0.9
+      },
+      "conflict": true,
+      "note": "Shots already pass through walls. Passing through them twice is not a thing."
+    },
+    {
+      "id": "NO_OFFENCE",
+      "name": "Nothing that kills",
+      "when": {
+        "withoutTags": [
+          "damage_up",
+          "tears_up",
+          "laser",
+          "knife",
+          "explosive",
+          "multishot",
+          "familiar",
+          "dot",
+          "melee",
+          "orbital",
+          "piercing",
+          "aura"
+        ]
+      },
+      "effect": {
+        "offense": 0.72,
+        "aoe": 0.75
+      },
+      "conflict": true,
+      "note": "Five items and not one of them makes anything die faster. Fights run long, and long fights are where runs end."
+    },
+    {
+      "id": "NO_SURVIVAL",
+      "name": "Nothing that saves you",
+      "when": {
+        "tagCount": {
+          "damage_up": 1
+        },
+        "withoutTags": [
+          "health_up",
+          "soul_hearts",
+          "damage_reduction",
+          "shield",
+          "extra_life",
+          "heal",
+          "flight",
+          "speed_up"
+        ]
+      },
+      "effect": {
+        "defense": 0.82
+      },
+      "conflict": true,
+      "note": "No containers, no shield, no mobility. The first mistake is the whole run."
+    },
+    {
+      "id": "FAMILIAR_NO_SELF",
+      "name": "Passengers",
+      "when": {
+        "tagCount": {
+          "familiar": 2
+        },
+        "withoutTags": [
+          "damage_up",
+          "tears_up",
+          "laser",
+          "knife",
+          "multishot",
+          "piercing"
+        ]
+      },
+      "effect": {
+        "offense": 0.88
+      },
+      "conflict": true,
+      "note": "The familiars are doing all the work at their own pace while you plink."
     }
   ]
 }
