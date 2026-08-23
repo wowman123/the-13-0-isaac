@@ -9,7 +9,19 @@
 
 const num = (v) => (v == null || v === '' ? null : Number(v));
 
+/**
+ * Turn an items.xml `name` into an id stem.
+ *
+ * Repentance stores a localisation key (`#THE_SAD_ONION_NAME`) rather than a
+ * display name. That is the better key of the two — it is effectively the
+ * collectible constant — so it is unwrapped and used directly. Older dumps and
+ * the test fixture carry real display names, which still fall through to the
+ * slugify path.
+ */
 export function slug(name) {
+  const localisationKey = /^#(.+?)_NAME$/.exec(name.trim());
+  if (localisationKey) return localisationKey[1].toUpperCase();
+
   return name
     .toUpperCase()
     .replace(/['’`]/g, '')
@@ -48,20 +60,48 @@ export function parsePools(poolsXml) {
 
 const TYPES = { passive: 'passive', active: 'active', familiar: 'familiar' };
 
-export function parseItems(itemsXml, poolsById) {
+/**
+ * numeric item id -> { quality, tags }
+ *
+ * Quality is not in items.xml. It lives in items_metadata.xml, keyed by the
+ * same numeric id, as <item id="1" quality="3" tags="..."/>.
+ */
+export function parseMetadata(metadataXml) {
+  const byId = new Map();
+  if (!metadataXml) return byId;
+
+  for (const m of metadataXml.matchAll(/<item\b([^>]*)\/?>/gi)) {
+    const attrs = {};
+    for (const a of m[1].matchAll(/([\w-]+)\s*=\s*"([^"]*)"/g)) attrs[a[1]] = a[2];
+    if (attrs.id == null) continue;
+    byId.set(Number(attrs.id), {
+      quality: attrs.quality == null ? null : Number(attrs.quality),
+      tags: (attrs.tags ?? '').split(/\s+/).filter(Boolean),
+    });
+  }
+  return byId;
+}
+
+export function parseItems(itemsXml, poolsById, metaById = new Map()) {
   return elements(itemsXml, ['passive', 'active', 'familiar'])
     .filter((e) => e.attrs.id && e.attrs.name)
     .map((e) => {
       const xmlId = Number(e.attrs.id);
       const halves = (attr) => (num(e.attrs[attr]) != null ? num(e.attrs[attr]) / 2 : 0);
+      const meta = metaById.get(xmlId);
       return {
         id: `COLLECTIBLE_${slug(e.attrs.name)}`,
         xmlId,
         name: e.attrs.name,
-        quality: num(e.attrs.quality),
+        // items.xml may carry quality inline; newer dumps only have it in the
+        // metadata file. Prefer whichever is actually present.
+        quality: num(e.attrs.quality) ?? meta?.quality ?? null,
         pools: poolsById.get(xmlId) ?? [],
         type: TYPES[e.tag] ?? e.tag,
-        tags: (e.attrs.tags ?? '').split(/\s+/).filter(Boolean),
+        tags: [...new Set([
+          ...(e.attrs.tags ?? '').split(/\s+/).filter(Boolean),
+          ...(meta?.tags ?? []),
+        ])],
         stats: {
           // Actually present in the XML, in half-hearts.
           red_containers: halves('maxhearts'),
@@ -113,8 +153,13 @@ export function reconcile(scraped, handIds, overrides = {}) {
   return { scraped, matched, unmatched };
 }
 
-export function parseResources(itemsXml, poolsXml, handIds = [], overrides = {}) {
+export function parseResources(itemsXml, poolsXml, handIds = [], overrides = {}, metadataXml = '') {
   const poolsById = parsePools(poolsXml);
-  const items = parseItems(itemsXml, poolsById);
-  return { poolCount: poolsById.size, ...reconcile(items, handIds, overrides) };
+  const metaById = parseMetadata(metadataXml);
+  const items = parseItems(itemsXml, poolsById, metaById);
+  return {
+    poolCount: poolsById.size,
+    metaCount: metaById.size,
+    ...reconcile(items, handIds, overrides),
+  };
 }

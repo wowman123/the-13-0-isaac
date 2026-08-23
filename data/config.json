@@ -1,8 +1,8 @@
 {
-  "slope": 0.6267,
-  "difficulty": 0.1194,
+  "slope": 0.6565,
+  "difficulty": -1.147,
   "draftSize": 5,
-  "solvedAt": "2026-08-20",
+  "solvedAt": "2026-08-23",
   "targets": {
     "median": 0.05,
     "p99": 0.45,

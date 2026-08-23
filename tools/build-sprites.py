@@ -30,7 +30,7 @@ SEARCH_DIRS = ["1_Passive Items", "2_Active Items"]
 
 # The pack's filename does not always match the in-game collectible name.
 OVERRIDES = {
-    "COLLECTIBLE_ODD_MUSHROOM_THICK": "Odd Mushroom (fat)",
+    "COLLECTIBLE_ODD_MUSHROOM_LARGE": "Odd Mushroom (fat)",
 }
 
 ROOT = Path(__file__).resolve().parent.parent

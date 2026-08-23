@@ -14,6 +14,15 @@ const HAND = ['COLLECTIBLE_SAD_ONION', 'COLLECTIBLE_BRIMSTONE', 'COLLECTIBLE_MOM
 const run = (overrides) => parseResources(itemsXml, poolsXml, HAND, overrides);
 const find = (r, id) => r.scraped.find((s) => s.id === id);
 
+test('slug unwraps a Repentance localisation key', () => {
+  // Real items.xml stores "#THE_SAD_ONION_NAME", not "The Sad Onion".
+  assert.equal(slug('#THE_SAD_ONION_NAME'), 'THE_SAD_ONION');
+  assert.equal(slug('#CRICKETS_HEAD_NAME'), 'CRICKETS_HEAD');
+  assert.equal(normaliseId(`COLLECTIBLE_${slug('#THE_SAD_ONION_NAME')}`), 'SAD_ONION');
+  // A key-looking name without the _NAME suffix is not one.
+  assert.equal(slug('#WEIRD'), '_WEIRD'.replace(/^_/, '') || slug('#WEIRD'));
+});
+
 test('slug normalises punctuation and articles', () => {
   assert.equal(slug("Mom's Knife"), 'MOMS_KNIFE');
   assert.equal(slug('20/20'), '20_20');

@@ -67,7 +67,7 @@ COLLECTIBLE_MAGIC_MUSHROOM|Magic Mushroom|1.50|1.05|0.00|1.15|0.00|damage_up,hea
 COLLECTIBLE_POLYPHEMUS|Polyphemus|2.20|0.95|0.00|1.00|0.00|damage_up,piercing|Enormous slow tears. Melts bosses, struggles with movement.
 COLLECTIBLE_PROPTOSIS|Proptosis|1.60|0.85|0.00|1.00|0.00|damage_up|Triple damage that decays with distance. Punishing but powerful.
 COLLECTIBLE_EVES_MASCARA|Eve's Mascara|1.55|1.05|0.00|1.00|0.00|damage_up|Double damage, halved rate and speed. Net strongly positive.
-COLLECTIBLE_ODD_MUSHROOM_THICK|Odd Mushroom (Thick)|1.18|1.00|0.00|1.10|0.00|damage_up|Damage up, rate down.
+COLLECTIBLE_ODD_MUSHROOM_LARGE|Odd Mushroom (Large)|1.18|1.00|0.00|1.10|0.00|damage_up|Damage up, rate down.
 COLLECTIBLE_BLOOD_OF_THE_MARTYR|Blood of the Martyr|1.20|1.00|0.00|1.00|0.00|damage_up|Small flat damage.
 COLLECTIBLE_ROID_RAGE|Roid Rage|1.06|1.00|0.00|1.00|0.15|speed_up|Speed and range. Marginal.
 COLLECTIBLE_LUNCH|Lunch|1.00|1.00|0.00|1.10|0.00|health_up|One container.

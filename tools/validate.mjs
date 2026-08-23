@@ -19,38 +19,77 @@ const { items, scrapeLayer } = load('data/items.json');
 const results = [];
 const check = (name, status, detail) => results.push({ name, status, detail });
 
-// 1a. Every item carries at least one tag.
-const untagged = items.filter((i) => !i.tags?.length);
+// The set is two-tier: a hand-rated core that is curated by hand, and an
+// auto-rated tail imported wholesale from the XML. They are held to different
+// standards on purpose — the core is where curation errors hide.
+const handRated = items.filter((i) => i.rated);
+
+// 1a. Every hand-rated item carries at least one tag.
+const untagged = handRated.filter((i) => !i.tags?.length);
 check(
-  'every item has at least one tag',
+  'every hand-rated item has a tag',
   untagged.length ? 'FAIL' : 'PASS',
-  untagged.length ? `${untagged.length} untagged: ${untagged.slice(0, 5).map((i) => i.id).join(', ')}` : `${items.length} items`,
+  untagged.length ? `${untagged.length} untagged: ${untagged.slice(0, 5).map((i) => i.id).join(', ')}` : `${handRated.length} hand-rated`,
 );
 
 // 1b. Every item has a quality and at least one pool. Needs the scrape layer.
 if (!scrapeLayer) {
-  check('every item has quality + at least one pool', 'PENDING', 'no scrape layer — run tools/scrape.mjs against a game install');
+  check('every item has a quality', 'PENDING', 'no scrape layer — run tools/scrape.mjs against a game install');
+  check('enough candidates per Pool x Quality cell', 'PENDING', 'needs the scrape layer');
 } else {
-  const noQuality = items.filter((i) => i.scraped?.quality == null);
-  const noPool = items.filter((i) => !i.scraped?.pools?.length);
-  const bad = noQuality.length + noPool.length;
+  // Quality is a roll axis, so every item a roll can reach needs one. items.xml
+  // also carries pickup placeholders (PILLS_HERE, TAROT_CARD) that sit in no
+  // pool and have no quality; they are not collectibles and never get offered.
+  const noQuality = items.filter((i) => (i.scraped?.pools ?? []).length && i.scraped?.quality == null);
   check(
-    'every item has quality + at least one pool',
-    bad ? 'FAIL' : 'PASS',
-    bad ? `${noQuality.length} missing quality, ${noPool.length} missing pools` : `${items.length} items`,
+    'every draftable item has a quality',
+    noQuality.length ? 'FAIL' : 'PASS',
+    noQuality.length
+      ? `${noQuality.length} without quality: ${noQuality.slice(0, 5).map((i) => i.id).join(', ')}`
+      : `${items.filter((i) => (i.scraped?.pools ?? []).length).length} draftable items`,
+  );
+
+  // A pool is what makes an item reachable. Items in no pool are not a defect —
+  // plenty of collectibles are unlockables or quest items — they simply never
+  // come up in a draft. Report the count rather than failing on it.
+  const draftable = items.filter((i) => (i.scraped?.pools ?? []).some((p) => !p.startsWith('greed')));
+  check('items reachable by a draft roll', 'INFO', `${draftable.length} of ${items.length} sit in at least one non-greed pool`);
+
+  // The draft offers six. Cells thinner than that still work — the round just
+  // offers what exists — but if most cells are thin the game stops being a
+  // choice, so this is the number worth watching.
+  const pools = [...new Set(draftable.flatMap((i) => i.scraped.pools))].filter((p) => !p.startsWith('greed'));
+  let viable = 0;
+  let thin = 0;
+  for (const pool of pools) {
+    for (let q = 0; q <= 4; q++) {
+      const n = draftable.filter((i) => i.scraped.quality === q && i.scraped.pools.includes(pool)).length;
+      if (n >= 6) viable++;
+      else if (n > 0) thin++;
+    }
+  }
+  check(
+    'enough candidates per Pool x Quality cell',
+    viable >= 20 ? 'PASS' : 'FAIL',
+    `${viable} cells offer a full six, ${thin} offer fewer`,
   );
 }
 
 // 1c. Every item has art. This is the check that catches an entry which is not
 // actually a collectible — a trinket or a card will have no collectible sprite.
 const spriteIds = new Set(load('data/sprites.json').sprites);
-const artless = items.filter((i) => !spriteIds.has(i.id));
+const artless = handRated.filter((i) => !spriteIds.has(i.id));
 check(
-  'every item has sprite art',
+  'every hand-rated item has sprite art',
   artless.length ? 'FAIL' : 'PASS',
   artless.length
     ? `${artless.length} without art (is it actually a collectible?): ${artless.slice(0, 5).map((i) => i.name).join(', ')}`
-    : `${spriteIds.size} sprites`,
+    : `${spriteIds.size} sprites for ${handRated.length} hand-rated`,
+);
+check(
+  'sprite coverage across the full draft pool',
+  'INFO',
+  `${items.filter((i) => spriteIds.has(i.id)).length} of ${items.length} items have art; the rest render as text`,
 );
 
 // 2. Coverage: how much of the set is still riding on auto defaults.

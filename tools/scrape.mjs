@@ -24,6 +24,8 @@ if (!resources) {
 
 const itemsPath = join(resources, 'items.xml');
 const poolsPath = join(resources, 'itempools.xml');
+// Quality lives here in Repentance dumps, not in items.xml.
+const metaPath = join(resources, 'items_metadata.xml');
 for (const p of [itemsPath, poolsPath]) {
   if (!existsSync(p)) {
     console.error(`scrape: ${p} not found`);
@@ -39,19 +41,26 @@ const handIds = readFileSync(join(root, 'data/ratings.psv'), 'utf8')
 const overridesPath = join(root, 'data/id-overrides.json');
 const overrides = existsSync(overridesPath) ? JSON.parse(readFileSync(overridesPath, 'utf8')) : {};
 
-const { scraped, matched, unmatched, poolCount } = parseResources(
+const { scraped, matched, unmatched, poolCount, metaCount } = parseResources(
   readFileSync(itemsPath, 'utf8'),
   readFileSync(poolsPath, 'utf8'),
   handIds,
   overrides,
+  existsSync(metaPath) ? readFileSync(metaPath, 'utf8') : '',
 );
+
+if (!existsSync(metaPath)) {
+  console.warn(`scrape: no items_metadata.xml beside items.xml — quality will be null`);
+}
 
 writeFileSync(
   join(root, 'data/scraped.json'),
   `${JSON.stringify({ source: resources, scrapedAt: new Date().toISOString(), items: scraped }, null, 2)}\n`,
 );
 
+const withQuality = scraped.filter((s) => s.quality != null).length;
 console.log(`scrape: ${scraped.length} items from items.xml, ${poolCount} with pool entries`);
+console.log(`  ${metaCount} metadata rows, ${withQuality} items with a quality`);
 console.log(`  matched ${matched.length}/${handIds.length} hand-rated items by name`);
 if (unmatched.length) {
   console.log(`  ${unmatched.length} hand-rated id(s) had no XML match — map them in data/id-overrides.json`);

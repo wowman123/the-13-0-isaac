@@ -53,12 +53,26 @@ test('scraped stays null until the scrape layer is generated', () => {
   }
 });
 
-test('every item has sprite art', () => {
+test('every hand-rated item has sprite art', () => {
   // A trinket or a card has no collectible sprite, so this doubles as a check
-  // that nothing non-collectible has crept into the dataset.
+  // that nothing non-collectible has crept into the curated set. It applies to
+  // the hand-rated core only; the auto-rated tail is imported wholesale from
+  // the XML and is expected to outrun the art.
   const sprites = new Set(load('data/sprites.json').sprites);
-  const artless = items.filter((i) => !sprites.has(i.id)).map((i) => i.name);
+  const artless = items.filter((i) => i.rated && !sprites.has(i.id)).map((i) => i.name);
   assert.deepEqual(artless, [], `no sprite for: ${artless.join(', ')}`);
+});
+
+test('every draftable item has a quality, since it is a roll axis', () => {
+  // Scoped to items a roll can actually reach. items.xml also carries pickup
+  // placeholders (PILLS_HERE, TAROT_CARD) that sit in no pool and have no
+  // quality — they are not collectibles and can never be offered.
+  const { scrapeLayer } = load('data/items.json');
+  if (!scrapeLayer) return;
+  const missing = items
+    .filter((i) => (i.scraped?.pools ?? []).length && i.scraped?.quality == null)
+    .map((i) => i.name);
+  assert.deepEqual(missing, [], `${missing.length} draftable items without quality`);
 });
 
 test('the ladder is 13 fights, indexed 1..13', () => {
