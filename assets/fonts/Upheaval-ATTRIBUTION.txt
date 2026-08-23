@@ -1,0 +1,21 @@
+Upheaval TT (BRK)
+Version 2.09
+
+Designer:   Brian Kent
+Foundry:    AEnigma Fonts
+Copyright string embedded in the font file reads:
+            "AENIGMA FONTS   [e-mail]  kentpw@norwich.net"
+
+This is the typeface The Binding of Isaac uses in game, which is why it is used
+here. It is distributed by its author as freeware: free for personal use, free
+for commercial use, with modification and redistribution permitted, on the
+condition that the author's accompanying notice travels with the font. This
+file is that notice.
+
+The font is not covered by this project's MIT license and is not the project's
+to relicense. It is redistributed unmodified except for a format conversion
+from TrueType to WOFF2, done with fontTools so the web build ships ~11 KB
+instead of ~41 KB. No glyph data was altered.
+
+Identity was verified by reading the font's own `name` table rather than
+trusting a filename.
