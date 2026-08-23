@@ -57,15 +57,42 @@
   <section id="view-draft" class="view">
 
     <div class="draft-head">
-      <h1>Draft five items.</h1>
+      <h1 id="run-title">Draft your build.</h1>
       <div class="draft-actions">
-        <button id="btn-random" class="btn">Random draft</button>
-        <button id="btn-clear" class="btn btn-quiet">Clear</button>
-        <button id="btn-share" class="btn btn-quiet">Copy link</button>
+        <span class="run-round" id="run-round">Round 1 of 5</span>
+        <button id="btn-restart" class="btn btn-quiet">Restart</button>
       </div>
     </div>
 
-    <ol class="slots" id="slots"></ol>
+    <!-- The roll. Two axes, respun independently. -->
+    <section class="panel roll" id="roll-panel">
+      <div class="roll-slots">
+        <div class="roll-slot">
+          <span class="roll-key">Pool</span>
+          <span class="roll-val" id="roll-pool">&mdash;</span>
+        </div>
+        <span class="roll-x" aria-hidden="true">&times;</span>
+        <div class="roll-slot">
+          <span class="roll-key">Quality</span>
+          <span class="roll-val" id="roll-quality">&mdash;</span>
+        </div>
+      </div>
+      <div class="respins">
+        <button id="respin-pool" class="btn btn-quiet">Respin pool <b id="respin-pool-left">3</b></button>
+        <button id="respin-quality" class="btn btn-quiet">Respin quality <b id="respin-quality-left">3</b></button>
+      </div>
+    </section>
+
+    <section class="panel" id="candidates-panel">
+      <h2 id="candidates-title">Choose one</h2>
+      <p class="panel-note" id="candidates-note">These are the items sitting where those two rolls cross.</p>
+      <ol class="candidates" id="candidates"></ol>
+    </section>
+
+    <section class="panel" id="build-panel">
+      <h2>Your build</h2>
+      <ol class="build-strip" id="build-strip"></ol>
+    </section>
 
     <div class="results" id="results">
 
@@ -79,6 +106,9 @@
           <div class="hero-scale-fill" id="odds-fill"></div>
           <span class="hero-scale-mark" style="left:5%"><i></i>median draft</span>
         </div>
+        <div class="hero-actions">
+          <button id="btn-share" class="btn">Copy link</button>
+        </div>
       </section>
 
       <div class="results-col">
@@ -90,9 +120,9 @@
       </section>
 
       <section class="panel">
-        <h2>Best single swap</h2>
-        <p class="panel-note">Every remaining item tried in every slot, ranked by how much it moves the final number.</p>
-        <div id="swaps" class="swaps"></div>
+        <h2>What you passed on</h2>
+        <p class="panel-note">The strongest item you declined each round, and what taking it would have been worth.</p>
+        <div id="passed" class="swaps"></div>
       </section>
 
       </div>
@@ -228,13 +258,6 @@
   </p>
 </footer>
 
-<dialog id="picker" class="picker" aria-label="Choose an item">
-  <form method="dialog" class="picker-head">
-    <input type="search" id="picker-search" class="input" placeholder="Search items…" aria-label="Search items to add to the draft" autocomplete="off">
-    <button class="btn btn-quiet" value="cancel">Close</button>
-  </form>
-  <ul class="picker-list" id="picker-list"></ul>
-</dialog>
 
 <script type="module" src="assets/app.js"></script>
 </body>

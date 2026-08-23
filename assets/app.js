@@ -24,13 +24,50 @@ const state = {
   bosses: [],
   config: null,
   ratings: new Map(), // id -> resolved vector
-  draft: [null, null, null, null, null], // item ids
-  pickingSlot: null,
   sort: { key: 'offense', dir: -1 },
 };
 
-const DRAFT_SIZE = 5;
+const ROUNDS = 5;
+const OFFER = 6;
+const RESPINS = 3;
+
+/** A single playthrough. Rebuilt from scratch by startRun(). */
+let run;
+
+/**
+ * Greed-mode pools are a separate game; rolling them here would offer items
+ * you cannot reach on the run being simulated.
+ */
+const isRealPool = (pool) => !pool.startsWith('greed');
+
+const POOL_LABELS = {
+  treasure: 'Treasure Room',
+  shop: 'Shop',
+  boss: 'Boss Room',
+  devil: 'Devil Room',
+  angel: 'Angel Room',
+  secret: 'Secret Room',
+  ultrasecret: 'Ultra Secret Room',
+  curse: 'Curse Room',
+  library: 'Library',
+  cranegame: 'Crane Game',
+  beggar: 'Beggar',
+  demonbeggar: 'Devil Beggar',
+  rottenbeggar: 'Rotten Beggar',
+  goldenchest: 'Golden Chest',
+  redchest: 'Red Chest',
+  oldchest: 'Old Chest',
+  wooden: 'Wooden Chest',
+  bombbum: 'Bomb Bum',
+  babyshop: 'Baby Shop',
+  planetarium: 'Planetarium',
+  moms: "Mom's Chest",
+};
+
+const poolLabel = (pool) => POOL_LABELS[pool] ?? pool.replace(/^\w/, (c) => c.toUpperCase());
 const shortId = (id) => id.replace(/^COLLECTIBLE_/, '');
+const byId = (id) => state.items.find((i) => i.id === id);
+const pct = (p) => p * 100;
 
 const sprite = (id) => el('img', {
   className: 'sprite', src: `assets/sprites/${id}.png`,
@@ -45,8 +82,6 @@ function oddsColour(t) {
   const clamped = Math.max(0, Math.min(1, t));
   return `hsl(${2 + clamped * 140} 74% ${72 - clamped * 8}%)`;
 }
-const byId = (id) => state.items.find((i) => i.id === id);
-const pct = (p) => p * 100;
 
 /** Two significant-ish digits, but never "0.0%" for something non-zero. */
 function fmtPct(p) {
@@ -99,7 +134,6 @@ async function init() {
   state.config = config;
   for (const item of state.items) state.ratings.set(item.id, resolveRating(item));
 
-  buildSlots();
   buildItemsView();
   buildMethodView();
   wireEvents();
@@ -126,16 +160,20 @@ function readHash() {
   const view = (path.replace(/^\//, '') || 'draft').split('/')[0];
   showView(['draft', 'items', 'method'].includes(view) ? view : 'draft');
 
-  const d = new URLSearchParams(query ?? '').get('d');
-  if (d != null) {
-    const ids = d.split(',').filter(Boolean).map((s) => `COLLECTIBLE_${s}`);
-    const next = [null, null, null, null, null];
-    ids.slice(0, DRAFT_SIZE).forEach((id, i) => {
-      if (byId(id)) next[i] = id;
-    });
-    state.draft = next;
+  // A finished run can be shared as a link. Restoring one shows the result
+  // rather than resuming play — the rolls that produced it are gone.
+  const shared = new URLSearchParams(query ?? '').get('r');
+  const ids = (shared ?? '').split(',').filter(Boolean).map((x) => `COLLECTIBLE_${x}`).filter(byId);
+
+  if (ids.length === ROUNDS && (!run || run.picks.join() !== ids.join())) {
+    run = {
+      round: ROUNDS, picks: ids, history: [], roll: null,
+      candidates: [], respins: { pool: 0, quality: 0 }, finished: true, shared: true,
+    };
+    renderRun();
+  } else if (!run) {
+    startRun();
   }
-  renderDraft();
 }
 
 function showView(view) {
@@ -146,76 +184,203 @@ function showView(view) {
   }
 }
 
-/** Keep the URL in step with the draft without spamming history entries. */
+/** Keep the URL in step with a finished run without spamming history entries. */
 function writeHash() {
-  const picked = state.draft.filter(Boolean).map(shortId);
   const view = $$('.view').find((s) => !s.hidden)?.id.replace('view-', '') ?? 'draft';
-  const next = picked.length ? `#/${view}?d=${picked.join(',')}` : `#/${view}`;
+  const next = run?.finished
+    ? `#/${view}?r=${run.picks.map(shortId).join(',')}`
+    : `#/${view}`;
   if (location.hash !== next) history.replaceState(null, '', next);
 }
 
-// ---------------------------------------------------------------- draft
-function buildSlots() {
-  $('#slots').replaceChildren(
-    ...Array.from({ length: DRAFT_SIZE }, (_, i) => el('li', {}, el('button', { className: 'slot', dataset: { slot: i } }))),
+// ---------------------------------------------------------------- the run
+/** Items a roll can actually reach: in a real pool, and with a quality. */
+function draftable() {
+  return state.items.filter(
+    (i) => i.scraped?.quality != null && (i.scraped?.pools ?? []).some(isRealPool),
   );
 }
 
-function renderDraft() {
-  renderSlots();
+/** Everything at one Pool x Quality intersection that is not already taken. */
+function cell(pool, quality) {
+  const taken = new Set(run.picks);
+  return draftable().filter(
+    (i) => i.scraped.quality === quality && i.scraped.pools.includes(pool) && !taken.has(i.id),
+  );
+}
 
-  const picked = state.draft.filter(Boolean);
-  const ratings = picked.map((id) => state.ratings.get(id));
-  const build = composeBuild(ratings);
-  const { perBoss, total } = runOdds(build, state.bosses, state.config);
-  const complete = picked.length === DRAFT_SIZE;
+/** Every intersection with at least one item left in it. */
+function viableCells() {
+  const pools = [...new Set(draftable().flatMap((i) => i.scraped.pools.filter(isRealPool)))];
+  const out = [];
+  for (const pool of pools) {
+    for (let quality = 0; quality <= 4; quality++) {
+      if (cell(pool, quality).length) out.push({ pool, quality });
+    }
+  }
+  return out;
+}
 
-  renderHero(total, complete, picked.length);
-  renderAxes(build, complete);
-  renderLadder(perBoss, complete);
-  renderSwaps(complete, total);
+const pickRandom = (list) => list[Math.floor(Math.random() * list.length)];
+
+/** Draw up to `n` distinct items, so a fat cell does not always show the same six. */
+function sample(list, n) {
+  const copy = [...list];
+  const out = [];
+  while (out.length < n && copy.length) out.push(...copy.splice(Math.floor(Math.random() * copy.length), 1));
+  return out;
+}
+
+function startRun() {
+  run = {
+    round: 1,
+    picks: [],
+    history: [], // { pool, quality, candidates: [id], chosen: id }
+    roll: null,
+    respins: { pool: RESPINS, quality: RESPINS },
+    finished: false,
+  };
+  rollFresh();
+  renderRun();
+}
+
+/** Roll both axes. Uniform over viable cells, so a roll always has something in it. */
+function rollFresh() {
+  const cells = viableCells();
+  run.roll = cells.length ? pickRandom(cells) : null;
+  run.candidates = run.roll ? sample(cell(run.roll.pool, run.roll.quality), OFFER).map((i) => i.id) : [];
+}
+
+/**
+ * Respin one axis and keep the other — the asymmetry that makes a good roll on
+ * one side worth protecting.
+ */
+function respin(axis) {
+  if (!run.roll || run.respins[axis] <= 0 || run.finished) return;
+
+  const { pool, quality } = run.roll;
+  const options = axis === 'pool'
+    ? [...new Set(draftable().flatMap((i) => i.scraped.pools.filter(isRealPool)))]
+        .filter((p) => p !== pool && cell(p, quality).length)
+    : [0, 1, 2, 3, 4].filter((q) => q !== quality && cell(pool, q).length);
+
+  if (!options.length) return; // nothing else to land on; do not burn the respin
+
+  run.respins[axis] -= 1;
+  run.roll = axis === 'pool' ? { pool: pickRandom(options), quality } : { pool, quality: pickRandom(options) };
+  run.candidates = sample(cell(run.roll.pool, run.roll.quality), OFFER).map((i) => i.id);
+  renderRun();
+}
+
+function choose(id) {
+  if (run.finished || !run.candidates.includes(id)) return;
+
+  run.history.push({ ...run.roll, candidates: [...run.candidates], chosen: id });
+  run.picks.push(id);
+
+  if (run.picks.length >= ROUNDS) {
+    run.finished = true;
+    run.roll = null;
+    run.candidates = [];
+  } else {
+    run.round += 1;
+    rollFresh();
+  }
+  renderRun();
+}
+
+/** Odds for an arbitrary set of item ids. */
+function oddsFor(ids) {
+  const build = composeBuild(ids.map((id) => state.ratings.get(id)));
+  return { build, ...runOdds(build, state.bosses, state.config) };
+}
+
+// ---------------------------------------------------------------- rendering
+function renderRun() {
+  const done = run.finished;
+
+  $('#run-round').textContent = done ? 'Run complete' : `Round ${run.round} of ${ROUNDS}`;
+  $('#run-title').textContent = done ? 'Your run.' : 'Draft your build.';
+  $('#roll-panel').hidden = done;
+  $('#candidates-panel').hidden = done;
+  $('#results').hidden = !done;
+
+  renderRoll();
+  renderCandidates();
+  renderBuildStrip();
+
+  if (done) renderResults();
   writeHash();
 }
 
-function renderSlots() {
-  for (const [i, button] of $$('#slots .slot').entries()) {
-    const id = state.draft[i];
-    const item = id ? byId(id) : null;
-    button.classList.toggle('is-empty', !item);
+function renderRoll() {
+  if (!run.roll) return;
+  $('#roll-pool').textContent = poolLabel(run.roll.pool);
+  $('#roll-quality').textContent = `Q${run.roll.quality}`;
 
-    if (!item) {
-      button.replaceChildren(el('span', { textContent: '+ pick an item' }));
-      continue;
-    }
-
-    const r = state.ratings.get(id);
-    button.replaceChildren(
-      el('span', { className: 'slot-index', textContent: `SLOT ${i + 1}` }),
-      el('span', { className: 'slot-main' }, [
-        sprite(id),
-        el('span', { className: 'slot-name', textContent: item.name }),
-      ]),
-      el('span', { className: 'slot-tags' }, [
-        ...item.tags.slice(0, 3).map((t) => el('span', { className: 'tag', textContent: t })),
-        r.source !== 'hand' ? el('span', { className: 'tag', textContent: r.source }) : null,
-      ]),
-      el('button', { className: 'slot-remove', textContent: '×', title: `Remove ${item.name}`, dataset: { remove: i } }),
-    );
+  for (const axis of ['pool', 'quality']) {
+    const left = run.respins[axis];
+    $(`#respin-${axis}-left`).textContent = left;
+    $(`#respin-${axis}`).disabled = left <= 0 || run.finished;
   }
 }
 
-function renderHero(total, complete, count) {
-  $('#odds-value').textContent = complete ? fmtPct(total) : '???';
-  const fill = $('#odds-fill');
-  fill.style.width = complete ? `${Math.max(2, Math.min(100, pct(total)))}%` : '0%';
-  fill.style.background = complete ? oddsColour(total / 0.5) : 'transparent';
-
-  const verdict = $('#odds-verdict');
-  if (!complete) {
-    verdict.textContent = `${DRAFT_SIZE - count} more item${DRAFT_SIZE - count === 1 ? '' : 's'} to go.`;
-    verdict.style.color = 'var(--dim)';
+function renderCandidates() {
+  const host = $('#candidates');
+  if (!run.candidates?.length) {
+    host.replaceChildren();
     return;
   }
+
+  $('#candidates-title').textContent = `Choose 1 of ${run.candidates.length}`;
+  $('#candidates-note').textContent = run.candidates.length < OFFER
+    ? `Only ${run.candidates.length} items sit where those two rolls cross. Thin intersections are part of the game.`
+    : 'These are the items sitting where those two rolls cross.';
+
+  host.replaceChildren(
+    ...run.candidates.map((id) => {
+      const item = byId(id);
+      return el('li', {}, el('button', { className: 'candidate', dataset: { pick: id } }, [
+        sprite(id),
+        el('span', { className: 'candidate-body' }, [
+          el('span', { className: 'candidate-name', textContent: item.name }),
+          el('span', { className: 'candidate-note', textContent: item.rated?.note ?? `Tags: ${item.tags.join(', ') || 'none'}` }),
+        ]),
+        el('span', { className: 'candidate-take', textContent: 'Take' }),
+      ]));
+    }),
+  );
+}
+
+function renderBuildStrip() {
+  $('#build-strip').replaceChildren(
+    ...Array.from({ length: ROUNDS }, (_, i) => {
+      const id = run.picks[i];
+      if (!id) {
+        return el('li', { className: 'build-cell is-empty' }, el('span', { textContent: i + 1 }));
+      }
+      const item = byId(id);
+      return el('li', { className: 'build-cell', title: item.name }, [
+        sprite(id),
+        el('span', { className: 'build-cell-name', textContent: item.name }),
+      ]);
+    }),
+  );
+}
+
+function renderResults() {
+  const { build, perBoss, total } = oddsFor(run.picks);
+  renderHero(total);
+  renderAxes(build);
+  renderLadder(perBoss);
+  renderPassed(total);
+}
+
+function renderHero(total) {
+  $('#odds-value').textContent = fmtPct(total);
+  const fill = $('#odds-fill');
+  fill.style.width = `${Math.max(2, Math.min(100, pct(total)))}%`;
+  fill.style.background = oddsColour(total / 0.5);
 
   const p = pct(total);
   const [text, colour] =
@@ -223,13 +388,14 @@ function renderHero(total, complete, count) {
     : p >= 20 ? ['Genuinely strong. This clears more often than it fails.', 'var(--ax-evasion)']
     : p >= 8 ? ['Above the median draft. Playable.', 'var(--ink)']
     : p >= 2 ? ['Right around the median. Most runs look like this.', 'var(--ink-soft)']
-    : ['Below median. Something here has to carry.', 'var(--red)'];
+    : ['Below median. Something here had to carry, and did not.', 'var(--red)'];
 
+  const verdict = $('#odds-verdict');
   verdict.textContent = text;
   verdict.style.color = colour;
 }
 
-function renderAxes(build, complete) {
+function renderAxes(build) {
   // Scale each bar against roughly the 99th percentile of composed drafts, not
   // against the single-item range — otherwise every bar either sits near empty
   // or pins at full. A genuine god roll can still exceed these and clamp.
@@ -238,7 +404,7 @@ function renderAxes(build, complete) {
 
   $('#axes').replaceChildren(
     ...AXES.map((axis) => {
-      const v = complete ? build[axis] : NEUTRAL[axis];
+      const v = build[axis];
       const width = Math.min(100, (v / scale[axis]) * 100);
       const neutralAt = multiplicative(axis) ? (1 / scale[axis]) * 100 : 0;
 
@@ -246,129 +412,75 @@ function renderAxes(build, complete) {
         el('span', { className: 'axis-name', textContent: axis }),
         el('div', { className: 'axis-track' }, [
           neutralAt > 0 ? el('span', { className: 'axis-neutral', style: `left:${neutralAt}%` }) : null,
-          el('div', { className: 'axis-bar', style: `width:${complete ? width : 0}%` }),
+          el('div', { className: 'axis-bar', style: `width:${width}%` }),
         ]),
         el('span', {
           className: `axis-val${v === NEUTRAL[axis] ? ' is-neutral' : ''}`,
-          textContent: complete ? (multiplicative(axis) ? `×${v.toFixed(2)}` : v.toFixed(2)) : '?',
+          textContent: multiplicative(axis) ? `×${v.toFixed(2)}` : v.toFixed(2),
         }),
       ]);
     }),
   );
 }
 
-function renderLadder(perBoss, complete) {
+function renderLadder(perBoss) {
   // Only the first fight at the minimum is flagged, so a tie doesn't light up
   // half the ladder.
-  const worstIndex = complete
-    ? perBoss.reduce((best, b, i) => (b.p < perBoss[best].p ? i : best), 0)
-    : -1;
+  const worstIndex = perBoss.reduce((best, b, i) => (b.p < perBoss[best].p ? i : best), 0);
 
   $('#ladder').replaceChildren(
     ...perBoss.map((b, i) => {
-      const isWorst = i === worstIndex;
       const special = b.id === 'BOSS_DELIRIUM' || b.id === 'BOSS_THE_BEAST';
-
       return el('li', {
-        className: `ladder-row${isWorst ? ' is-worst' : ''}${special ? ' is-special' : ''}`,
+        className: `ladder-row${i === worstIndex ? ' is-worst' : ''}${special ? ' is-special' : ''}`,
         title: state.bosses.find((x) => x.id === b.id)?.note ?? '',
       }, [
         el('span', { className: 'ladder-i', textContent: b.index }),
         el('span', { className: 'ladder-name', textContent: b.name }),
         el('div', { className: 'ladder-track' }, el('div', {
           className: 'ladder-bar',
-          style: `width:${complete ? pct(b.p) : 0}%; background:${oddsColour(b.p)}`,
+          style: `width:${pct(b.p)}%; background:${oddsColour(b.p)}`,
         })),
-        el('span', { className: 'ladder-val', textContent: complete ? `${pct(b.p).toFixed(0)}%` : '?' }),
+        el('span', { className: 'ladder-val', textContent: `${pct(b.p).toFixed(0)}%` }),
       ]);
     }),
   );
 }
 
 /**
- * Try every unpicked item in every slot. 187 items x 5 slots x 13 fights is
- * small enough to brute-force on every render.
+ * The strongest item declined in each round, and what taking it would have been
+ * worth. Only the one pick is swapped; every other round stands as played.
  */
-function renderSwaps(complete, current) {
-  const host = $('#swaps');
-  if (!complete) {
-    host.replaceChildren(el('p', { className: 'empty-note', textContent: 'Fill all five slots to see what would improve this draft.' }));
-    return;
-  }
-
-  const inDraft = new Set(state.draft);
-  const candidates = [];
-
-  for (let slot = 0; slot < DRAFT_SIZE; slot++) {
-    for (const item of state.items) {
-      if (inDraft.has(item.id)) continue;
-      const trial = state.draft.map((id, i) => (i === slot ? item.id : id));
-      const { total } = runOdds(
-        composeBuild(trial.map((id) => state.ratings.get(id))),
-        state.bosses,
-        state.config,
-      );
-      if (total > current) candidates.push({ slot, item, total, gain: total - current });
+function renderPassed(actual) {
+  const rows = run.history.map((h, round) => {
+    let best = null;
+    for (const id of h.candidates) {
+      if (id === h.chosen) continue;
+      const alt = run.picks.map((p, i) => (i === round ? id : p));
+      const { total } = oddsFor(alt);
+      if (!best || total > best.total) best = { id, total };
     }
-  }
+    return best ? { round, ...best, chosen: h.chosen } : null;
+  }).filter(Boolean);
 
-  if (!candidates.length) {
-    host.replaceChildren(el('p', { className: 'empty-note', textContent: 'Nothing in the set improves this draft. That is as good as it gets.' }));
+  const regrets = rows.filter((r) => r.total > actual).sort((a, b) => b.total - a.total);
+
+  if (!regrets.length) {
+    $('#passed').replaceChildren(el('p', {
+      className: 'empty-note',
+      textContent: 'You took the best item on offer in every round. Nothing you passed would have scored higher.',
+    }));
     return;
   }
 
-  candidates.sort((a, b) => b.gain - a.gain);
-
-  host.replaceChildren(
-    ...candidates.slice(0, 5).map((c) =>
-      el('button', { className: 'swap', dataset: { slot: c.slot, swap: c.item.id } }, [
-        el('span', { className: 'swap-text' }, [
-          el('span', { className: 'swap-out', textContent: `slot ${c.slot + 1} · ${byId(state.draft[c.slot]).name} » ` }),
-          el('span', { className: 'swap-in', textContent: c.item.name }),
-        ]),
-        el('span', { className: 'swap-delta', textContent: `${fmtPct(c.total)}%  (+${(pct(c.gain)).toFixed(1)})` }),
+  $('#passed').replaceChildren(
+    ...regrets.slice(0, 5).map((r) => el('div', { className: 'swap' }, [
+      el('span', { className: 'swap-text' }, [
+        el('span', { className: 'swap-out', textContent: `round ${r.round + 1} · took ${byId(r.chosen).name}, passed ` }),
+        el('span', { className: 'swap-in', textContent: byId(r.id).name }),
       ]),
-    ),
-  );
-}
-
-// ---------------------------------------------------------------- picker
-function openPicker(slot) {
-  state.pickingSlot = slot;
-  $('#picker-search').value = '';
-  renderPickerList('');
-  $('#picker').showModal();
-  $('#picker-search').focus();
-}
-
-function renderPickerList(query) {
-  const q = query.trim().toLowerCase();
-  const picked = new Set(state.draft.filter(Boolean));
-
-  const matches = state.items
-    .filter((i) => !q || i.name.toLowerCase().includes(q) || i.tags.some((t) => t.includes(q)) || (i.rated?.note ?? '').toLowerCase().includes(q))
-    .sort((a, b) => state.ratings.get(b.id).offense - state.ratings.get(a.id).offense)
-    .slice(0, 120);
-
-  if (!matches.length) {
-    $('#picker-list').replaceChildren(el('li', { className: 'picker-empty', textContent: `Nothing matches "${query}".` }));
-    return;
-  }
-
-  $('#picker-list').replaceChildren(
-    ...matches.map((item) => {
-      const r = state.ratings.get(item.id);
-      const vec = `${r.offense.toFixed(2)} · ${r.aoe.toFixed(2)} · ${r.tracking.toFixed(2)} · ${r.defense.toFixed(2)} · ${r.evasion.toFixed(2)}`;
-      return el('li', {}, el('button', {
-        className: 'picker-item',
-        dataset: picked.has(item.id) ? { pick: item.id, picked: '' } : { pick: item.id },
-      }, [
-        sprite(item.id),
-        el('span', { className: 'picker-name', textContent: item.name }),
-        el('span', { className: 'picker-vec', textContent: vec }),
-        item.rated?.note ? el('span', { className: 'picker-note', textContent: item.rated.note }) : null,
-      ]));
-    }),
+      el('span', { className: 'swap-delta', textContent: `${fmtPct(r.total)}%  (+${(pct(r.total - actual)).toFixed(1)})` }),
+    ])),
   );
 }
 
@@ -492,57 +604,16 @@ function buildMethodView() {
 
 // ---------------------------------------------------------------- events
 function wireEvents() {
-  $('#slots').addEventListener('click', (e) => {
-    const remove = e.target.closest('[data-remove]');
-    if (remove) {
-      e.stopPropagation();
-      state.draft[Number(remove.dataset.remove)] = null;
-      renderDraft();
-      return;
-    }
-    const slot = e.target.closest('[data-slot]');
-    if (slot) openPicker(Number(slot.dataset.slot));
-  });
-
-  $('#picker-list').addEventListener('click', (e) => {
+  $('#candidates').addEventListener('click', (e) => {
     const button = e.target.closest('[data-pick]');
-    if (!button) return;
-    const id = button.dataset.pick;
-    // Picking something already in the draft moves it rather than duplicating.
-    const existing = state.draft.indexOf(id);
-    if (existing !== -1) state.draft[existing] = null;
-    state.draft[state.pickingSlot] = id;
-    $('#picker').close();
-    renderDraft();
+    if (button) choose(button.dataset.pick);
   });
 
-  $('#picker-search').addEventListener('input', (e) => renderPickerList(e.target.value));
-  $('#picker-search').addEventListener('keydown', (e) => {
-    if (e.key !== 'Enter') return;
-    e.preventDefault();
-    $('#picker-list .picker-item')?.click();
-  });
-
-  $('#swaps').addEventListener('click', (e) => {
-    const button = e.target.closest('[data-swap]');
-    if (!button) return;
-    state.draft[Number(button.dataset.slot)] = button.dataset.swap;
-    renderDraft();
-  });
-
-  $('#btn-random').addEventListener('click', () => {
-    const pool = [...state.items];
-    const picked = [];
-    while (picked.length < DRAFT_SIZE && pool.length) {
-      picked.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0].id);
-    }
-    state.draft = picked;
-    renderDraft();
-  });
-
-  $('#btn-clear').addEventListener('click', () => {
-    state.draft = [null, null, null, null, null];
-    renderDraft();
+  $('#respin-pool').addEventListener('click', () => respin('pool'));
+  $('#respin-quality').addEventListener('click', () => respin('quality'));
+  $('#btn-restart').addEventListener('click', () => {
+    history.replaceState(null, '', '#/draft');
+    startRun();
   });
 
   $('#btn-share').addEventListener('click', async (e) => {

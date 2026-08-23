@@ -29,6 +29,22 @@ export function slug(name) {
     .replace(/^_+|_+$/g, '');
 }
 
+/**
+ * A readable label from a localisation key: #ODD_MUSHROOM_THIN_NAME becomes
+ * "Odd Mushroom Thin". Hand-rated items override this with their curated name;
+ * this is what the imported tail displays.
+ */
+export function humanise(name) {
+  const key = /^#(.+?)_NAME$/.exec(name.trim());
+  if (!key) return name;
+  return key[1]
+    .toLowerCase()
+    .split('_')
+    .filter(Boolean)
+    .map((w) => (/^\d/.test(w) ? w : w[0].toUpperCase() + w.slice(1)))
+    .join(' ');
+}
+
 /** Strip the prefix and article so hand ids and XML names can be compared. */
 export const normaliseId = (id) => id.replace(/^COLLECTIBLE_/, '').replace(/^THE_/, '');
 
@@ -92,7 +108,10 @@ export function parseItems(itemsXml, poolsById, metaById = new Map()) {
       return {
         id: `COLLECTIBLE_${slug(e.attrs.name)}`,
         xmlId,
-        name: e.attrs.name,
+        // Keep the raw key: id-overrides.json is keyed by it, and humanising
+        // before reconcile silently breaks every override.
+        xmlName: e.attrs.name,
+        name: humanise(e.attrs.name),
         // items.xml may carry quality inline; newer dumps only have it in the
         // metadata file. Prefer whichever is actually present.
         quality: num(e.attrs.quality) ?? meta?.quality ?? null,
@@ -133,7 +152,8 @@ export function parseItems(itemsXml, poolsById, metaById = new Map()) {
  */
 export function reconcile(scraped, handIds, overrides = {}) {
   for (const s of scraped) {
-    if (overrides[s.name]) s.id = overrides[s.name];
+    const override = overrides[s.xmlName] ?? overrides[s.name];
+    if (override) s.id = override;
   }
 
   const byNorm = new Map(scraped.map((s) => [normaliseId(s.id), s]));

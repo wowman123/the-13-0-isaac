@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { parseResources, parsePools, slug, normaliseId } from '../src/scrape-parse.js';
+import { parseResources, parsePools, slug, normaliseId, humanise } from '../src/scrape-parse.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const itemsXml = readFileSync(join(here, 'fixtures/items.xml'), 'utf8');
@@ -21,6 +21,14 @@ test('slug unwraps a Repentance localisation key', () => {
   assert.equal(normaliseId(`COLLECTIBLE_${slug('#THE_SAD_ONION_NAME')}`), 'SAD_ONION');
   // A key-looking name without the _NAME suffix is not one.
   assert.equal(slug('#WEIRD'), '_WEIRD'.replace(/^_/, '') || slug('#WEIRD'));
+});
+
+test('humanise turns a localisation key into a label', () => {
+  assert.equal(humanise('#ODD_MUSHROOM_THIN_NAME'), 'Odd Mushroom Thin');
+  assert.equal(humanise('#VOID_NAME'), 'Void');
+  assert.equal(humanise('#1UP_NAME'), '1up');
+  // A real display name passes through untouched.
+  assert.equal(humanise('Brimstone'), 'Brimstone');
 });
 
 test('slug normalises punctuation and articles', () => {
@@ -75,6 +83,12 @@ test('unmatched hand ids are reported, not dropped', () => {
   const r = run();
   assert.deepEqual(r.unmatched, ['COLLECTIBLE_ONE_UP']);
   assert.equal(r.matched.length, 5);
+});
+
+test('overrides are keyed by the raw XML name, not the humanised one', () => {
+  const r = parseResources(itemsXml, poolsXml, HAND, { 'Totally New Item': 'COLLECTIBLE_ONE_UP' });
+  assert.ok(r.scraped.every((x) => x.xmlName !== undefined), 'raw xmlName must survive parsing');
+  assert.deepEqual(r.unmatched, []);
 });
 
 test('an override rescues a name that cannot be derived', () => {
