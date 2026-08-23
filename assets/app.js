@@ -3,7 +3,8 @@
  * calibration solver and the test suite use — nothing is reimplemented here.
  */
 
-import { composeBuild, runOdds, AXES, NEUTRAL } from '../src/engine.js';
+import { runOdds, AXES, NEUTRAL } from '../src/engine.js';
+import { composeDraft, findSynergies, synergyStrength } from '../src/synergy.js';
 import { resolveRating, TAG_TABLE, QUALITY_OFFENSE } from '../src/ratings.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -114,10 +115,11 @@ async function init() {
   let items;
   let bosses;
   let config;
+  let synergies;
 
   try {
-    [items, bosses, config] = await Promise.all(
-      ['data/items.json', 'data/bosses.json', 'data/config.json'].map(async (path) => {
+    [items, bosses, config, synergies] = await Promise.all(
+      ['data/items.json', 'data/bosses.json', 'data/config.json', 'data/synergies.json'].map(async (path) => {
         const res = await fetch(path);
         if (!res.ok) throw new Error(`${path} returned ${res.status}`);
         return res.json();
@@ -132,6 +134,7 @@ async function init() {
   state.scrapeLayer = items.scrapeLayer;
   state.bosses = bosses;
   state.config = config;
+  state.rules = synergies.rules;
   for (const item of state.items) state.ratings.set(item.id, resolveRating(item));
 
   buildItemsView();
@@ -289,10 +292,24 @@ function choose(id) {
   renderRun();
 }
 
-/** Odds for an arbitrary set of item ids. */
+/** Odds for an arbitrary set of item ids, synergies included. */
 function oddsFor(ids) {
-  const build = composeBuild(ids.map((id) => state.ratings.get(id)));
-  return { build, ...runOdds(build, state.bosses, state.config) };
+  const { build, fired } = composeDraft(
+    ids.map((id) => byId(id)),
+    ids.map((id) => state.ratings.get(id)),
+    state.rules,
+  );
+  return { build, fired, ...runOdds(build, state.bosses, state.config) };
+}
+
+/**
+ * Which rules taking this candidate would newly trigger. This is what turns a
+ * pick from "which number is biggest" into "which one fits what I have".
+ */
+function synergyPreview(candidateId) {
+  const held = run.picks.map(byId);
+  const already = new Set(findSynergies(held, state.rules).map((r) => r.id));
+  return findSynergies([...held, byId(candidateId)], state.rules).filter((r) => !already.has(r.id));
 }
 
 // ---------------------------------------------------------------- rendering
@@ -341,11 +358,21 @@ function renderCandidates() {
   host.replaceChildren(
     ...run.candidates.map((id) => {
       const item = byId(id);
+      const preview = synergyPreview(id);
+      const gains = preview.filter((r) => !r.conflict);
+      const clashes = preview.filter((r) => r.conflict);
+
       return el('li', {}, el('button', { className: 'candidate', dataset: { pick: id } }, [
         sprite(id),
         el('span', { className: 'candidate-body' }, [
           el('span', { className: 'candidate-name', textContent: item.name }),
           el('span', { className: 'candidate-note', textContent: item.rated?.note ?? `Tags: ${item.tags.join(', ') || 'none'}` }),
+          preview.length
+            ? el('span', { className: 'candidate-syn' }, [
+                ...gains.map((r) => el('span', { className: 'syn-tag', title: r.note, textContent: r.name })),
+                ...clashes.map((r) => el('span', { className: 'syn-tag is-clash', title: r.note, textContent: r.name })),
+              ])
+            : null,
         ]),
         el('span', { className: 'candidate-take', textContent: 'Take' }),
       ]));
@@ -370,11 +397,45 @@ function renderBuildStrip() {
 }
 
 function renderResults() {
-  const { build, perBoss, total } = oddsFor(run.picks);
+  const { build, perBoss, total, fired } = oddsFor(run.picks);
   renderHero(total);
   renderAxes(build);
   renderLadder(perBoss);
+  renderSynergies(fired);
   renderPassed(total);
+}
+
+/** What the five items did to each other, strongest first. */
+function renderSynergies(fired) {
+  const host = $('#synergies');
+  if (!fired.length) {
+    host.replaceChildren(el('p', {
+      className: 'empty-note',
+      textContent: 'Five items that do not interact. No combination fired, and nothing cancelled either.',
+    }));
+    return;
+  }
+
+  const sorted = [...fired].sort((a, b) => synergyStrength(b) - synergyStrength(a));
+  host.replaceChildren(
+    ...sorted.map((r) => el('div', { className: `synergy${r.conflict ? ' is-clash' : ''}` }, [
+      el('span', { className: 'synergy-name', textContent: r.name }),
+      el('span', { className: 'synergy-note', textContent: r.note }),
+      el('span', { className: 'synergy-effect', textContent: effectLabel(r) }),
+    ])),
+  );
+}
+
+/** A rule's effect as something readable, e.g. "offense x1.18 · tracking 0.95". */
+function effectLabel(rule) {
+  const parts = [];
+  for (const axis of ['offense', 'aoe', 'defense']) {
+    if (rule.effect?.[axis] != null) parts.push(`${axis} ×${rule.effect[axis]}`);
+  }
+  for (const axis of ['tracking', 'evasion']) {
+    if (rule.effect?.[axis] != null) parts.push(`${axis} ${rule.conflict ? '≤' : '≥'} ${rule.effect[axis]}`);
+  }
+  return parts.join(' · ');
 }
 
 function renderHero(total) {
@@ -596,6 +657,20 @@ function buildMethodView() {
         el('td', { textContent: other || '' }),
       ]);
     }),
+  );
+
+  const describe = (when) => [
+    when.tags?.length ? when.tags.join(' + ') : null,
+    ...Object.entries(when.tagCount ?? {}).map(([t, n]) => `${n}x ${t}`),
+    when.withoutTags?.length ? `no ${when.withoutTags.join('/')}` : null,
+  ].filter(Boolean).join(', ');
+
+  $('#synergy-table tbody').replaceChildren(
+    ...state.rules.map((r) => el('tr', { className: r.conflict ? 'is-clash' : '' }, [
+      el('td', {}, el('b', { textContent: r.name })),
+      el('td', {}, el('code', { textContent: describe(r.when) })),
+      el('td', { textContent: effectLabel(r) }),
+    ])),
   );
 
   $('#boss-table tbody').replaceChildren(

@@ -3,7 +3,8 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { composeBuild, toScoreSpace, AXES } from '../../src/engine.js';
+import { toScoreSpace, AXES } from '../../src/engine.js';
+import { composeDraft } from '../../src/synergy.js';
 import { resolveRating } from '../../src/ratings.js';
 
 export const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
@@ -27,7 +28,7 @@ export function mulberry32(seed) {
  * Those scores don't depend on slope or difficulty, so the solver can sweep
  * both parameters over this matrix without re-simulating anything.
  */
-export function sampleScores(items, bosses, n, seed = 1337, draftSize = 5) {
+export function sampleScores(items, bosses, n, seed = 1337, draftSize = 5, rules = load('data/synergies.json').rules) {
   const rng = mulberry32(seed);
   const ratings = items.map(resolveRating);
   const scores = new Float64Array(n * bosses.length);
@@ -37,7 +38,10 @@ export function sampleScores(items, bosses, n, seed = 1337, draftSize = 5) {
     const picked = new Set();
     while (picked.size < draftSize) picked.add(Math.floor(rng() * items.length));
     const idx = [...picked];
-    const s = toScoreSpace(composeBuild(idx.map((j) => ratings[j])));
+    // Synergies are part of what a draft is worth, so the difficulty has to be
+    // solved against builds that include them.
+    const { build } = composeDraft(idx.map((j) => items[j]), idx.map((j) => ratings[j]), rules);
+    const s = toScoreSpace(build);
 
     for (let b = 0; b < bosses.length; b++) {
       let acc = 0;

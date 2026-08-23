@@ -217,6 +217,31 @@ select.input { text-transform: uppercase; }
   .candidate-body { grid-column: 2; }
 }
 
+/* Synergy ---------------------------------------------------------------- */
+.candidate-syn { display: flex; flex-wrap: wrap; gap: .25rem; margin-top: .15rem; }
+.syn-tag {
+  font: 9.5px var(--pixel); text-transform: uppercase;
+  color: #10321d; background: var(--good);
+  border: 2px solid var(--ink); padding: .1rem .3rem; white-space: nowrap;
+}
+.syn-tag.is-clash { color: #3a0f0d; background: var(--bad); }
+
+.synergies { display: grid; gap: .4rem; }
+.synergy {
+  display: grid; grid-template-columns: 1fr auto; gap: .1rem .7rem;
+  background: var(--parch-dim); border: 3px solid var(--ink);
+  border-left-width: 8px; border-left-color: var(--good);
+  padding: .55rem .7rem;
+}
+.synergy.is-clash { border-left-color: var(--bad); }
+.synergy-name { font: 11.5px var(--pixel); text-transform: uppercase; }
+.synergy-effect { font: 10px var(--pixel); color: var(--ink-soft); white-space: nowrap; text-align: right; }
+.synergy-note { grid-column: 1 / -1; font-family: var(--sans); font-size: 12.5px; line-height: 1.45; color: var(--ink-soft); }
+@media (max-width: 480px) {
+  .synergy { grid-template-columns: 1fr; }
+  .synergy-effect { text-align: left; }
+}
+
 /* The build so far ------------------------------------------------------- */
 .build-strip { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: .5rem; }
 .build-cell {

@@ -77,6 +77,40 @@ export function parsePools(poolsXml) {
 const TYPES = { passive: 'passive', active: 'active', familiar: 'familiar' };
 
 /**
+ * items.xml `cache` says which stats an item moves. That is the only mechanical
+ * signal available for items nobody has hand-rated, and without it the imported
+ * tail carries only categorical tags (offensive, summonable, mom) which share
+ * no vocabulary with the synergy rules — so no rule could ever fire on them.
+ */
+const CACHE_TAGS = {
+  damage: 'damage_up',
+  firedelay: 'tears_up',
+  speed: 'speed_up',
+  range: 'range_up',
+  luck: 'luck_up',
+  shotspeed: 'shot_speed',
+  flying: 'flight',
+};
+
+/** A handful of XML tags that describe a mechanic rather than a family. */
+const XML_TAG_ALIASES = {
+  tearsup: 'tears_up',
+  fly: 'familiar',
+  syringe: 'damage_up',
+};
+
+function mechanicalTags(cache, xmlTags, type, hearts) {
+  const out = new Set();
+  for (const c of cache) if (CACHE_TAGS[c]) out.add(CACHE_TAGS[c]);
+  for (const t of xmlTags) if (XML_TAG_ALIASES[t]) out.add(XML_TAG_ALIASES[t]);
+  if (type === 'familiar') out.add('familiar');
+  if (type === 'active') out.add('active');
+  if (hearts.red > 0) out.add('health_up');
+  if (hearts.soul > 0 || hearts.black > 0) out.add('soul_hearts');
+  return [...out];
+}
+
+/**
  * numeric item id -> { quality, tags }
  *
  * Quality is not in items.xml. It lives in items_metadata.xml, keyed by the
@@ -117,10 +151,16 @@ export function parseItems(itemsXml, poolsById, metaById = new Map()) {
         quality: num(e.attrs.quality) ?? meta?.quality ?? null,
         pools: poolsById.get(xmlId) ?? [],
         type: TYPES[e.tag] ?? e.tag,
-        tags: [...new Set([
-          ...(e.attrs.tags ?? '').split(/\s+/).filter(Boolean),
-          ...(meta?.tags ?? []),
-        ])],
+        tags: (() => {
+          const xmlTags = [...new Set([
+            ...(e.attrs.tags ?? '').split(/\s+/).filter(Boolean),
+            ...(meta?.tags ?? []),
+          ])];
+          const cache = (e.attrs.cache ?? '').split(/\s+/).filter(Boolean);
+          const type = TYPES[e.tag] ?? e.tag;
+          const hearts = { red: halves('maxhearts'), soul: halves('soulhearts'), black: halves('blackhearts') };
+          return [...new Set([...xmlTags, ...mechanicalTags(cache, xmlTags, type, hearts)])];
+        })(),
         stats: {
           // Actually present in the XML, in half-hearts.
           red_containers: halves('maxhearts'),

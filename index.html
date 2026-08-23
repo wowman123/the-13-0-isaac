@@ -120,6 +120,12 @@
       </section>
 
       <section class="panel">
+        <h2>What these five did to each other</h2>
+        <p class="panel-note">Items are not independent. These fired because of the set you ended up with, not because of any one pick.</p>
+        <div id="synergies" class="synergies"></div>
+      </section>
+
+      <section class="panel">
         <h2>What you passed on</h2>
         <p class="panel-note">The strongest item you declined each round, and what taking it would have been worth.</p>
         <div id="passed" class="swaps"></div>
@@ -207,6 +213,18 @@
         <li><b>tracking</b> — <code>max()</code> of the five. Homing does not stack; you either have it or you do not.</li>
         <li><b>evasion</b> — diminishing: <code>1 − Π(1 − eᵢ)</code>.</li>
       </ul>
+
+      <h2>How items interact</h2>
+      <p>The rules above treat five items as five independent multipliers, which is not how a build works. Homing turns a laser from a charge you waste on a blinking boss into the thing that kills it. A familiar booster is dead weight until there is a familiar to boost. Two items that both want to replace your tears mostly cancel, because one simply overwrites the other.</p>
+      <p>So a second pass runs over the finished set. Each rule states a condition over the whole build &mdash; these tags present, this tag on three separate items, this tag <em>absent</em> &mdash; and an effect. Multiplicative axes multiply; tracking and evasion state a level rather than a scaling, so a synergy raises them to a floor and a conflict caps them.</p>
+      <p>The composition ceilings are re-applied afterwards. A synergy can push a build up, but not past the soft cap, or the soft cap would stop meaning anything.</p>
+      <div class="table-scroll">
+        <table class="ref-table" id="synergy-table">
+          <thead><tr><th>Rule</th><th>Fires when</th><th>Effect</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p>Because rules read the whole build rather than pairs, the draft stops being &ldquo;take the biggest number&rdquo;. During a run each candidate shows what it would combine with, so a weaker item that fits can beat a stronger one that does not.</p>
 
       <h2>Tag-derived defaults</h2>
       <p>The top items are hand-rated. Everything else inherits from its tags, so nothing ever ships unrated.</p>

@@ -2,6 +2,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { softCap, union, composeBuild, toScoreSpace, bossOdds, NEUTRAL } from '../src/engine.js';
 import { resolveRating, fromTags, fromQuality } from '../src/ratings.js';
+import { matches, applySynergies, tagCensus } from '../src/synergy.js';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+
+const RULES = JSON.parse(
+  readFileSync(join(dirname(fileURLToPath(import.meta.url)), '../data/synergies.json'), 'utf8'),
+).rules;
 
 const close = (a, b, eps = 1e-9) => assert.ok(Math.abs(a - b) < eps, `${a} !== ${b}`);
 const item = (over) => ({ ...NEUTRAL, ...over });
@@ -117,4 +125,79 @@ test('a boss ignores axes it puts no weight on', () => {
   const a = bossOdds(composeBuild([item({ offense: 1.5, defense: 1.0 })]), boss, cfg);
   const b = bossOdds(composeBuild([item({ offense: 1.5, defense: 2.5 })]), boss, cfg);
   close(a, b);
+});
+
+// ---------------------------------------------------------------- synergy
+test('a rule fires only when its whole predicate is satisfied', () => {
+  const rule = { id: 'R', when: { tags: ['homing', 'laser'] }, effect: { offense: 1.2 } };
+  assert.equal(matches(rule, [{ id: 'a', tags: ['homing'] }]), false);
+  assert.equal(matches(rule, [{ id: 'a', tags: ['homing'] }, { id: 'b', tags: ['laser'] }]), true);
+  // Both tags on one item still counts — the rule is about the build.
+  assert.equal(matches(rule, [{ id: 'a', tags: ['homing', 'laser'] }]), true);
+});
+
+test('tagCount needs that many distinct items carrying the tag', () => {
+  const rule = { id: 'R', when: { tagCount: { familiar: 3 } }, effect: { offense: 1.1 } };
+  const two = [{ id: 'a', tags: ['familiar'] }, { id: 'b', tags: ['familiar'] }];
+  assert.equal(matches(rule, two), false);
+  assert.equal(matches(rule, [...two, { id: 'c', tags: ['familiar'] }]), true);
+  // One item listing the tag twice is still one item.
+  assert.equal(matches(rule, [{ id: 'a', tags: ['familiar', 'familiar', 'familiar'] }]), false);
+});
+
+test('withoutTags blocks a rule when the tag is present', () => {
+  const rule = { id: 'R', when: { tags: ['explosive'], withoutTags: ['shield'] }, effect: { defense: 0.9 } };
+  assert.equal(matches(rule, [{ id: 'a', tags: ['explosive'] }]), true);
+  assert.equal(matches(rule, [{ id: 'a', tags: ['explosive'] }, { id: 'b', tags: ['shield'] }]), false);
+});
+
+test('a rule with no predicate never fires', () => {
+  assert.equal(matches({ id: 'R', when: {}, effect: { offense: 9 } }, [{ id: 'a', tags: ['x'] }]), false);
+  assert.equal(matches({ id: 'R', effect: { offense: 9 } }, [{ id: 'a', tags: ['x'] }]), false);
+});
+
+test('synergies multiply the multiplicative axes', () => {
+  const build = { offense: 1, aoe: 1, tracking: 0, defense: 1, evasion: 0 };
+  const out = applySynergies(build, [{ effect: { offense: 1.2 } }, { effect: { offense: 1.5 } }]);
+  close(out.offense, 1.8);
+});
+
+test('a synergy raises a bounded axis, a conflict lowers it', () => {
+  const build = { offense: 1, aoe: 1, tracking: 0.4, defense: 1, evasion: 0 };
+  // A floor below the current value must not drag it down.
+  close(applySynergies(build, [{ effect: { tracking: 0.2 } }]).tracking, 0.4);
+  close(applySynergies(build, [{ effect: { tracking: 0.9 } }]).tracking, 0.9);
+  // A conflict caps instead, which is the only way a penalty of 0 can bite.
+  close(applySynergies(build, [{ conflict: true, effect: { tracking: 0 } }]).tracking, 0);
+});
+
+test('synergies cannot push a build past the composition ceilings', () => {
+  const build = { offense: 3.4, aoe: 1, tracking: 0, defense: 3.9, evasion: 0 };
+  const out = applySynergies(build, [{ effect: { offense: 2, defense: 2, evasion: 5 } }]);
+  assert.ok(out.offense < 3.4 * 2, 'offense must still be soft-capped');
+  close(out.defense, 4.0);
+  close(out.evasion, 1);
+});
+
+test('the shipped rules all have a predicate and an effect', () => {
+  for (const rule of RULES) {
+    assert.ok(rule.id && rule.name && rule.note, `${rule.id}: missing metadata`);
+    assert.ok(Object.keys(rule.effect ?? {}).length, `${rule.id}: no effect`);
+    assert.ok(
+      matches(rule, [{ id: 'x', tags: [] }]) === false || rule.when?.withoutTags,
+      `${rule.id}: fires on an empty build`,
+    );
+  }
+});
+
+test('the auto fallback uses quality and tags together, not one or the other', () => {
+  // flight is in the tag table but says nothing about how strong an item is.
+  // Taking tags alone would rate a Q4 flight item as neutral on offense.
+  const q4 = resolveRating({ tags: ['flight'], scraped: { quality: 4 } });
+  const q0 = resolveRating({ tags: ['flight'], scraped: { quality: 0 } });
+  assert.equal(q4.source, 'auto:quality+tags');
+  close(q4.evasion, 0.35);
+  close(q0.evasion, 0.35);
+  assert.ok(q4.offense > q0.offense, 'quality must still separate them');
+  close(q4.offense, 1.6);
 });

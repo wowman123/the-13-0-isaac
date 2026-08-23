@@ -93,11 +93,23 @@ export function resolveRating(item) {
     return { ...clampVector({ ...NEUTRAL, ...item.rated }), source: 'hand' };
   }
 
+  // Quality and tags answer different questions — roughly how good is it, and
+  // what does it do — so an item with both should use both. Taking tags alone
+  // would throw away the quality of, say, a Q4 flight item and rate it neutral.
   const tagged = fromTags(item.tags);
-  if (tagged) return { ...tagged, source: 'auto:tags' };
+  const byQuality = fromQuality(item.scraped?.quality);
 
-  const quality = item.scraped?.quality;
-  const byQuality = fromQuality(quality);
+  if (tagged && byQuality) {
+    return {
+      ...clampVector({
+        ...tagged,
+        // The quality curve sets the baseline; tag effects scale it.
+        offense: tagged.offense * byQuality.offense,
+      }),
+      source: 'auto:quality+tags',
+    };
+  }
+  if (tagged) return { ...tagged, source: 'auto:tags' };
   if (byQuality) return { ...byQuality, source: 'auto:quality' };
 
   // No rating, no usable tag, and no scraped quality to fall back on.

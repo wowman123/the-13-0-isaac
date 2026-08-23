@@ -1,0 +1,464 @@
+{
+  "note": "Rules are matched against the whole build, not against pairs in isolation. Multiplicative axes (offense, aoe, defense) multiply; tracking and evasion take the higher of the current value and the rule's floor, since both are bounded 0-1.",
+  "rules": [
+    {
+      "id": "HOMING_LASER",
+      "name": "Homing lasers",
+      "when": {
+        "tags": [
+          "homing",
+          "laser"
+        ]
+      },
+      "effect": {
+        "offense": 1.18,
+        "tracking": 0.95
+      },
+      "note": "A laser that tracks. The charge stops being wasted on a boss that blinks away mid-shot."
+    },
+    {
+      "id": "HOMING_EXPLOSIVE",
+      "name": "Homing explosives",
+      "when": {
+        "tags": [
+          "homing",
+          "explosive"
+        ]
+      },
+      "effect": {
+        "aoe": 1.25,
+        "tracking": 0.9,
+        "defense": 1.1
+      },
+      "note": "Blasts that steer themselves land on the target instead of at your feet."
+    },
+    {
+      "id": "PIERCING_MULTISHOT",
+      "name": "Piercing volley",
+      "when": {
+        "tags": [
+          "piercing",
+          "multishot"
+        ]
+      },
+      "effect": {
+        "aoe": 1.3,
+        "offense": 1.08
+      },
+      "note": "Several shots that each pass through a whole line of enemies."
+    },
+    {
+      "id": "SPECTRAL_PIERCING",
+      "name": "Nothing stops it",
+      "when": {
+        "tags": [
+          "spectral",
+          "piercing"
+        ]
+      },
+      "effect": {
+        "aoe": 1.15,
+        "offense": 1.08
+      },
+      "note": "Shots ignore both rocks and bodies, so no angle is a bad angle."
+    },
+    {
+      "id": "EXPLOSIVE_MULTISHOT",
+      "name": "Carpet bombing",
+      "when": {
+        "tags": [
+          "explosive",
+          "multishot"
+        ]
+      },
+      "effect": {
+        "aoe": 1.35,
+        "defense": 0.85
+      },
+      "note": "Far more explosions, a good number of them uncomfortably close to you."
+    },
+    {
+      "id": "FAMILIAR_BOOST",
+      "name": "Familiar swarm",
+      "when": {
+        "tags": [
+          "familiar",
+          "familiar_boost"
+        ]
+      },
+      "effect": {
+        "offense": 1.22,
+        "aoe": 1.18,
+        "tracking": 0.75
+      },
+      "note": "A booster is dead weight alone and transformative next to a familiar."
+    },
+    {
+      "id": "FAMILIAR_STACK",
+      "name": "Entourage",
+      "when": {
+        "tagCount": {
+          "familiar": 3
+        }
+      },
+      "effect": {
+        "offense": 1.15,
+        "aoe": 1.15,
+        "defense": 1.1
+      },
+      "note": "Three familiars aim themselves while you concentrate on dodging."
+    },
+    {
+      "id": "CHARGE_ACTIVE",
+      "name": "Fast recharge",
+      "when": {
+        "tags": [
+          "charge",
+          "active"
+        ]
+      },
+      "effect": {
+        "offense": 1.12,
+        "aoe": 1.12
+      },
+      "note": "An active you can fire most rooms instead of most floors."
+    },
+    {
+      "id": "DOT_PIERCING",
+      "name": "Poison line",
+      "when": {
+        "tags": [
+          "dot",
+          "piercing"
+        ]
+      },
+      "effect": {
+        "aoe": 1.2
+      },
+      "note": "One shot poisons everything it passes through."
+    },
+    {
+      "id": "ORBITAL_STACK",
+      "name": "Orbital ring",
+      "when": {
+        "tagCount": {
+          "orbital": 2
+        }
+      },
+      "effect": {
+        "defense": 1.25,
+        "aoe": 1.15,
+        "tracking": 0.7
+      },
+      "note": "Enough orbitals to form a shell that blocks shots and grinds anything that touches you."
+    },
+    {
+      "id": "AURA_ORBITAL",
+      "name": "Kill zone",
+      "when": {
+        "tags": [
+          "aura",
+          "orbital"
+        ]
+      },
+      "effect": {
+        "aoe": 1.2,
+        "defense": 1.1
+      },
+      "note": "Standing next to you becomes the mistake."
+    },
+    {
+      "id": "TANK",
+      "name": "Unkillable",
+      "when": {
+        "tags": [
+          "damage_reduction",
+          "extra_life"
+        ]
+      },
+      "effect": {
+        "defense": 1.3
+      },
+      "note": "Hits cost less and running out of health costs nothing the first time."
+    },
+    {
+      "id": "SHIELD_HEAL",
+      "name": "Sustain",
+      "when": {
+        "tags": [
+          "shield",
+          "heal"
+        ]
+      },
+      "effect": {
+        "defense": 1.22
+      },
+      "note": "A free hit each room, and the health to absorb the ones that get through."
+    },
+    {
+      "id": "FLIGHT_SPEED",
+      "name": "Untouchable",
+      "when": {
+        "tags": [
+          "flight",
+          "speed_up"
+        ]
+      },
+      "effect": {
+        "evasion": 0.72,
+        "defense": 1.1
+      },
+      "note": "Flight ignores the floor and speed outruns what is on it."
+    },
+    {
+      "id": "GLASS_CANNON",
+      "name": "Glass cannon",
+      "when": {
+        "tagCount": {
+          "damage_up": 3
+        }
+      },
+      "effect": {
+        "offense": 1.12,
+        "defense": 0.92
+      },
+      "note": "Everything dies fast, including you. Three damage items and nothing that keeps you alive."
+    },
+    {
+      "id": "TEARS_AND_DAMAGE",
+      "name": "Rate and weight",
+      "when": {
+        "tags": [
+          "tears_up",
+          "damage_up"
+        ]
+      },
+      "effect": {
+        "offense": 1.15
+      },
+      "note": "Fire rate multiplies damage rather than adding to it, so the two compound."
+    },
+    {
+      "id": "SLOW_AND_AOE",
+      "name": "Crowd control",
+      "when": {
+        "tags": [
+          "slowing",
+          "piercing"
+        ]
+      },
+      "effect": {
+        "aoe": 1.18,
+        "defense": 1.08
+      },
+      "note": "Slowed enemies bunch up, and a piercing shot goes through the whole queue."
+    },
+    {
+      "id": "TEAR_REPLACEMENT_CLASH",
+      "name": "Overwritten",
+      "when": {
+        "tagCount": {
+          "replaces_tears": 2
+        }
+      },
+      "effect": {
+        "offense": 0.72,
+        "aoe": 0.8
+      },
+      "conflict": true,
+      "note": "Two items both want to replace your tears. One wins outright and the other is mostly wasted."
+    },
+    {
+      "id": "CHARGE_CLASH",
+      "name": "Charging on charging",
+      "when": {
+        "tagCount": {
+          "charged": 2
+        }
+      },
+      "effect": {
+        "offense": 0.88,
+        "tracking": 0.0
+      },
+      "conflict": true,
+      "note": "Two charge mechanics fighting each other. Uptime suffers and nothing fires when you need it."
+    },
+    {
+      "id": "EXPLOSIVE_NO_IMMUNITY",
+      "name": "Own worst enemy",
+      "when": {
+        "tags": [
+          "explosive"
+        ],
+        "withoutTags": [
+          "damage_reduction",
+          "extra_life",
+          "shield"
+        ]
+      },
+      "effect": {
+        "defense": 0.88
+      },
+      "conflict": true,
+      "note": "Explosions with nothing to cushion the ones that catch you."
+    },
+    {
+      "id": "MELEE_NO_MOBILITY",
+      "name": "Stuck in range",
+      "when": {
+        "tags": [
+          "melee"
+        ],
+        "withoutTags": [
+          "flight",
+          "speed_up"
+        ]
+      },
+      "effect": {
+        "defense": 0.9,
+        "offense": 0.95
+      },
+      "conflict": true,
+      "note": "A melee build that cannot reposition spends the fight taking hits to give them."
+    },
+    {
+      "id": "ALL_ROUNDER",
+      "name": "No weak axis",
+      "when": {
+        "tags": [
+          "damage_up",
+          "health_up",
+          "flight"
+        ]
+      },
+      "effect": {
+        "offense": 1.06,
+        "defense": 1.08,
+        "evasion": 0.5
+      },
+      "note": "Damage, bulk and mobility together. Nothing spectacular, nothing to exploit either."
+    },
+    {
+      "id": "ACTIVE_SLOT_CLASH",
+      "name": "One slot",
+      "when": {
+        "tagCount": {
+          "active": 2
+        }
+      },
+      "effect": {
+        "offense": 0.9,
+        "aoe": 0.9
+      },
+      "conflict": true,
+      "note": "You hold one active item. A second means picking which to carry and leaving the other on the floor."
+    },
+    {
+      "id": "TEARS_STACK",
+      "name": "Machine gun",
+      "when": {
+        "tagCount": {
+          "tears_up": 3
+        }
+      },
+      "effect": {
+        "offense": 1.14,
+        "aoe": 1.08
+      },
+      "note": "Enough fire-rate stacking that individual shots stop mattering and uptime does."
+    },
+    {
+      "id": "BULK",
+      "name": "Bulk",
+      "when": {
+        "tagCount": {
+          "health_up": 3
+        }
+      },
+      "effect": {
+        "defense": 1.25
+      },
+      "note": "Containers stack cleanly. Nothing clever about it, but the Beast has to chew through all of them."
+    },
+    {
+      "id": "SPEED_STACK",
+      "name": "Quick",
+      "when": {
+        "tagCount": {
+          "speed_up": 2
+        }
+      },
+      "effect": {
+        "evasion": 0.45,
+        "defense": 1.06
+      },
+      "note": "Enough movement speed that most patterns become walkable rather than dodgeable."
+    },
+    {
+      "id": "FAMILIAR_ACTIVE",
+      "name": "Hands free",
+      "when": {
+        "tags": [
+          "familiar",
+          "active"
+        ]
+      },
+      "effect": {
+        "offense": 1.08,
+        "aoe": 1.06
+      },
+      "note": "A familiar keeps damaging things during the pause where you are using something else."
+    },
+    {
+      "id": "DAMAGE_AND_BULK",
+      "name": "Bruiser",
+      "when": {
+        "tags": [
+          "damage_up",
+          "health_up"
+        ]
+      },
+      "effect": {
+        "offense": 1.05,
+        "defense": 1.1
+      },
+      "note": "Hits hard enough to shorten fights and thick enough to survive the ones that run long."
+    },
+    {
+      "id": "SOUL_AND_REDUCTION",
+      "name": "Padded",
+      "when": {
+        "tags": [
+          "soul_hearts",
+          "damage_reduction"
+        ]
+      },
+      "effect": {
+        "defense": 1.18
+      },
+      "note": "Soul hearts absorb what damage reduction has already shrunk."
+    },
+    {
+      "id": "GLASS_CANNON_HARD",
+      "name": "Nothing but damage",
+      "when": {
+        "tagCount": {
+          "damage_up": 2
+        },
+        "withoutTags": [
+          "health_up",
+          "damage_reduction",
+          "shield",
+          "extra_life",
+          "soul_hearts"
+        ]
+      },
+      "effect": {
+        "offense": 1.1,
+        "defense": 0.85
+      },
+      "conflict": true,
+      "note": "Two damage items and not one thing that keeps you upright. Fights end fast, one way or the other."
+    }
+  ]
+}
