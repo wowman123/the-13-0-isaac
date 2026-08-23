@@ -47,10 +47,24 @@ the OFL requires. It is redistributed here, not relicensed.
 
 ## Game data — `data/scraped.json`
 
-Not committed, and deliberately so. It is derived from `items.xml` and
-`itempools.xml` inside a *Binding of Isaac* installation, which belongs to the
-game's authors. `tools/scrape.mjs` generates it locally from a copy you already
-own. Nothing scraped from the game files is redistributed by this repository.
+Not covered by this project's license.
+
+**This file is committed, and earlier versions of this notice said it never
+would be.** That changed because the draft rolls Pool x Quality: without pool
+membership and quality the game cannot offer anything, so a checkout that
+lacks this file does not merely lose a feature, it fails to build a playable
+site at all.
+
+What ships is derived reference data, one record per collectible: its id, name,
+quality, which pools it appears in, its type, its tags, and its heart values.
+That is the same class of factual information any Isaac wiki publishes in a
+table. The game's own resource files are **not** redistributed here — no
+`items.xml`, no `itempools.xml`, no `items_metadata.xml`. `tools/scrape.mjs`
+regenerates the derived file from those sources if you point it at a copy.
+
+The underlying facts belong to the game's authors. If you represent a rights
+holder and would prefer this not be distributed here, open an issue and it
+will be removed.
 
 ## What is actually ours to give away
 

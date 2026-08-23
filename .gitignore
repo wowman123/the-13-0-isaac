@@ -1,6 +1,5 @@
 node_modules/
 .DS_Store
-data/scraped.json
 
 # sprite pack is not redistributed here; only the derived per-item PNGs are
 sprites-src/

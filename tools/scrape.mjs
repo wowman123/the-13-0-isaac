@@ -53,9 +53,17 @@ if (!existsSync(metaPath)) {
   console.warn(`scrape: no items_metadata.xml beside items.xml — quality will be null`);
 }
 
+// Record where this came from, not the absolute path it happened to be read
+// from — that is machine-specific noise in a committed file.
+const provenance = resources.split(/[\\/]/).filter(Boolean).slice(-3).join('/');
+
 writeFileSync(
   join(root, 'data/scraped.json'),
-  `${JSON.stringify({ source: resources, scrapedAt: new Date().toISOString(), items: scraped }, null, 2)}\n`,
+  `${JSON.stringify({
+    source: `Binding of Isaac resource files (${provenance})`,
+    scrapedAt: new Date().toISOString().slice(0, 10),
+    items: scraped,
+  }, null, 2)}\n`,
 );
 
 const withQuality = scraped.filter((s) => s.quality != null).length;

@@ -25,11 +25,14 @@ layer is absent every record carries `scraped: null` and the UI says
 part that cannot be scraped and is where the game's feel lives. It lives in
 `data/ratings.psv`, one line per item, designed to be argued with in a diff.
 
-### This repository ships the hand layer only
+### Both layers ship
 
-`data/items.json` currently has `scraped: null` on all 181 records. The game
-files are not redistributable and were not available when the ratings were
-written, so nothing was guessed to fill the gap. To populate it:
+`data/scraped.json` is committed, because the draft rolls Pool x Quality and
+neither exists without it — a checkout lacking it cannot build a playable site.
+It holds derived reference data only (id, quality, pools, type, tags); the
+game's own XML is not redistributed here. See `NOTICE.md`.
+
+To regenerate it from a copy of the resource files:
 
 ```
 node tools/scrape.mjs "/path/to/The Binding of Isaac Rebirth/resources"
