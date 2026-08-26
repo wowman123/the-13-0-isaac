@@ -40,6 +40,17 @@ export function slug(name) {
  */
 const SMALL_WORDS = new Set(['of', 'the', 'and', 'a', 'an', 'in', 'on', 'to', 'for', 'from', 'with']);
 
+/**
+ * Lowercase the small words inside an already-readable title, leaving the rest
+ * of it — punctuation and capitalisation both — exactly as given.
+ */
+export function recase(title) {
+  const words = title.split(' ');
+  return words
+    .map((w, i) => (i > 0 && i < words.length - 1 && SMALL_WORDS.has(w.toLowerCase()) ? w.toLowerCase() : w))
+    .join(' ');
+}
+
 export function humanise(name) {
   const key = /^#(.+?)_NAME$/.exec(name.trim());
   if (!key) return name;

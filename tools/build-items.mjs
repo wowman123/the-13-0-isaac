@@ -13,7 +13,7 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { AXIS_RANGE } from '../src/ratings.js';
-import { humanise } from '../src/scrape-parse.js';
+import { humanise, recase } from '../src/scrape-parse.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const AXES = ['offense', 'aoe', 'tracking', 'defense', 'evasion'];
@@ -72,6 +72,14 @@ const scrapedPath = join(root, 'data/scraped.json');
 // A few display names cannot be recovered from the localisation key — an
 // apostrophe or a decimal point is simply not in it. Keyed by the raw key so a
 // re-scrape keeps working.
+// RebirthItemTracker's display names carry the punctuation a localisation key
+// cannot hold, for nearly the whole pool at once. The hand list below then has
+// the final say, for the few it does not cover.
+const statsPath = join(root, 'data/item-stats.json');
+const trackerNames = existsSync(statsPath)
+  ? (JSON.parse(readFileSync(statsPath, 'utf8')).names ?? {})
+  : {};
+
 const namesPath = join(root, 'data/name-overrides.json');
 const nameOverrides = existsSync(namesPath)
   ? Object.fromEntries(Object.entries(JSON.parse(readFileSync(namesPath, 'utf8')))
@@ -87,6 +95,9 @@ if (existsSync(scrapedPath)) {
     // scrape happened to write. The key is the source of truth, so improving
     // humanise() reaches the committed data without needing a re-scrape.
     if (s.xmlName) s.name = humanise(s.xmlName);
+    // The tracker is authoritative on punctuation, not on title case: it
+    // writes "Contract From Below" where the game writes "from".
+    if (trackerNames[s.id]) s.name = recase(trackerNames[s.id]);
     const better = nameOverrides[s.xmlName];
     if (better) { s.name = better; unusedNames.delete(s.xmlName); }
   }
@@ -95,7 +106,7 @@ if (existsSync(scrapedPath)) {
   for (const item of items) {
     const s = byId.get(item.id);
     if (!s) continue;
-    if (nameOverrides[s.xmlName]) item.name = s.name;
+    if (nameOverrides[s.xmlName] || trackerNames[s.id]) item.name = s.name;
     item.scraped = { quality: s.quality, pools: s.pools, type: s.type, stats: s.stats };
     merged++;
     byId.delete(item.id);

@@ -66,8 +66,57 @@ The underlying facts belong to the game's authors. If you represent a rights
 holder and would prefer this not be distributed here, open an issue and it
 will be removed.
 
+## Item stats and display names — `data/item-stats.json`
+
+Derived from [RebirthItemTracker](https://github.com/Rchardon/RebirthItemTracker),
+which is BSD-2-Clause. That licence permits redistribution provided its notice
+travels along, so here it is in full:
+
+> Copyright (c) 2015-2026, Brett824, Hyphen-ated and Gamonymous
+> All rights reserved.
+>
+> Redistribution and use in source and binary forms, with or without
+> modification, are permitted provided that the following conditions are met:
+>
+> 1. Redistributions of source code must retain the above copyright notice,
+>    this list of conditions and the following disclaimer.
+>
+> 2. Redistributions in binary form must reproduce the above copyright notice,
+>    this list of conditions and the following disclaimer in the documentation
+>    and/or other materials provided with the distribution.
+>
+> THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+> AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+> IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+> ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+> LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+> CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+> SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+> INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+> CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+> ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+> POSSIBILITY OF SUCH DAMAGE.
+
+Only two things are taken: the numeric stat deltas an item applies, and its
+display name. `tools/scrape-stats.mjs` regenerates the file.
+
+A note on what was **not** taken. The External Item Descriptions mod carries a
+written description for every item in the game, which would have filled in the
+items whose effects this project cannot describe. EID ships no licence file, so
+its descriptions are not redistributed here and the gap is left visible instead.
+Stat numbers are facts about the game and are treated the same way pools and
+quality are; a paragraph of prose is somebody's writing.
+
 ## What is actually ours to give away
 
 The five-axis rating model, the composition rules, the calibration solver, the
-boss weight vectors, and the 181 hand-assigned rating vectors. Those are MIT,
-and arguing with them is the point — see `CONTRIBUTING.md`.
+boss weight vectors, the 181 hand-assigned rating vectors, the synergy and
+transformation rules, and the mapping from real stats onto the axes that
+Advanced mode runs on. Those are MIT, and arguing with them is the point — see
+`CONTRIBUTING.md`.
+
+The stat *formulas* Advanced mode uses are the game's own and are facts, not
+ours: `damage = base x sqrt(ups x 1.2 + 1)` and
+`tearDelay = 16 - 6 x sqrt(1.3 x tears + 1)`. What is ours is the decision to
+turn DPS into an offense axis on a log scale, and that is a model, marked as
+one in `src/stats.js`.

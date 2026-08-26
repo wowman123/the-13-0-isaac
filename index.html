@@ -64,6 +64,20 @@
       </div>
     </div>
 
+    <!-- Casual rates items on five assigned axes; Advanced runs the game's own
+         stat curves over the numbers the game publishes. -->
+    <div class="mode-bar">
+      <div class="mode-switch" role="group" aria-label="Mode">
+        <button class="mode-btn" id="mode-casual" data-mode="casual" aria-pressed="true">Casual</button>
+        <button class="mode-btn" id="mode-advanced" data-mode="advanced" aria-pressed="false">Advanced</button>
+      </div>
+      <label class="mode-char" id="mode-char-wrap" hidden>
+        <span>Character</span>
+        <select id="mode-char"></select>
+      </label>
+      <p class="mode-note" id="mode-note"></p>
+    </div>
+
     <!-- The roll. Two axes, respun independently. -->
     <section class="panel roll" id="roll-panel">
       <div class="roll-slots">
@@ -94,6 +108,13 @@
       <h2>Transformations in progress</h2>
       <p class="panel-note">Three items from one family transform Isaac. Two is not a transformation, but it is a reason to take the third &mdash; and once you are holding two, the run starts hunting the third for you.</p>
       <div id="progress" class="progress"></div>
+    </section>
+
+    <!-- Advanced only: the real stat line, computed with the game's formulas. -->
+    <section class="panel" id="stats-panel" hidden>
+      <h2>Your stats</h2>
+      <p class="panel-note" id="stats-note"></p>
+      <div id="stat-line" class="stat-line"></div>
     </section>
 
     <section class="panel" id="build-panel">
@@ -238,6 +259,25 @@
         </table>
       </div>
       <p>Because rules read the whole build rather than pairs, the draft stops being &ldquo;take the biggest number&rdquo;. During a run each candidate shows what it would combine with, so a weaker item that fits can beat a stronger one that does not.</p>
+
+      <h2>Casual and Advanced</h2>
+      <p>Everything above describes <strong>Casual</strong>: an item is worth what its five axes say, and those axes were assigned &mdash; by hand for 181 items, and from tags and quality for the rest. It is a model of the game, and its numbers are arguments rather than facts.</p>
+      <p><strong>Advanced</strong> stops arguing and runs the game&rsquo;s own arithmetic. An item contributes the stat deltas the game actually publishes, and those are folded by the formulas the game itself uses:</p>
+      <div class="table-scroll">
+        <table class="ref-table">
+          <thead><tr><th>Quantity</th><th>Formula</th></tr></thead>
+          <tbody>
+            <tr><td>Damage</td><td><code>base &times; &radic;(ups &times; 1.2 + 1)</code></td></tr>
+            <tr><td>Tear delay</td><td><code>16 &minus; 6&radic;(1.3 &times; tears + 1)</code>, floored, never below 5</td></tr>
+            <tr><td>Fire rate</td><td><code>30 / (delay + 1)</code> &mdash; the game runs at 30 frames a second</td></tr>
+            <tr><td>DPS</td><td><code>damage &times; fire rate</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Both square roots are the real reason a tenth damage up is worth a fraction of the first, and they are why the soft cap in the Casual model exists at all &mdash; it was an approximation of something concrete. The check that these are the game&rsquo;s formulas and not merely plausible ones: Isaac holding nothing comes out at 3.5 damage, 10 frames between tears and 2.73 tears a second, which is what his character sheet says.</p>
+      <p>Advanced also lets you pick a character, and measures every one of them against Isaac rather than against themselves &mdash; otherwise Judas&rsquo; damage multiplier would cancel itself out and the choice would be worth nothing.</p>
+      <p>Two honest limits. Advanced offers a smaller pool, because an item with no published stat delta and no mechanic is a pick worth literally nothing, and offering it would be worse than leaving it out. And <em>aoe</em> and <em>tracking</em> still come from the tag table in both modes: piercing and homing are behaviour rather than numbers, and the game states no value for them. Stats where the game gives stats, a model where it gives behaviour.</p>
+      <p>The two modes end in the same place &mdash; five axes, thirteen fights &mdash; so they share the boss model. They do not share its two solved parameters: a different distribution of drafts needs its own difficulty, or one of the modes sits off target.</p>
 
       <h2>Transformations, and what they are worth</h2>
       <p>Three items from one family transform Isaac. The families come from the game&rsquo;s own item metadata rather than a list typed here, which means two real transformations &mdash; Bob and Leviathan &mdash; can never complete: the data carries one <em>bob</em> item and two <em>devil</em> items.</p>

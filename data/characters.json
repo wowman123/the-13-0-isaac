@@ -1,0 +1,35 @@
+{
+  "note": "Starting stats for Advanced mode. Only fields with a sourced number are listed: where a character differs from Isaac in a way no source stated numerically — Judas' short range, Cain's faster default fire — the field is left out rather than guessed at, and the character's note says so. Azazel is deliberately absent: his Brimstone is a continuous beam rather than tears, so damage x fire rate does not describe him and a number here would be wrong rather than merely rough. Values are quoted against Isaac, who is the game's own baseline.",
+  "characters": [
+    {
+      "id": "ISAAC",
+      "name": "Isaac",
+      "stats": {},
+      "note": "The baseline. 3.5 damage, 10 frames between tears, 2.73 tears a second."
+    },
+    {
+      "id": "JUDAS",
+      "name": "Judas",
+      "stats": { "damageMult": 1.35, "health": 1 },
+      "note": "A third more damage for a single heart container. Also shorter range than Isaac, which is not modelled here because no source gave a number for it."
+    },
+    {
+      "id": "CAIN",
+      "name": "Cain",
+      "stats": { "damageMult": 1.2, "speed": 1.3, "health": 2 },
+      "note": "Fast and hits harder, with one fewer heart. He also fires faster than Isaac by default, which is not modelled here for want of a number."
+    },
+    {
+      "id": "SAMSON",
+      "name": "Samson",
+      "stats": { "tears": -0.1, "shotSpeed": 1.31, "speed": 1.1, "health": 3 },
+      "note": "Slightly slower tears than Isaac, but they travel faster and he keeps all three hearts."
+    },
+    {
+      "id": "EVE",
+      "name": "Eve",
+      "stats": { "damageMult": 0.75, "speed": 1.23, "health": 2 },
+      "note": "Starts at three quarters damage. Whore of Babylon lifts her back to 1.00 at low health, which this does not simulate."
+    }
+  ]
+}

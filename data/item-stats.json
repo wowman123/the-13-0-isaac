@@ -1,0 +1,1307 @@
+{
+  "source": "RebirthItemTracker items_rep.json (BSD-2-Clause) — numeric stat deltas and display names only",
+  "fields": [
+    "dmg",
+    "dmg_x",
+    "tears",
+    "tears_x",
+    "range",
+    "speed",
+    "shot_speed",
+    "luck",
+    "health",
+    "soul_hearts"
+  ],
+  "names": {
+    "COLLECTIBLE_SAD_ONION": "The Sad Onion",
+    "COLLECTIBLE_THE_INNER_EYE": "The Inner Eye",
+    "COLLECTIBLE_SPOON_BENDER": "Spoon Bender",
+    "COLLECTIBLE_CRICKETS_HEAD": "Cricket's Head",
+    "COLLECTIBLE_MY_REFLECTION": "My Reflection",
+    "COLLECTIBLE_NUMBER_ONE": "Number One",
+    "COLLECTIBLE_BLOOD_OF_THE_MARTYR": "Blood of the Martyr",
+    "COLLECTIBLE_BROTHER_BOBBY": "Brother Bobby",
+    "COLLECTIBLE_SKATOLE": "Skatole",
+    "COLLECTIBLE_HALO_OF_FLIES": "Halo of Flies",
+    "COLLECTIBLE_ONE_UP": "1UP",
+    "COLLECTIBLE_MAGIC_MUSHROOM": "Magic Mushroom",
+    "COLLECTIBLE_THE_VIRUS": "The Virus",
+    "COLLECTIBLE_ROID_RAGE": "Roid Rage",
+    "COLLECTIBLE_HEART": "<3",
+    "COLLECTIBLE_RAW_LIVER": "Raw Liver",
+    "COLLECTIBLE_SKELETON_KEY": "Skeleton Key",
+    "COLLECTIBLE_A_DOLLAR": "A Dollar",
+    "COLLECTIBLE_BOOM": "Boom!",
+    "COLLECTIBLE_TRANSCENDENCE": "Transcendence",
+    "COLLECTIBLE_THE_COMPASS": "The Compass",
+    "COLLECTIBLE_LUNCH": "Lunch",
+    "COLLECTIBLE_DINNER": "Dinner",
+    "COLLECTIBLE_DESSERT": "Dessert",
+    "COLLECTIBLE_BREAKFAST": "Breakfast",
+    "COLLECTIBLE_ROTTEN_MEAT": "Rotten Meat",
+    "COLLECTIBLE_WOODEN_SPOON": "Wooden Spoon",
+    "COLLECTIBLE_BELT": "The Belt",
+    "COLLECTIBLE_MOMS_UNDERWEAR": "Mom's Underwear",
+    "COLLECTIBLE_MOMS_HEELS": "Mom's Heels",
+    "COLLECTIBLE_MOMS_LIPSTICK": "Mom's Lipstick",
+    "COLLECTIBLE_WIRE_COAT_HANGER": "Wire Coat Hanger",
+    "COLLECTIBLE_THE_BIBLE": "The Bible",
+    "COLLECTIBLE_THE_BOOK_OF_BELIAL": "Book of Belial",
+    "COLLECTIBLE_THE_NECRONOMICON": "The Necronomicon",
+    "COLLECTIBLE_THE_POOP": "The Poop",
+    "COLLECTIBLE_MR_BOOM": "Mr. Boom",
+    "COLLECTIBLE_TAMMYS_HEAD": "Tammy's Head",
+    "COLLECTIBLE_MOMS_BRA": "Mom's Bra",
+    "COLLECTIBLE_KAMIKAZE": "Kamikaze",
+    "COLLECTIBLE_MOMS_PAD": "Mom's Pad",
+    "COLLECTIBLE_BOBS_ROTTEN_HEAD": "Bob's Rotten Head",
+    "COLLECTIBLE_TELEPORT": "Teleport!",
+    "COLLECTIBLE_YUM_HEART": "Yum Heart",
+    "COLLECTIBLE_LUCKY_FOOT": "Lucky Foot",
+    "COLLECTIBLE_DOCTORS_REMOTE": "Doctor's Remote",
+    "COLLECTIBLE_CUPIDS_ARROW": "Cupid's Arrow",
+    "COLLECTIBLE_SHOOP_DA_WHOOP": "Shoop Da Whoop",
+    "COLLECTIBLE_STEVEN": "Steven",
+    "COLLECTIBLE_PENTAGRAM": "Pentagram",
+    "COLLECTIBLE_DR_FETUS": "Dr. Fetus",
+    "COLLECTIBLE_MAGNETO": "Magneto",
+    "COLLECTIBLE_TREASURE_MAP": "Treasure Map",
+    "COLLECTIBLE_MOMS_EYE": "Mom's Eye",
+    "COLLECTIBLE_LEMON_MISHAP": "Lemon Mishap",
+    "COLLECTIBLE_DISTANT_ADMIRATION": "Distant Admiration",
+    "COLLECTIBLE_BOOK_OF_SHADOWS": "Book of Shadows",
+    "COLLECTIBLE_THE_LADDER": "The Ladder",
+    "COLLECTIBLE_CHARM_OF_THE_VAMPIRE": "Charm of the Vampire",
+    "COLLECTIBLE_THE_BATTERY": "The Battery",
+    "COLLECTIBLE_STEAM_SALE": "Steam Sale",
+    "COLLECTIBLE_ANARCHIST_COOKBOOK": "Anarchist Cookbook",
+    "COLLECTIBLE_THE_HOURGLASS": "The Hourglass",
+    "COLLECTIBLE_SISTER_MAGGY": "Sister Maggy",
+    "COLLECTIBLE_TECHNOLOGY": "Technology",
+    "COLLECTIBLE_CHOCOLATE_MILK": "Chocolate Milk",
+    "COLLECTIBLE_GROWTH_HORMONES": "Growth Hormones",
+    "COLLECTIBLE_MINI_MUSH": "Mini Mush",
+    "COLLECTIBLE_ROSARY": "Rosary",
+    "COLLECTIBLE_CUBE_OF_MEAT": "Cube of Meat",
+    "COLLECTIBLE_A_QUARTER": "A Quarter",
+    "COLLECTIBLE_PHD": "PhD",
+    "COLLECTIBLE_XRAY_VISION": "X-Ray Vision",
+    "COLLECTIBLE_MY_LITTLE_UNICORN": "My Little Unicorn",
+    "COLLECTIBLE_BOOK_OF_REVELATIONS": "Book of Revelations",
+    "COLLECTIBLE_THE_MARK": "The Mark",
+    "COLLECTIBLE_THE_PACT": "The Pact",
+    "COLLECTIBLE_DEAD_CAT": "Dead Cat",
+    "COLLECTIBLE_LORD_OF_THE_PIT": "Lord of the Pit",
+    "COLLECTIBLE_THE_NAIL": "The Nail",
+    "COLLECTIBLE_WE_NEED_TO_GO_DEEPER": "We Need To Go Deeper!",
+    "COLLECTIBLE_DECK_OF_CARDS": "Deck of Cards",
+    "COLLECTIBLE_MONSTROS_TOOTH": "Monstro's Tooth",
+    "COLLECTIBLE_LOKIS_HORNS": "Loki's Horns",
+    "COLLECTIBLE_LITTLE_CHUBBY": "Little Chubby",
+    "COLLECTIBLE_SPIDERBITE": "Spider Bite",
+    "COLLECTIBLE_THE_SMALL_ROCK": "The Small Rock",
+    "COLLECTIBLE_SPELUNKER_HAT": "Spelunker Hat",
+    "COLLECTIBLE_SUPER_BANDAGE": "Super Bandage",
+    "COLLECTIBLE_THE_GAMEKID": "The Gamekid",
+    "COLLECTIBLE_SACK_OF_PENNIES": "Sack of Pennies",
+    "COLLECTIBLE_ROBOBABY": "Robo-Baby",
+    "COLLECTIBLE_LITTLE_CHAD": "Little C.H.A.D.",
+    "COLLECTIBLE_THE_BOOK_OF_SIN": "The Book of Sin",
+    "COLLECTIBLE_THE_RELIC": "The Relic",
+    "COLLECTIBLE_LITTLE_GISH": "Little Gish",
+    "COLLECTIBLE_LITTLE_STEVEN": "Little Steven",
+    "COLLECTIBLE_THE_HALO": "The Halo",
+    "COLLECTIBLE_MOMS_BOTTLE_OF_PILLS": "Mom's Bottle of Pills",
+    "COLLECTIBLE_COMMON_COLD": "The Common Cold",
+    "COLLECTIBLE_THE_PARASITE": "The Parasite",
+    "COLLECTIBLE_D6": "The D6",
+    "COLLECTIBLE_MR_MEGA": "Mr. Mega",
+    "COLLECTIBLE_THE_PINKING_SHEARS": "Pinking Shears",
+    "COLLECTIBLE_WAFER": "The Wafer",
+    "COLLECTIBLE_MONEY__POWER": "Money = Power",
+    "COLLECTIBLE_MOMS_CONTACTS": "Mom's Contacts",
+    "COLLECTIBLE_THE_BEAN": "The Bean",
+    "COLLECTIBLE_GUARDIAN_ANGEL": "Guardian Angel",
+    "COLLECTIBLE_DEMON_BABY": "Demon Baby",
+    "COLLECTIBLE_MOMS_KNIFE": "Mom's Knife",
+    "COLLECTIBLE_OUIJA_BOARD": "Ouija Board",
+    "COLLECTIBLE_NINE_VOLT": "9 Volt",
+    "COLLECTIBLE_DEAD_BIRD": "Dead Bird",
+    "COLLECTIBLE_BRIMSTONE": "Brimstone",
+    "COLLECTIBLE_BLOOD_BAG": "Blood Bag",
+    "COLLECTIBLE_ODD_MUSHROOM_THIN": "Odd Mushroom (Thin)",
+    "COLLECTIBLE_ODD_MUSHROOM_LARGE": "Odd Mushroom (Thick)",
+    "COLLECTIBLE_WHORE_OF_BABYLON": "Whore of Babylon",
+    "COLLECTIBLE_MONSTER_MANUAL": "Monster Manual",
+    "COLLECTIBLE_DEAD_SEA_SCROLLS": "Dead Sea Scrolls",
+    "COLLECTIBLE_BOBBYBOMB": "Bobby-Bomb",
+    "COLLECTIBLE_RAZOR_BLADE": "Razor Blade",
+    "COLLECTIBLE_FORGET_ME_NOW": "Forget Me Now",
+    "COLLECTIBLE_FOREVER_ALONE": "Forever Alone",
+    "COLLECTIBLE_BUCKET_OF_LARD": "Bucket of Lard",
+    "COLLECTIBLE_A_PONY": "A Pony",
+    "COLLECTIBLE_BOMB_BAG": "Bomb Bag",
+    "COLLECTIBLE_A_LUMP_OF_COAL": "A Lump of Coal",
+    "COLLECTIBLE_GUPPYS_PAW": "Guppy's Paw",
+    "COLLECTIBLE_GUPPYS_TAIL": "Guppy's Tail",
+    "COLLECTIBLE_IV_BAG": "IV Bag",
+    "COLLECTIBLE_BEST_FRIEND": "Best Friend",
+    "COLLECTIBLE_REMOTE_DETONATOR": "Remote Detonator",
+    "COLLECTIBLE_STIGMATA": "Stigmata",
+    "COLLECTIBLE_MOMS_PURSE": "Mom's Purse",
+    "COLLECTIBLE_BOBS_CURSE": "Bob's Curse",
+    "COLLECTIBLE_PAGEANT_BOY": "Pageant Boy",
+    "COLLECTIBLE_SCAPULAR": "Scapular",
+    "COLLECTIBLE_SPEED_BALL": "Speed Ball",
+    "COLLECTIBLE_BUM_FRIEND": "Bum Friend",
+    "COLLECTIBLE_GUPPYS_HEAD": "Guppy's Head",
+    "COLLECTIBLE_PRAYER_CARD": "Prayer Card",
+    "COLLECTIBLE_NOTCHED_AXE": "Notched Axe",
+    "COLLECTIBLE_INFESTATION": "Infestation",
+    "COLLECTIBLE_IPECAC": "Ipecac",
+    "COLLECTIBLE_TOUGH_LOVE": "Tough Love",
+    "COLLECTIBLE_THE_MULLIGAN": "The Mulligan",
+    "COLLECTIBLE_TECHNOLOGY_2": "Technology 2",
+    "COLLECTIBLE_MUTANT_SPIDER": "Mutant Spider",
+    "COLLECTIBLE_CHEMICAL_PEEL": "Chemical Peel",
+    "COLLECTIBLE_THE_PEEPER": "The Peeper",
+    "COLLECTIBLE_HABIT": "Habit",
+    "COLLECTIBLE_BLOODY_LUST": "Bloody Lust",
+    "COLLECTIBLE_CRYSTAL_BALL": "Crystal Ball",
+    "COLLECTIBLE_SPIRIT_OF_THE_NIGHT": "Spirit of the Night",
+    "COLLECTIBLE_CRACK_THE_SKY": "Crack The Sky",
+    "COLLECTIBLE_ANKH": "Ankh",
+    "COLLECTIBLE_CELTIC_CROSS": "Celtic Cross",
+    "COLLECTIBLE_GHOST_BABY": "Ghost Baby",
+    "COLLECTIBLE_THE_CANDLE": "The Candle",
+    "COLLECTIBLE_CATONINETAILS": "Cat-o-nine-tails",
+    "COLLECTIBLE_D20": "D20",
+    "COLLECTIBLE_HARLEQUIN_BABY": "Harlequin Baby",
+    "COLLECTIBLE_EPIC_FETUS": "Epic Fetus",
+    "COLLECTIBLE_POLYPHEMUS": "Polyphemus",
+    "COLLECTIBLE_DADDY_LONGLEGS": "Daddy Longlegs",
+    "COLLECTIBLE_SPIDER_BUTT": "Spider Butt",
+    "COLLECTIBLE_SACRIFICIAL_DAGGER": "Sacrificial Dagger",
+    "COLLECTIBLE_MITRE": "Mitre",
+    "COLLECTIBLE_RAINBOW_BABY": "Rainbow Baby",
+    "COLLECTIBLE_DADS_KEY": "Dad's Key",
+    "COLLECTIBLE_STEM_CELLS": "Stem Cells",
+    "COLLECTIBLE_PORTABLE_SLOT": "Portable Slot",
+    "COLLECTIBLE_HOLY_WATER": "Holy Water",
+    "COLLECTIBLE_FATE": "Fate",
+    "COLLECTIBLE_THE_BLACK_BEAN": "The Black Bean",
+    "COLLECTIBLE_WHITE_PONY": "White Pony",
+    "COLLECTIBLE_SACRED_HEART": "Sacred Heart",
+    "COLLECTIBLE_TOOTH_PICKS": "Toothpicks",
+    "COLLECTIBLE_HOLY_GRAIL": "Holy Grail",
+    "COLLECTIBLE_DEAD_DOVE": "Dead Dove",
+    "COLLECTIBLE_BLOOD_RIGHTS": "Blood Rights",
+    "COLLECTIBLE_GUPPYS_HAIR_BALL": "Guppy's Hairball",
+    "COLLECTIBLE_ABEL": "Abel",
+    "COLLECTIBLE_SMB_SUPER_FAN": "SMB Super Fan",
+    "COLLECTIBLE_PYRO": "Pyro",
+    "COLLECTIBLE_3_DOLLAR_BILL": "3 Dollar Bill",
+    "COLLECTIBLE_TELEPATHY_FOR_DUMMIES": "Telepathy for Dummies",
+    "COLLECTIBLE_MEAT": "Meat!",
+    "COLLECTIBLE_MAGIC_8_BALL": "Magic 8 Ball",
+    "COLLECTIBLE_MOMS_COIN_PURSE": "Mom's Coin Purse",
+    "COLLECTIBLE_SQUEEZY": "Squeezy",
+    "COLLECTIBLE_JESUS_JUICE": "Jesus Juice",
+    "COLLECTIBLE_BOX": "Box",
+    "COLLECTIBLE_MOMS_KEY": "Mom's Key",
+    "COLLECTIBLE_MOMS_EYESHADOW": "Mom's Eyeshadow",
+    "COLLECTIBLE_IRON_BAR": "Iron Bar",
+    "COLLECTIBLE_MIDAS_TOUCH": "Midas Touch",
+    "COLLECTIBLE_HUMBLEING_BUNDLE": "Humbling Bundle",
+    "COLLECTIBLE_FANNY_PACK": "Fanny Pack",
+    "COLLECTIBLE_SHARP_PLUG": "Sharp Plug",
+    "COLLECTIBLE_GUILLOTINE": "Guillotine",
+    "COLLECTIBLE_BALL_OF_BANDAGES": "Ball of Bandages",
+    "COLLECTIBLE_CHAMPION_BELT": "Champion Belt",
+    "COLLECTIBLE_BUTT_BOMBS": "Butt Bombs",
+    "COLLECTIBLE_GNAWED_LEAF": "Gnawed Leaf",
+    "COLLECTIBLE_SPIDERBABY": "Spiderbaby",
+    "COLLECTIBLE_GUPPYS_COLLAR": "Guppy's Collar",
+    "COLLECTIBLE_LOST_CONTACT": "Lost Contact",
+    "COLLECTIBLE_ANEMIC": "Anemic",
+    "COLLECTIBLE_GOAT_HEAD": "Goat Head",
+    "COLLECTIBLE_CEREMONIAL_ROBES": "Ceremonial Robes",
+    "COLLECTIBLE_MOMS_WIG": "Mom's Wig",
+    "COLLECTIBLE_PLACENTA": "Placenta",
+    "COLLECTIBLE_OLD_BANDAGE": "Old Bandage",
+    "COLLECTIBLE_SAD_BOMBS": "Sad Bombs",
+    "COLLECTIBLE_RUBBER_CEMENT": "Rubber Cement",
+    "COLLECTIBLE_ANTI_GRAVITY": "Anti-Gravity",
+    "COLLECTIBLE_PYROMANIAC": "Pyromaniac",
+    "COLLECTIBLE_CRICKETS_BODY": "Cricket's Body",
+    "COLLECTIBLE_GIMPY": "Gimpy",
+    "COLLECTIBLE_BLACK_LOTUS": "Black Lotus",
+    "COLLECTIBLE_PIGGY_BANK": "Piggy Bank",
+    "COLLECTIBLE_MOMS_PERFUME": "Mom's Perfume",
+    "COLLECTIBLE_MONSTROS_LUNG": "Monstro's Lung",
+    "COLLECTIBLE_ABADDON": "Abaddon",
+    "COLLECTIBLE_BALL_OF_TAR": "Ball of Tar",
+    "COLLECTIBLE_STOP_WATCH": "Stop Watch",
+    "COLLECTIBLE_TINY_PLANET": "Tiny Planet",
+    "COLLECTIBLE_INFESTATION_2": "Infestation 2",
+    "COLLECTIBLE_E_COLI": "E. Coli",
+    "COLLECTIBLE_DEATHS_TOUCH": "Death's Touch",
+    "COLLECTIBLE_KEY_PIECE_1": "Key Piece #1",
+    "COLLECTIBLE_KEY_PIECE_2": "Key Piece #2",
+    "COLLECTIBLE_EXPERIMENTAL_TREATMENT": "Experimental Treatment",
+    "COLLECTIBLE_CONTRACT_FROM_BELOW": "Contract From Below",
+    "COLLECTIBLE_INFAMY": "Infamy",
+    "COLLECTIBLE_TRINITY_SHIELD": "Trinity Shield",
+    "COLLECTIBLE_TECH_5": "Tech.5",
+    "COLLECTIBLE_20_20": "20/20",
+    "COLLECTIBLE_BLUE_MAP": "Blue Map",
+    "COLLECTIBLE_BFFS": "BFFS!",
+    "COLLECTIBLE_HIVE_MIND": "Hive Mind",
+    "COLLECTIBLE_THERES_OPTIONS": "There's Options",
+    "COLLECTIBLE_BOGO_BOMBS": "Bogo Bombs",
+    "COLLECTIBLE_STARTER_DECK": "Starter Deck",
+    "COLLECTIBLE_LITTLE_BAGGY": "Little Baggy",
+    "COLLECTIBLE_MAGIC_SCAB": "Magic Scab",
+    "COLLECTIBLE_BLOOD_CLOT": "Blood Clot",
+    "COLLECTIBLE_SCREW": "Screw",
+    "COLLECTIBLE_HOT_BOMBS": "Hot Bombs",
+    "COLLECTIBLE_FIRE_MIND": "Fire Mind",
+    "COLLECTIBLE_MISSING_NO": "Missing No.",
+    "COLLECTIBLE_DARK_MATTER": "Dark Matter",
+    "COLLECTIBLE_BLACK_CANDLE": "Black Candle",
+    "COLLECTIBLE_PROPTOSIS": "Proptosis",
+    "COLLECTIBLE_MISSING_PAGE_2": "Missing Page 2",
+    "COLLECTIBLE_CLEAR_RUNE": "Clear Rune",
+    "COLLECTIBLE_SMART_FLY": "Smart Fly",
+    "COLLECTIBLE_DRY_BABY": "Dry Baby",
+    "COLLECTIBLE_JUICY_SACK": "Juicy Sack",
+    "COLLECTIBLE_ROBO_BABY_2": "Robo-Baby 2.0",
+    "COLLECTIBLE_ROTTEN_BABY": "Rotten Baby",
+    "COLLECTIBLE_HEADLESS_BABY": "Headless Baby",
+    "COLLECTIBLE_LEECH": "Leech",
+    "COLLECTIBLE_MYSTERY_SACK": "Mystery Sack",
+    "COLLECTIBLE_BBF": "BBF",
+    "COLLECTIBLE_BOBS_BRAIN": "Bob's Brain",
+    "COLLECTIBLE_BEST_BUD": "Best Bud",
+    "COLLECTIBLE_LIL_BRIMSTONE": "Lil' Brimstone",
+    "COLLECTIBLE_ISAACS_HEART": "Isaac's Heart",
+    "COLLECTIBLE_LIL_HAUNT": "Lil' Haunt",
+    "COLLECTIBLE_DARK_BUM": "Dark Bum",
+    "COLLECTIBLE_BIG_FAN": "Big Fan",
+    "COLLECTIBLE_SISSY_LONGLEGS": "Sissy Long Legs",
+    "COLLECTIBLE_PUNCHING_BAG": "Punching Bag",
+    "COLLECTIBLE_HOW_TO_JUMP": "How To Jump",
+    "COLLECTIBLE_D100": "D100",
+    "COLLECTIBLE_D4": "D4",
+    "COLLECTIBLE_D10": "D10",
+    "COLLECTIBLE_BLANK_CARD": "Blank Card",
+    "COLLECTIBLE_BOOK_OF_SECRETS": "Book of Secrets",
+    "COLLECTIBLE_BOX_OF_SPIDERS": "Box of Spiders",
+    "COLLECTIBLE_RED_CANDLE": "Red Candle",
+    "COLLECTIBLE_THE_JAR": "The Jar",
+    "COLLECTIBLE_FLUSH": "Flush!",
+    "COLLECTIBLE_SATANIC_BIBLE": "The Satanic Bible",
+    "COLLECTIBLE_HEAD_OF_KRAMPUS": "Head of Krampus",
+    "COLLECTIBLE_BUTTER_BEAN": "Butter Bean",
+    "COLLECTIBLE_MAGIC_FINGERS": "Magic Fingers",
+    "COLLECTIBLE_CONVERTER": "Converter",
+    "COLLECTIBLE_PANDORAS_BOX": "Pandora's Box",
+    "COLLECTIBLE_UNICORN_STUMP": "Unicorn Stump",
+    "COLLECTIBLE_TAURUS": "Taurus",
+    "COLLECTIBLE_ARIES": "Aries",
+    "COLLECTIBLE_CANCER": "Cancer",
+    "COLLECTIBLE_LEO": "Leo",
+    "COLLECTIBLE_VIRGO": "Virgo",
+    "COLLECTIBLE_LIBRA": "Libra",
+    "COLLECTIBLE_SCORPIO": "Scorpio",
+    "COLLECTIBLE_SAGITTARIUS": "Sagittarius",
+    "COLLECTIBLE_CAPRICORN": "Capricorn",
+    "COLLECTIBLE_AQUARIUS": "Aquarius",
+    "COLLECTIBLE_PISCES": "Pisces",
+    "COLLECTIBLE_EVES_MASCARA": "Eve's Mascara",
+    "COLLECTIBLE_JUDAS_SHADOW": "Judas' Shadow",
+    "COLLECTIBLE_MAGGYS_BOW": "Maggy's Bow",
+    "COLLECTIBLE_HOLY_MANTLE": "Holy Mantle",
+    "COLLECTIBLE_THUNDER_THIGHS": "Thunder Thighs",
+    "COLLECTIBLE_STRANGE_ATTRACTOR": "Strange Attractor",
+    "COLLECTIBLE_CURSED_EYE": "Cursed Eye",
+    "COLLECTIBLE_MYSTERIOUS_LIQUID": "Mysterious Liquid",
+    "COLLECTIBLE_GEMINI": "Gemini",
+    "COLLECTIBLE_CAINS_OTHER_EYE": "Cain's Other Eye",
+    "COLLECTIBLE_S_ONLY_FRIEND": "???'s Only Friend",
+    "COLLECTIBLE_SAMSONS_CHAINS": "Samson's Chains",
+    "COLLECTIBLE_MONGO_BABY": "Mongo Baby",
+    "COLLECTIBLE_ISAACS_TEARS": "Isaac's Tears",
+    "COLLECTIBLE_UNDEFINED": "Undefined",
+    "COLLECTIBLE_SCISSORS": "Scissors",
+    "COLLECTIBLE_BREATH_OF_LIFE": "Breath of Life",
+    "COLLECTIBLE_THE_POLAROID": "The Polaroid",
+    "COLLECTIBLE_THE_NEGATIVE": "The Negative",
+    "COLLECTIBLE_THE_LUDOVICO_TECHNIQUE": "The Ludovico Technique",
+    "COLLECTIBLE_SOY_MILK": "Soy Milk",
+    "COLLECTIBLE_GODHEAD": "Godhead",
+    "COLLECTIBLE_LAZARUS_RAGS": "Lazarus' Rags",
+    "COLLECTIBLE_THE_MIND": "The Mind",
+    "COLLECTIBLE_THE_BODY": "The Body",
+    "COLLECTIBLE_THE_SOUL": "The Soul",
+    "COLLECTIBLE_DEAD_ONION": "Dead Onion",
+    "COLLECTIBLE_BROKEN_WATCH": "Broken Watch",
+    "COLLECTIBLE_THE_BOOMERANG": "Boomerang",
+    "COLLECTIBLE_SAFETY_PIN": "Safety Pin",
+    "COLLECTIBLE_CAFFEINE_PILL": "Caffeine Pill",
+    "COLLECTIBLE_TORN_PHOTO": "Torn Photo",
+    "COLLECTIBLE_BLUE_CAP": "Blue Cap",
+    "COLLECTIBLE_LATCH_KEY": "Latch Key",
+    "COLLECTIBLE_MATCH_BOOK": "Match Book",
+    "COLLECTIBLE_SYNTHOIL": "Synthoil",
+    "COLLECTIBLE_A_SNACK": "A Snack",
+    "COLLECTIBLE_DIPLOPIA": "Diplopia",
+    "COLLECTIBLE_PLACEBO": "Placebo",
+    "COLLECTIBLE_WOODEN_NICKEL": "Wooden Nickel",
+    "COLLECTIBLE_TOXIC_SHOCK": "Toxic Shock",
+    "COLLECTIBLE_MEGA_BEAN": "Mega Bean",
+    "COLLECTIBLE_GLASS_CANNON": "Glass Cannon",
+    "COLLECTIBLE_BOMBER_BOY": "Bomber Boy",
+    "COLLECTIBLE_CRACK_JACKS": "Crack Jacks",
+    "COLLECTIBLE_MOMS_PEARLS": "Mom's Pearls",
+    "COLLECTIBLE_CAR_BATTERY": "Car Battery",
+    "COLLECTIBLE_BOX_OF_FRIENDS": "Box of Friends",
+    "COLLECTIBLE_THE_WIZ": "The Wiz",
+    "COLLECTIBLE_8_INCH_NAILS": "8 Inch Nails",
+    "COLLECTIBLE_INCUBUS": "Incubus",
+    "COLLECTIBLE_FATES_REWARD": "Fate's Reward",
+    "COLLECTIBLE_LIL_CHEST": "Lil Chest",
+    "COLLECTIBLE_SWORN_PROTECTOR": "Sworn Protector",
+    "COLLECTIBLE_FRIEND_ZONE": "Friend Zone",
+    "COLLECTIBLE_LOST_FLY": "Lost Fly",
+    "COLLECTIBLE_SCATTER_BOMBS": "Scatter Bombs",
+    "COLLECTIBLE_STICKY_BOMBS": "Sticky Bombs",
+    "COLLECTIBLE_EPIPHORA": "Epiphora",
+    "COLLECTIBLE_CONTINUUM": "Continuum",
+    "COLLECTIBLE_MR_DOLLY": "Mr. Dolly",
+    "COLLECTIBLE_CURSE_OF_THE_TOWER": "Curse of the Tower",
+    "COLLECTIBLE_CHARGED_BABY": "Charged Baby",
+    "COLLECTIBLE_DEAD_EYE": "Dead Eye",
+    "COLLECTIBLE_HOLY_LIGHT": "Holy Light",
+    "COLLECTIBLE_HOST_HAT": "Host Hat",
+    "COLLECTIBLE_RESTOCK": "Restock",
+    "COLLECTIBLE_BURSTING_SACK": "Bursting Sack",
+    "COLLECTIBLE_NUMBER_TWO": "Number two",
+    "COLLECTIBLE_PUPULA_DUPLEX": "Pupula Duplex",
+    "COLLECTIBLE_PAY_TO_PLAY": "Pay To Play",
+    "COLLECTIBLE_EDENS_BLESSING": "Eden's Blessing",
+    "COLLECTIBLE_FRIENDLY_BALL": "Friendly Ball",
+    "COLLECTIBLE_TEAR_DETONATOR": "Tear Detonator",
+    "COLLECTIBLE_LIL_GURDY": "Lil Gurdy",
+    "COLLECTIBLE_BUMBO": "Bumbo",
+    "COLLECTIBLE_D12": "D12",
+    "COLLECTIBLE_CENSER": "Censer",
+    "COLLECTIBLE_KEY_BUM": "Key Bum",
+    "COLLECTIBLE_RUNE_BAG": "Rune Bag",
+    "COLLECTIBLE_SERAPHIM": "Seraphim",
+    "COLLECTIBLE_BETRAYAL": "Betrayal",
+    "COLLECTIBLE_ZODIAC": "Zodiac",
+    "COLLECTIBLE_SERPENTS_KISS": "Serpent's Kiss",
+    "COLLECTIBLE_MARKED": "Marked",
+    "COLLECTIBLE_TECH_X": "Tech X",
+    "COLLECTIBLE_VENTRICLE_RAZOR": "Ventricle Razor",
+    "COLLECTIBLE_TRACTOR_BEAM": "Tractor Beam",
+    "COLLECTIBLE_GODS_FLESH": "God's Flesh",
+    "COLLECTIBLE_MAW_OF_THE_VOID": "Maw of the Void",
+    "COLLECTIBLE_SPEAR_OF_DESTINY": "Spear of Destiny",
+    "COLLECTIBLE_EXPLOSIVO": "Explosivo",
+    "COLLECTIBLE_CHAOS": "Chaos",
+    "COLLECTIBLE_SPIDER_MOD": "Spider Mod",
+    "COLLECTIBLE_FARTING_BABY": "Farting Baby",
+    "COLLECTIBLE_GB_BUG": "GB Bug",
+    "COLLECTIBLE_D8": "D8",
+    "COLLECTIBLE_PURITY": "Purity",
+    "COLLECTIBLE_ATHAME": "Athame",
+    "COLLECTIBLE_EMPTY_VESSEL": "Empty Vessel",
+    "COLLECTIBLE_EVIL_EYE": "Evil Eye",
+    "COLLECTIBLE_LUSTY_BLOOD": "Lusty Blood",
+    "COLLECTIBLE_CAMBION_CONCEPTION": "Cambion Conception",
+    "COLLECTIBLE_IMMACULATE_CONCEPTION": "Immaculate Conception",
+    "COLLECTIBLE_MORE_OPTIONS": "More Options",
+    "COLLECTIBLE_CROWN_OF_LIGHT": "Crown of Light",
+    "COLLECTIBLE_DEEP_POCKETS": "Deep Pockets",
+    "COLLECTIBLE_SUCCUBUS": "Succubus",
+    "COLLECTIBLE_FRUIT_CAKE": "Fruit Cake",
+    "COLLECTIBLE_TELEPORT_20": "Teleport 2.0",
+    "COLLECTIBLE_BLACK_POWDER": "Black Powder",
+    "COLLECTIBLE_KIDNEY_BEAN": "Kidney Bean",
+    "COLLECTIBLE_GLOWING_HOUR_GLASS": "Glowing Hourglass",
+    "COLLECTIBLE_CIRCLE_OF_PROTECTION": "Circle of Protection",
+    "COLLECTIBLE_SACK_HEAD": "Sack Head",
+    "COLLECTIBLE_NIGHT_LIGHT": "Night Light",
+    "COLLECTIBLE_OBSESSED_FAN": "Obsessed Fan",
+    "COLLECTIBLE_MINE_CRAFTER": "Mine Crafter",
+    "COLLECTIBLE_PJS": "PJs",
+    "COLLECTIBLE_HEAD_OF_THE_KEEPER": "Head of the Keeper",
+    "COLLECTIBLE_PAPA_FLY": "Papa Fly",
+    "COLLECTIBLE_MULTIDIMENSIONAL_BABY": "Multidimensional Baby",
+    "COLLECTIBLE_GLITTER_BOMBS": "Glitter Bombs",
+    "COLLECTIBLE_MY_SHADOW": "My Shadow",
+    "COLLECTIBLE_JAR_OF_FLIES": "Jar of Flies",
+    "COLLECTIBLE_LIL_LOKI": "Lil Loki",
+    "COLLECTIBLE_MILK": "Milk!",
+    "COLLECTIBLE_D7": "D7",
+    "COLLECTIBLE_BINKY": "Binky",
+    "COLLECTIBLE_MOMS_BOX": "Mom's Box",
+    "COLLECTIBLE_KIDNEY_STONE": "Kidney Stone",
+    "COLLECTIBLE_MEGA_BLAST": "Mega Blast",
+    "COLLECTIBLE_DARK_PRINCES_CROWN": "Dark Prince's Crown",
+    "COLLECTIBLE_APPLE": "Apple!",
+    "COLLECTIBLE_LEAD_PENCIL": "Lead Pencil",
+    "COLLECTIBLE_DOG_TOOTH": "Dog Tooth",
+    "COLLECTIBLE_DEAD_TOOTH": "Dead Tooth",
+    "COLLECTIBLE_LINGER_BEAN": "Linger Bean",
+    "COLLECTIBLE_SHARD_OF_GLASS": "Shard of Glass",
+    "COLLECTIBLE_METAL_PLATE": "Metal Plate",
+    "COLLECTIBLE_EYE_OF_GREED": "Eye of Greed",
+    "COLLECTIBLE_TAROT_CLOTH": "Tarot Cloth",
+    "COLLECTIBLE_VARICOSE_VEINS": "Varicose Veins",
+    "COLLECTIBLE_COMPOUND_FRACTURE": "Compound Fracture",
+    "COLLECTIBLE_POLYDACTYLY": "Polydactyly",
+    "COLLECTIBLE_DADS_LOST_COIN": "Dad's Lost Coin",
+    "COLLECTIBLE_MIDNIGHT_SNACK": "Midnight Snack",
+    "COLLECTIBLE_CONE_HEAD": "Cone Head",
+    "COLLECTIBLE_BELLY_BUTTON": "Belly Button",
+    "COLLECTIBLE_SINUS_INFECTION": "Sinus Infection",
+    "COLLECTIBLE_GLAUCOMA": "Glaucoma",
+    "COLLECTIBLE_PARASITOID": "Parasitoid",
+    "COLLECTIBLE_EYE_OF_BELIAL": "Eye of Belial",
+    "COLLECTIBLE_SULFURIC_ACID": "Sulfuric Acid",
+    "COLLECTIBLE_GLYPH_OF_BALANCE": "Glyph of Balance",
+    "COLLECTIBLE_ANALOG_STICK": "Analog Stick",
+    "COLLECTIBLE_CONTAGION": "Contagion",
+    "COLLECTIBLE_FINGER": "Finger!",
+    "COLLECTIBLE_SHADE": "Shade",
+    "COLLECTIBLE_DEPRESSION": "Depression",
+    "COLLECTIBLE_HUSHY": "Hushy",
+    "COLLECTIBLE_LIL_MONSTRO": "Lil Monstro",
+    "COLLECTIBLE_KING_BABY": "King Baby",
+    "COLLECTIBLE_BIG_CHUBBY": "Big Chubby",
+    "COLLECTIBLE_BROKEN_GLASS_CANNON": "Broken Glass Cannon",
+    "COLLECTIBLE_PLAN_C": "Plan C",
+    "COLLECTIBLE_D1": "D1",
+    "COLLECTIBLE_VOID": "Void",
+    "COLLECTIBLE_PAUSE": "Pause",
+    "COLLECTIBLE_SMELTER": "Smelter",
+    "COLLECTIBLE_COMPOST": "Compost",
+    "COLLECTIBLE_DATAMINER": "Dataminer",
+    "COLLECTIBLE_CLICKER": "Clicker",
+    "COLLECTIBLE_MAMA_MEGA": "Mama Mega!",
+    "COLLECTIBLE_WAIT_WHAT": "Wait What?",
+    "COLLECTIBLE_CROOKED_PENNY": "Crooked Penny",
+    "COLLECTIBLE_DULL_RAZOR": "Dull Razor",
+    "COLLECTIBLE_POTATO_PEELER": "Potato Peeler",
+    "COLLECTIBLE_METRONOME": "Metronome",
+    "COLLECTIBLE_D_INFINITY": "D infinity",
+    "COLLECTIBLE_EDENS_SOUL": "Eden's Soul",
+    "COLLECTIBLE_ACID_BABY": "Acid Baby",
+    "COLLECTIBLE_YO_LISTEN": "YO LISTEN!",
+    "COLLECTIBLE_ADRENALINE": "Adrenaline",
+    "COLLECTIBLE_JACOBS_LADDER": "Jacob's Ladder",
+    "COLLECTIBLE_GHOST_PEPPER": "Ghost Pepper",
+    "COLLECTIBLE_EUTHANASIA": "Euthanasia",
+    "COLLECTIBLE_CAMO_UNDIES": "Camo Undies",
+    "COLLECTIBLE_DUALITY": "Duality",
+    "COLLECTIBLE_EUCHARIST": "Eucharist",
+    "COLLECTIBLE_SACK_OF_SACKS": "Sack of Sacks",
+    "COLLECTIBLE_GREEDS_GULLET": "Greed's Gullet",
+    "COLLECTIBLE_LARGE_ZIT": "Large Zit",
+    "COLLECTIBLE_LITTLE_HORN": "Little Horn",
+    "COLLECTIBLE_BROWN_NUGGET": "Brown Nugget",
+    "COLLECTIBLE_POKE_GO": "Poke Go",
+    "COLLECTIBLE_BACKSTABBER": "BackStabber",
+    "COLLECTIBLE_SHARP_STRAW": "Sharp Straw",
+    "COLLECTIBLE_MOMS_RAZOR": "Mom's Razor",
+    "COLLECTIBLE_BLOODSHOT_EYE": "Bloodshot Eye",
+    "COLLECTIBLE_DELIRIOUS": "Delirious",
+    "COLLECTIBLE_ANGRY_FLY": "Angry Fly",
+    "COLLECTIBLE_BLACK_HOLE": "Black Hole",
+    "COLLECTIBLE_BOZO": "Bozo",
+    "COLLECTIBLE_BROKEN_MODEM": "Broken Modem",
+    "COLLECTIBLE_MYSTERY_GIFT": "Mystery Gift",
+    "COLLECTIBLE_SPRINKLER": "Sprinkler",
+    "COLLECTIBLE_FAST_BOMBS": "Fast Bombs",
+    "COLLECTIBLE_BUDDY_IN_A_BOX": "Buddy in a Box",
+    "COLLECTIBLE_LIL_DELIRIUM": "Lil Delirium",
+    "COLLECTIBLE_JUMPER_CABLES": "Jumper Cables",
+    "COLLECTIBLE_COUPON": "Coupon",
+    "COLLECTIBLE_TELEKINESIS": "Telekinesis",
+    "COLLECTIBLE_MOVING_BOX": "Moving Box",
+    "COLLECTIBLE_TECHNOLOGY_ZERO": "Technology Zero",
+    "COLLECTIBLE_LEPROSY": "Leprosy",
+    "COLLECTIBLE_7_SEALS": "7 Seals",
+    "COLLECTIBLE_MR_ME": "Mr. Me!",
+    "COLLECTIBLE_ANGELIC_PRISM": "Angelic Prism",
+    "COLLECTIBLE_POP": "Pop!",
+    "COLLECTIBLE_DEATHS_LIST": "Death's List",
+    "COLLECTIBLE_HAEMOLACRIA": "Haemolacria",
+    "COLLECTIBLE_LACHRYPHAGY": "Lachryphagy",
+    "COLLECTIBLE_TRISAGION": "Trisagion",
+    "COLLECTIBLE_SCHOOLBAG": "Schoolbag",
+    "COLLECTIBLE_BLANKET": "Blanket",
+    "COLLECTIBLE_SACRIFICIAL_ALTAR": "Sacrificial Altar",
+    "COLLECTIBLE_LIL_SPEWER": "Lil Spewer",
+    "COLLECTIBLE_MARBLES": "Marbles",
+    "COLLECTIBLE_MYSTERY_EGG": "Mystery Egg",
+    "COLLECTIBLE_FLAT_STONE": "Flat Stone",
+    "COLLECTIBLE_MARROW": "Marrow",
+    "COLLECTIBLE_SLIPPED_RIB": "Slipped Rib",
+    "COLLECTIBLE_HALLOWED_GROUND": "Hallowed Ground",
+    "COLLECTIBLE_POINTY_RIB": "Pointy Rib",
+    "COLLECTIBLE_BOOK_OF_THE_DEAD": "Book of the Dead",
+    "COLLECTIBLE_DADS_RING": "Dad's Ring",
+    "COLLECTIBLE_DIVORCE_PAPERS": "Divorce Papers",
+    "COLLECTIBLE_JAW_BONE": "Jaw Bone",
+    "COLLECTIBLE_BRITTLE_BONES": "Brittle Bones",
+    "COLLECTIBLE_BROKEN_SHOVEL": "Broken Shovel",
+    "COLLECTIBLE_BROKEN_SHOVEL2": "Broken Shovel",
+    "COLLECTIBLE_MOMS_SHOVEL": "Mom's Shovel",
+    "COLLECTIBLE_MUCORMYCOSIS": "Mucormycosis",
+    "COLLECTIBLE_2SPOOKY": "2Spooky",
+    "COLLECTIBLE_GOLDEN_RAZOR": "Golden Razor",
+    "COLLECTIBLE_SULFUR": "Sulfur",
+    "COLLECTIBLE_FORTUNE_COOKIE": "Fortune Cookie",
+    "COLLECTIBLE_EYE_SORE": "Eye Sore",
+    "COLLECTIBLE_120_VOLT": "120 Volt",
+    "COLLECTIBLE_IT_HURTS": "It Hurts",
+    "COLLECTIBLE_ALMOND_MILK": "Almond Milk",
+    "COLLECTIBLE_ROCK_BOTTOM": "Rock Bottom",
+    "COLLECTIBLE_NANCY_BOMBS": "Nancy Bombs",
+    "COLLECTIBLE_A_BAR_OF_SOAP": "A Bar of Soap",
+    "COLLECTIBLE_BLOOD_PUPPY": "Blood Puppy",
+    "COLLECTIBLE_DREAM_CATCHER": "Dream Catcher",
+    "COLLECTIBLE_PASCHAL_CANDLE": "Paschal Candle",
+    "COLLECTIBLE_DIVINE_INTERVENTION": "Divine Intervention",
+    "COLLECTIBLE_BLOOD_OATH": "Blood Oath",
+    "COLLECTIBLE_PLAYDOUGH_COOKIE": "Playdough Cookie",
+    "COLLECTIBLE_ORPHAN_SOCKS": "Orphan Socks",
+    "COLLECTIBLE_EYE_OF_THE_OCCULT": "Eye of the Occult",
+    "COLLECTIBLE_IMMACULATE_HEART": "Immaculate Heart",
+    "COLLECTIBLE_MONSTRANCE": "Monstrance",
+    "COLLECTIBLE_THE_INTRUDER": "The Intruder",
+    "COLLECTIBLE_DIRTY_MIND": "Dirty Mind",
+    "COLLECTIBLE_DAMOCLES": "Damocles",
+    "COLLECTIBLE_FREE_LEMONADE": "Free Lemonade",
+    "COLLECTIBLE_SPIRIT_SWORD": "Spirit Sword",
+    "COLLECTIBLE_RED_KEY": "Red Key",
+    "COLLECTIBLE_PSY_FLY": "Psy Fly",
+    "COLLECTIBLE_WAVY_CAP": "Wavy Cap",
+    "COLLECTIBLE_ROCKET_IN_A_JAR": "Rocket in a Jar",
+    "COLLECTIBLE_BOOK_OF_VIRTUES": "Book of Virtues",
+    "COLLECTIBLE_ALABASTER_BOX": "Alabaster Box",
+    "COLLECTIBLE_THE_STAIRWAY": "The Stairway",
+    "COLLECTIBLE_SOL": "Sol",
+    "COLLECTIBLE_LUNA": "Luna",
+    "COLLECTIBLE_MERCURIUS": "Mercurius",
+    "COLLECTIBLE_VENUS": "Venus",
+    "COLLECTIBLE_TERRA": "Terra",
+    "COLLECTIBLE_MARS": "Mars",
+    "COLLECTIBLE_JUPITER": "Jupiter",
+    "COLLECTIBLE_SATURNUS": "Saturnus",
+    "COLLECTIBLE_URANUS": "Uranus",
+    "COLLECTIBLE_NEPTUNUS": "Neptunus",
+    "COLLECTIBLE_PLUTO": "Pluto",
+    "COLLECTIBLE_VOODOO_HEAD": "Voodoo Head",
+    "COLLECTIBLE_EYE_DROPS": "Eye Drops",
+    "COLLECTIBLE_ACT_OF_CONTRITION": "Act of Contrition",
+    "COLLECTIBLE_MEMBER_CARD": "Member Card",
+    "COLLECTIBLE_BATTERY_PACK": "Battery Pack",
+    "COLLECTIBLE_MOMS_BRACELET": "Mom's Bracelet",
+    "COLLECTIBLE_THE_SCOOPER": "The Scooper",
+    "COLLECTIBLE_OCULAR_RIFT": "Ocular Rift",
+    "COLLECTIBLE_BOILED_BABY": "Boiled Baby",
+    "COLLECTIBLE_FREEZER_BABY": "Freezer Baby",
+    "COLLECTIBLE_ETERNAL_D6": "Eternal D6",
+    "COLLECTIBLE_BIRD_CAGE": "Bird Cage",
+    "COLLECTIBLE_LARYNX": "Larynx",
+    "COLLECTIBLE_LOST_SOUL": "Lost Soul",
+    "COLLECTIBLE_BLOOD_BOMBS": "Blood Bombs",
+    "COLLECTIBLE_LIL_DUMPY": "Lil Dumpy",
+    "COLLECTIBLE_BIRDS_EYE": "Bird's Eye",
+    "COLLECTIBLE_LODESTONE": "Lodestone",
+    "COLLECTIBLE_ROTTEN_TOMATO": "Rotten Tomato",
+    "COLLECTIBLE_BIRTHRIGHT": "Birthright",
+    "COLLECTIBLE_RED_STEW": "Red Stew",
+    "COLLECTIBLE_GENESIS": "Genesis",
+    "COLLECTIBLE_SHARP_KEY": "Sharp Key",
+    "COLLECTIBLE_BOOSTER_PACK": "Booster Pack",
+    "COLLECTIBLE_MEGA_MUSH": "Mega Mush",
+    "COLLECTIBLE_KNIFE_PIECE_1": "Knife Piece 1",
+    "COLLECTIBLE_KNIFE_PIECE_2": "Knife Piece 2",
+    "COLLECTIBLE_DEATH_CERTIFICATE": "Death Certificate",
+    "COLLECTIBLE_BOT_FLY": "Bot Fly",
+    "COLLECTIBLE_MEAT_CLEAVER": "Meat Cleaver",
+    "COLLECTIBLE_EVIL_CHARM": "Evil Charm",
+    "COLLECTIBLE_DOGMA": "Dogma",
+    "COLLECTIBLE_PURGATORY": "Purgatory",
+    "COLLECTIBLE_STITCHES": "Stitches",
+    "COLLECTIBLE_R_KEY": "R Key",
+    "COLLECTIBLE_KNOCKOUT_DROPS": "Knockout Drops",
+    "COLLECTIBLE_ERASER": "Eraser",
+    "COLLECTIBLE_YUCK_HEART": "Yuck Heart",
+    "COLLECTIBLE_URN_OF_SOULS": "Urn of Souls",
+    "COLLECTIBLE_AKELDAMA": "Akeldama",
+    "COLLECTIBLE_MAGIC_SKIN": "Magic Skin",
+    "COLLECTIBLE_REVELATION": "Revelation",
+    "COLLECTIBLE_CONSOLATION_PRIZE": "Consolation Prize",
+    "COLLECTIBLE_TINYTOMA": "Tinytoma",
+    "COLLECTIBLE_BRIMSTONE_BOMBS": "Brimstone bombs",
+    "COLLECTIBLE_4_5_VOLT": "4.5 Volt",
+    "COLLECTIBLE_FRUITY_PLUM": "Fruity Plum",
+    "COLLECTIBLE_PLUM_FLUTE": "Plum Flute",
+    "COLLECTIBLE_STAR_OF_BETHLEHEM": "Star of Bethlehem",
+    "COLLECTIBLE_CUBE_BABY": "Cube Baby",
+    "COLLECTIBLE_VADE_RETRO": "Vade Retro",
+    "COLLECTIBLE_FALSE_PHD": "False PHD",
+    "COLLECTIBLE_SPIN_TO_WIN": "Spin to Win",
+    "COLLECTIBLE_VASCULITIS": "Vasculitis",
+    "COLLECTIBLE_GIANT_CELL": "Giant Cell",
+    "COLLECTIBLE_TROPICAMIDE": "Tropicamide",
+    "COLLECTIBLE_CARD_READING": "Card Reading",
+    "COLLECTIBLE_QUINTS": "Quints",
+    "COLLECTIBLE_TOOTH_AND_NAIL": "Tooth and Nail",
+    "COLLECTIBLE_BINGE_EATER": "Binge Eater",
+    "COLLECTIBLE_GUPPYS_EYE": "Guppy's Eye",
+    "COLLECTIBLE_STRAWMAN": "Strawman",
+    "COLLECTIBLE_DADS_NOTE": "Dad's Note",
+    "COLLECTIBLE_SAUSAGE": "Sausage",
+    "COLLECTIBLE_OPTIONS": "Options?",
+    "COLLECTIBLE_CANDY_HEART": "Candy Heart",
+    "COLLECTIBLE_A_POUND_OF_FLESH": "A Pound of Flesh",
+    "COLLECTIBLE_REDEMPTION": "Redemption",
+    "COLLECTIBLE_SPIRIT_SHACKLES": "Spirit Shackles",
+    "COLLECTIBLE_CRACKED_ORB": "Cracked Orb",
+    "COLLECTIBLE_EMPTY_HEART": "Empty Heart",
+    "COLLECTIBLE_ASTRAL_PROJECTION": "Astral Projection",
+    "COLLECTIBLE_C_SECTION": "C Section",
+    "COLLECTIBLE_LIL_ABADDON": "Lil Abaddon",
+    "COLLECTIBLE_MONTEZUMAS_REVENGE": "Montezuma's Revenge",
+    "COLLECTIBLE_LIL_PORTAL": "Lil Portal",
+    "COLLECTIBLE_WORM_FRIEND": "Worm Friend",
+    "COLLECTIBLE_BONE_SPURS": "Bone Spurs",
+    "COLLECTIBLE_HUNGRY_SOUL": "Hungry Soul",
+    "COLLECTIBLE_JAR_OF_WISPS": "Jar of Wisps",
+    "COLLECTIBLE_SOUL_LOCKET": "Soul Locket",
+    "COLLECTIBLE_FRIEND_FINDER": "Friend Finder",
+    "COLLECTIBLE_INNER_CHILD": "Inner Child",
+    "COLLECTIBLE_GLITCHED_CROWN": "Glitched Crown",
+    "COLLECTIBLE_BELLY_JELLY": "Belly Jelly",
+    "COLLECTIBLE_SACRED_ORB": "Sacred Orb",
+    "COLLECTIBLE_SANGUINE_BOND": "Sanguine Bond",
+    "COLLECTIBLE_THE_SWARM": "The Swarm",
+    "COLLECTIBLE_HEARTBREAK": "Heartbreak",
+    "COLLECTIBLE_BLOODY_GUST": "Bloody Gust",
+    "COLLECTIBLE_SALVATION": "Salvation",
+    "COLLECTIBLE_VANISHING_TWIN": "Vanishing Twin",
+    "COLLECTIBLE_TWISTED_PAIR": "Twisted Pair",
+    "COLLECTIBLE_AZAZELS_RAGE": "Azazel's Rage",
+    "COLLECTIBLE_ECHO_CHAMBER": "Echo Chamber",
+    "COLLECTIBLE_ISAACS_TOMB": "Isaac's Tomb",
+    "COLLECTIBLE_VENGEFUL_SPIRIT": "Vengeful Spirit",
+    "COLLECTIBLE_ESAU_JR": "Esau Jr.",
+    "COLLECTIBLE_BERSERK": "Berserk!",
+    "COLLECTIBLE_DARK_ARTS": "Dark Arts",
+    "COLLECTIBLE_ABYSS": "Abyss",
+    "COLLECTIBLE_SUPPER": "Supper",
+    "COLLECTIBLE_STAPLER": "Stapler",
+    "COLLECTIBLE_SUPLEX": "Suplex!",
+    "COLLECTIBLE_BAG_OF_CRAFTING": "Bag of Crafting",
+    "COLLECTIBLE_FLIP": "Flip",
+    "COLLECTIBLE_LEMEGETON": "Lemegeton",
+    "COLLECTIBLE_SUMPTORIUM": "Sumptorium",
+    "COLLECTIBLE_RECALL": "Recall",
+    "COLLECTIBLE_HOLD": "Hold",
+    "COLLECTIBLE_KEEPERS_SACK": "Keeper's Sack",
+    "COLLECTIBLE_KEEPERS_KIN": "Keeper's Kin",
+    "COLLECTIBLE_KEEPERS_BOX": "Keeper's Box",
+    "COLLECTIBLE_EVERYTHING_JAR": "Everything Jar",
+    "COLLECTIBLE_TMTRAINER": "TMTRAINER",
+    "COLLECTIBLE_ANIMA_SOLA": "Anima Sola",
+    "COLLECTIBLE_SPINDOWN_DICE": "Spindown Dice",
+    "COLLECTIBLE_HYPERCOAGULATION": "Hypercoagulation",
+    "COLLECTIBLE_IBS": "IBS",
+    "COLLECTIBLE_HEMOPTYSIS": "Hemoptysis",
+    "COLLECTIBLE_GHOST_BOMBS": "Ghost Bombs",
+    "COLLECTIBLE_GELLO": "Gello",
+    "COLLECTIBLE_DECAP_ATTACK": "Decap Attack",
+    "COLLECTIBLE_GLASS_EYE": "Glass Eye",
+    "COLLECTIBLE_STYE": "Stye",
+    "COLLECTIBLE_MOMS_RING": "Mom's Ring"
+  },
+  "stats": {
+    "COLLECTIBLE_SAD_ONION": {
+      "tears": 0.72
+    },
+    "COLLECTIBLE_THE_INNER_EYE": {
+      "tears_x": 0.51
+    },
+    "COLLECTIBLE_CRICKETS_HEAD": {
+      "dmg": 0.5,
+      "dmg_x": 1.5
+    },
+    "COLLECTIBLE_MY_REFLECTION": {
+      "dmg": 1.5,
+      "range": 5.4,
+      "shot_speed": 0.6,
+      "luck": -1
+    },
+    "COLLECTIBLE_NUMBER_ONE": {
+      "tears": 1.75,
+      "range": -2.5
+    },
+    "COLLECTIBLE_BLOOD_OF_THE_MARTYR": {
+      "dmg": 1
+    },
+    "COLLECTIBLE_MAGIC_MUSHROOM": {
+      "dmg": 0.3,
+      "dmg_x": 1.5,
+      "range": 2.5,
+      "speed": 0.3,
+      "health": 1
+    },
+    "COLLECTIBLE_THE_VIRUS": {
+      "speed": 0.2
+    },
+    "COLLECTIBLE_ROID_RAGE": {
+      "range": 2.5,
+      "speed": 0.3
+    },
+    "COLLECTIBLE_HEART": {
+      "health": 1
+    },
+    "COLLECTIBLE_RAW_LIVER": {
+      "health": 2
+    },
+    "COLLECTIBLE_LUNCH": {
+      "health": 1
+    },
+    "COLLECTIBLE_DINNER": {
+      "health": 1
+    },
+    "COLLECTIBLE_DESSERT": {
+      "health": 1
+    },
+    "COLLECTIBLE_BREAKFAST": {
+      "health": 1
+    },
+    "COLLECTIBLE_ROTTEN_MEAT": {
+      "health": 1
+    },
+    "COLLECTIBLE_WOODEN_SPOON": {
+      "speed": 0.3
+    },
+    "COLLECTIBLE_BELT": {
+      "speed": 0.3
+    },
+    "COLLECTIBLE_MOMS_UNDERWEAR": {
+      "range": 2.5
+    },
+    "COLLECTIBLE_MOMS_HEELS": {
+      "range": 2.5
+    },
+    "COLLECTIBLE_MOMS_LIPSTICK": {
+      "range": 3.75
+    },
+    "COLLECTIBLE_WIRE_COAT_HANGER": {
+      "tears": 0.72
+    },
+    "COLLECTIBLE_LUCKY_FOOT": {
+      "luck": 1
+    },
+    "COLLECTIBLE_STEVEN": {
+      "dmg": 1
+    },
+    "COLLECTIBLE_PENTAGRAM": {
+      "dmg": 1
+    },
+    "COLLECTIBLE_DR_FETUS": {
+      "dmg_x": 10,
+      "tears_x": 0.4
+    },
+    "COLLECTIBLE_CHARM_OF_THE_VAMPIRE": {
+      "dmg": 0.3
+    },
+    "COLLECTIBLE_GROWTH_HORMONES": {
+      "dmg": 1,
+      "speed": 0.2
+    },
+    "COLLECTIBLE_MINI_MUSH": {
+      "range": 2.5,
+      "speed": 0.3
+    },
+    "COLLECTIBLE_ROSARY": {
+      "tears": 0.5,
+      "soul_hearts": 3
+    },
+    "COLLECTIBLE_THE_MARK": {
+      "dmg": 1,
+      "speed": 0.2
+    },
+    "COLLECTIBLE_THE_PACT": {
+      "dmg": 0.5,
+      "tears": 0.72
+    },
+    "COLLECTIBLE_LORD_OF_THE_PIT": {
+      "speed": 0.3
+    },
+    "COLLECTIBLE_THE_SMALL_ROCK": {
+      "dmg": 1,
+      "tears": 0.2,
+      "speed": -0.2
+    },
+    "COLLECTIBLE_SUPER_BANDAGE": {
+      "health": 1,
+      "soul_hearts": 2
+    },
+    "COLLECTIBLE_THE_HALO": {
+      "dmg": 0.3,
+      "tears": 0.2,
+      "range": 1.5,
+      "speed": 0.3,
+      "health": 1
+    },
+    "COLLECTIBLE_MOMS_CONTACTS": {
+      "range": 1.5
+    },
+    "COLLECTIBLE_OUIJA_BOARD": {
+      "tears": 0.5
+    },
+    "COLLECTIBLE_BRIMSTONE": {
+      "tears_x": 0.33
+    },
+    "COLLECTIBLE_BLOOD_BAG": {
+      "speed": 0.3,
+      "health": 1
+    },
+    "COLLECTIBLE_ODD_MUSHROOM_THIN": {
+      "dmg": 0.4,
+      "dmg_x": 0.9,
+      "tears": 1.7,
+      "speed": 0.3
+    },
+    "COLLECTIBLE_ODD_MUSHROOM_LARGE": {
+      "dmg": 1,
+      "range": 1.5,
+      "speed": -0.2,
+      "health": 1
+    },
+    "COLLECTIBLE_WHORE_OF_BABYLON": {
+      "dmg": 1.5,
+      "speed": 0.3
+    },
+    "COLLECTIBLE_BUCKET_OF_LARD": {
+      "speed": -0.2,
+      "health": 2
+    },
+    "COLLECTIBLE_STIGMATA": {
+      "dmg": 0.3,
+      "health": 1
+    },
+    "COLLECTIBLE_SPEED_BALL": {
+      "speed": 0.3,
+      "shot_speed": 0.2
+    },
+    "COLLECTIBLE_IPECAC": {
+      "dmg": 40,
+      "tears_x": 0.33,
+      "range": -1.3
+    },
+    "COLLECTIBLE_TECHNOLOGY_2": {
+      "tears_x": 0.66
+    },
+    "COLLECTIBLE_MUTANT_SPIDER": {
+      "tears_x": 0.42
+    },
+    "COLLECTIBLE_CATONINETAILS": {
+      "dmg": 1,
+      "shot_speed": 0.23
+    },
+    "COLLECTIBLE_POLYPHEMUS": {
+      "dmg": 4,
+      "dmg_x": 2,
+      "tears_x": 0.42
+    },
+    "COLLECTIBLE_STEM_CELLS": {
+      "shot_speed": 0.16,
+      "health": 1
+    },
+    "COLLECTIBLE_SACRED_HEART": {
+      "dmg": 1,
+      "dmg_x": 2.3,
+      "tears": -0.4,
+      "range": 0.5,
+      "shot_speed": -0.25
+    },
+    "COLLECTIBLE_TOOTH_PICKS": {
+      "tears": 0.72,
+      "shot_speed": 0.16
+    },
+    "COLLECTIBLE_HOLY_GRAIL": {
+      "health": 1
+    },
+    "COLLECTIBLE_SMB_SUPER_FAN": {
+      "dmg": 0.3,
+      "tears": 0.2,
+      "range": 2.5,
+      "speed": 0.2,
+      "health": 1
+    },
+    "COLLECTIBLE_MEAT": {
+      "dmg": 0.3,
+      "health": 1
+    },
+    "COLLECTIBLE_MAGIC_8_BALL": {
+      "shot_speed": 0.16
+    },
+    "COLLECTIBLE_SQUEEZY": {
+      "tears": 0.4,
+      "soul_hearts": 2
+    },
+    "COLLECTIBLE_JESUS_JUICE": {
+      "dmg": 0.5,
+      "range": 1.5
+    },
+    "COLLECTIBLE_IRON_BAR": {
+      "dmg": 0.3
+    },
+    "COLLECTIBLE_GUILLOTINE": {
+      "dmg": 1,
+      "tears": 0.5
+    },
+    "COLLECTIBLE_CHAMPION_BELT": {
+      "dmg": 1
+    },
+    "COLLECTIBLE_LOST_CONTACT": {
+      "shot_speed": -0.15
+    },
+    "COLLECTIBLE_ANEMIC": {
+      "range": 1.5
+    },
+    "COLLECTIBLE_CEREMONIAL_ROBES": {
+      "dmg": 1
+    },
+    "COLLECTIBLE_PLACENTA": {
+      "health": 1
+    },
+    "COLLECTIBLE_OLD_BANDAGE": {
+      "health": 1
+    },
+    "COLLECTIBLE_ANTI_GRAVITY": {
+      "tears": 1
+    },
+    "COLLECTIBLE_CRICKETS_BODY": {
+      "tears": 0.5,
+      "range": -1.3
+    },
+    "COLLECTIBLE_BLACK_LOTUS": {
+      "health": 1,
+      "soul_hearts": 1
+    },
+    "COLLECTIBLE_MOMS_PERFUME": {
+      "tears": 0.5
+    },
+    "COLLECTIBLE_MONSTROS_LUNG": {
+      "tears_x": 0.231
+    },
+    "COLLECTIBLE_ABADDON": {
+      "dmg": 1.5,
+      "speed": 0.2
+    },
+    "COLLECTIBLE_STOP_WATCH": {
+      "speed": 0.3
+    },
+    "COLLECTIBLE_DEATHS_TOUCH": {
+      "dmg": 1.5,
+      "tears": -0.6
+    },
+    "COLLECTIBLE_20_20": {
+      "dmg_x": 0.8
+    },
+    "COLLECTIBLE_MAGIC_SCAB": {
+      "luck": 1,
+      "health": 1
+    },
+    "COLLECTIBLE_SCREW": {
+      "tears": 0.5,
+      "shot_speed": 0.2
+    },
+    "COLLECTIBLE_DARK_MATTER": {
+      "dmg": 1
+    },
+    "COLLECTIBLE_PROPTOSIS": {
+      "dmg": 0.5
+    },
+    "COLLECTIBLE_TAURUS": {
+      "speed": -0.3
+    },
+    "COLLECTIBLE_ARIES": {
+      "speed": 0.25
+    },
+    "COLLECTIBLE_CANCER": {
+      "soul_hearts": 3
+    },
+    "COLLECTIBLE_SAGITTARIUS": {
+      "speed": 0.2
+    },
+    "COLLECTIBLE_CAPRICORN": {
+      "dmg": 0.5,
+      "tears": 0.5,
+      "range": 0.75,
+      "speed": 0.1,
+      "health": 1
+    },
+    "COLLECTIBLE_PISCES": {
+      "tears": 0.5
+    },
+    "COLLECTIBLE_EVES_MASCARA": {
+      "dmg_x": 2,
+      "tears_x": 0.66,
+      "shot_speed": -0.5
+    },
+    "COLLECTIBLE_MAGGYS_BOW": {
+      "health": 1
+    },
+    "COLLECTIBLE_THUNDER_THIGHS": {
+      "speed": -0.4,
+      "health": 1
+    },
+    "COLLECTIBLE_THE_NEGATIVE": {
+      "dmg": 1
+    },
+    "COLLECTIBLE_SOY_MILK": {
+      "dmg_x": 0.2,
+      "tears_x": 5.5
+    },
+    "COLLECTIBLE_GODHEAD": {
+      "dmg": 0.5,
+      "tears": -0.6,
+      "range": 0.5,
+      "shot_speed": -0.3
+    },
+    "COLLECTIBLE_THE_BODY": {
+      "health": 3
+    },
+    "COLLECTIBLE_THE_SOUL": {
+      "soul_hearts": 2
+    },
+    "COLLECTIBLE_DEAD_ONION": {
+      "range": -1.5,
+      "shot_speed": -0.4
+    },
+    "COLLECTIBLE_SAFETY_PIN": {
+      "range": 2.5,
+      "shot_speed": 0.16
+    },
+    "COLLECTIBLE_CAFFEINE_PILL": {
+      "speed": 0.3
+    },
+    "COLLECTIBLE_TORN_PHOTO": {
+      "tears": 0.72,
+      "shot_speed": 0.16
+    },
+    "COLLECTIBLE_BLUE_CAP": {
+      "tears": 0.72,
+      "shot_speed": -0.16,
+      "health": 1
+    },
+    "COLLECTIBLE_LATCH_KEY": {
+      "luck": 1,
+      "soul_hearts": 1
+    },
+    "COLLECTIBLE_SYNTHOIL": {
+      "dmg": 1,
+      "range": 2.5
+    },
+    "COLLECTIBLE_A_SNACK": {
+      "health": 1
+    },
+    "COLLECTIBLE_CRACK_JACKS": {
+      "health": 1
+    },
+    "COLLECTIBLE_MOMS_PEARLS": {
+      "range": 2.5,
+      "luck": 1,
+      "soul_hearts": 1
+    },
+    "COLLECTIBLE_8_INCH_NAILS": {
+      "dmg": 1.5
+    },
+    "COLLECTIBLE_CONTINUUM": {
+      "range": 3
+    },
+    "COLLECTIBLE_MR_DOLLY": {
+      "tears": 0.72,
+      "range": 2.5
+    },
+    "COLLECTIBLE_EDENS_BLESSING": {
+      "tears": 0.72
+    },
+    "COLLECTIBLE_MARKED": {
+      "tears": 0.72,
+      "range": 3
+    },
+    "COLLECTIBLE_TRACTOR_BEAM": {
+      "tears": 1,
+      "range": 2.5,
+      "shot_speed": 0.16
+    },
+    "COLLECTIBLE_CROWN_OF_LIGHT": {
+      "soul_hearts": 2
+    },
+    "COLLECTIBLE_PJS": {
+      "soul_hearts": 4
+    },
+    "COLLECTIBLE_BINKY": {
+      "tears": 0.77,
+      "soul_hearts": 1
+    },
+    "COLLECTIBLE_MOMS_BOX": {
+      "luck": 1
+    },
+    "COLLECTIBLE_APPLE": {
+      "tears": 0.3
+    },
+    "COLLECTIBLE_DOG_TOOTH": {
+      "dmg": 0.3,
+      "speed": 0.1
+    },
+    "COLLECTIBLE_METAL_PLATE": {
+      "soul_hearts": 1
+    },
+    "COLLECTIBLE_COMPOUND_FRACTURE": {
+      "range": 1.5
+    },
+    "COLLECTIBLE_DADS_LOST_COIN": {
+      "range": 2.5
+    },
+    "COLLECTIBLE_MIDNIGHT_SNACK": {
+      "health": 1
+    },
+    "COLLECTIBLE_CONE_HEAD": {
+      "soul_hearts": 1
+    },
+    "COLLECTIBLE_EYE_OF_BELIAL": {
+      "range": 1.5
+    },
+    "COLLECTIBLE_SULFURIC_ACID": {
+      "dmg": 0.3
+    },
+    "COLLECTIBLE_GLYPH_OF_BALANCE": {
+      "soul_hearts": 2
+    },
+    "COLLECTIBLE_ANALOG_STICK": {
+      "tears": 0.35
+    },
+    "COLLECTIBLE_YO_LISTEN": {
+      "luck": 1
+    },
+    "COLLECTIBLE_BOZO": {
+      "dmg": 0.1,
+      "soul_hearts": 1
+    },
+    "COLLECTIBLE_HAEMOLACRIA": {
+      "dmg": 1,
+      "dmg_x": 1.5,
+      "tears": 0.22,
+      "tears_x": 0.264,
+      "range": -1.3
+    },
+    "COLLECTIBLE_BLANKET": {
+      "soul_hearts": 1
+    },
+    "COLLECTIBLE_DIVORCE_PAPERS": {
+      "tears": 0.72
+    },
+    "COLLECTIBLE_ALMOND_MILK": {
+      "dmg_x": 0.3,
+      "tears_x": 4
+    },
+    "COLLECTIBLE_A_BAR_OF_SOAP": {
+      "tears": 0.5,
+      "shot_speed": 0.2
+    },
+    "COLLECTIBLE_ORPHAN_SOCKS": {
+      "speed": 0.3,
+      "soul_hearts": 2
+    },
+    "COLLECTIBLE_EYE_OF_THE_OCCULT": {
+      "dmg": 1,
+      "range": 2,
+      "shot_speed": -0.16
+    },
+    "COLLECTIBLE_IMMACULATE_HEART": {
+      "dmg_x": 1.2,
+      "health": 1
+    },
+    "COLLECTIBLE_MERCURIUS": {
+      "speed": 0.4
+    },
+    "COLLECTIBLE_VENUS": {
+      "health": 1
+    },
+    "COLLECTIBLE_TERRA": {
+      "dmg": 1
+    },
+    "COLLECTIBLE_JUPITER": {
+      "speed": 0.2
+    },
+    "COLLECTIBLE_PLUTO": {
+      "tears": 0.72
+    },
+    "COLLECTIBLE_ACT_OF_CONTRITION": {
+      "tears": 0.72
+    },
+    "COLLECTIBLE_BLOOD_BOMBS": {
+      "health": 1
+    },
+    "COLLECTIBLE_EVIL_CHARM": {
+      "luck": 2
+    },
+    "COLLECTIBLE_DOGMA": {
+      "dmg": 2,
+      "speed": 0.1
+    },
+    "COLLECTIBLE_REVELATION": {
+      "soul_hearts": 2
+    },
+    "COLLECTIBLE_TROPICAMIDE": {
+      "range": 2.5
+    },
+    "COLLECTIBLE_BINGE_EATER": {
+      "health": 1
+    },
+    "COLLECTIBLE_SAUSAGE": {
+      "dmg": 0.5,
+      "tears": 0.5,
+      "range": 1.5,
+      "speed": 0.2,
+      "shot_speed": 0.16,
+      "luck": 1,
+      "health": 1
+    },
+    "COLLECTIBLE_SOUL_LOCKET": {
+      "soul_hearts": 1
+    },
+    "COLLECTIBLE_HEARTBREAK": {
+      "dmg": 0.75
+    },
+    "COLLECTIBLE_SUPPER": {
+      "health": 1
+    },
+    "COLLECTIBLE_STAPLER": {
+      "dmg": 1
+    },
+    "COLLECTIBLE_GLASS_EYE": {
+      "dmg": 0.75,
+      "luck": 1
+    },
+    "COLLECTIBLE_MOMS_RING": {
+      "dmg": 1
+    }
+  }
+}

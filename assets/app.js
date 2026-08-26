@@ -7,6 +7,8 @@ import { runOdds, AXES, NEUTRAL } from '../src/engine.js';
 import { composeDraft, findSynergies, synergyStrength, transformationProgress, findTransformations } from '../src/synergy.js';
 import { resolveRating, TAG_TABLE, QUALITY_OFFENSE } from '../src/ratings.js';
 import { pendingFamilies, leaningCells, pullCompletion } from '../src/draft.js';
+import { composeAdvanced, isAdvancedItem } from '../src/advanced.js';
+import { composeStats, baselineStats, BASE } from '../src/stats.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -27,7 +29,17 @@ const state = {
   config: null,
   ratings: new Map(), // id -> resolved vector
   sort: { key: 'offense', dir: -1 },
+  // 'casual' rates items on five assigned axes; 'advanced' runs the game's own
+  // stat curves over the numbers the game actually publishes.
+  mode: localStorage.getItem('the-13-0-mode') === 'advanced' ? 'advanced' : 'casual',
+  character: localStorage.getItem('the-13-0-character') || 'ISAAC',
 };
+
+const isAdvanced = () => state.mode === 'advanced';
+
+/** The starting stat line for whoever is selected. Isaac unless chosen. */
+const activeCharacter = () =>
+  state.characters?.find((c) => c.id === state.character) ?? { id: 'ISAAC', name: 'Isaac', stats: {} };
 
 const ROUNDS = 5;
 const OFFER = 6;
@@ -118,10 +130,12 @@ async function init() {
   let config;
   let synergies;
   let transformations;
+  let itemStats;
+  let characters;
 
   try {
-    [items, bosses, config, synergies, transformations] = await Promise.all(
-      ['data/items.json', 'data/bosses.json', 'data/config.json', 'data/synergies.json', 'data/transformations.json'].map(async (path) => {
+    [items, bosses, config, synergies, transformations, itemStats, characters] = await Promise.all(
+      ['data/items.json', 'data/bosses.json', 'data/config.json', 'data/synergies.json', 'data/transformations.json', 'data/item-stats.json', 'data/characters.json'].map(async (path) => {
         const res = await fetch(path);
         if (!res.ok) throw new Error(`${path} returned ${res.status}`);
         return res.json();
@@ -138,6 +152,8 @@ async function init() {
   state.config = config;
   state.rules = synergies.rules;
   state.transformations = transformations;
+  state.itemStats = itemStats.stats;
+  state.characters = characters.characters;
   for (const item of state.items) state.ratings.set(item.id, resolveRating(item));
 
   buildItemsView();
@@ -203,7 +219,11 @@ function writeHash() {
 /** Items a roll can actually reach: in a real pool, and with a quality. */
 function draftable() {
   return state.items.filter(
-    (i) => i.scraped?.quality != null && (i.scraped?.pools ?? []).some(isRealPool),
+    (i) => i.scraped?.quality != null
+      && (i.scraped?.pools ?? []).some(isRealPool)
+      // Advanced offers only items it can actually describe. An item with no
+      // stat delta and no mechanic would be a pick worth literally nothing.
+      && (!isAdvanced() || isAdvancedItem(i, state.itemStats)),
   );
 }
 
@@ -369,8 +389,20 @@ function showNextAnnouncement() {
 
 /** Odds for an arbitrary set of item ids, synergies included. */
 function oddsFor(ids) {
+  const items = ids.map((id) => byId(id));
+
+  if (isAdvanced()) {
+    // Advanced has its own difficulty solve: it reaches the same five axes by a
+    // different road, so its spread of drafts is a different distribution.
+    const config = { ...state.config, ...state.config.advanced };
+    const { build, stats, fired, transformed } = composeAdvanced(
+      items, state.itemStats, state.rules, state.transformations, activeCharacter().stats,
+    );
+    return { build, stats, fired, transformed, ...runOdds(build, state.bosses, config) };
+  }
+
   const { build, fired, transformed } = composeDraft(
-    ids.map((id) => byId(id)),
+    items,
     ids.map((id) => state.ratings.get(id)),
     state.rules,
     state.transformations,
@@ -463,13 +495,68 @@ function renderRun() {
   $('#candidates-panel').hidden = done;
   $('#results').hidden = !done;
 
+  renderMode();
   renderRoll();
   renderCandidates();
   renderBuildStrip();
+  renderStats();
   renderProgress();
 
   if (done) renderResults();
   writeHash();
+}
+
+// ---------------------------------------------------------------- mode
+function renderMode() {
+  for (const btn of $$('.mode-btn')) {
+    const on = btn.dataset.mode === state.mode;
+    btn.setAttribute('aria-pressed', String(on));
+    btn.classList.toggle('is-on', on);
+  }
+  $('#mode-char-wrap').hidden = !isAdvanced();
+  $('#mode-note').textContent = isAdvanced()
+    ? `Real stats, the game's own curves. ${draftable().length} items — only the ones the data can describe.`
+    : 'Items rated on five combat axes. The whole pool is in play.';
+}
+
+/** The stat line, which only Advanced has. */
+function renderStats() {
+  const panel = $('#stats-panel');
+  panel.hidden = !isAdvanced();
+  if (!isAdvanced()) return;
+
+  const character = activeCharacter();
+  const stats = composeStats(
+    run.picks.map((id) => state.itemStats[id]).filter(Boolean),
+    character.stats,
+  );
+  const base = composeStats([], character.stats);
+
+  $('#stats-note').textContent = `${character.name}, ${run.picks.length} of ${ROUNDS} picks. `
+    + `Damage and fire rate use the game's own formulas; the rest are the deltas the game publishes.`;
+
+  const row = (label, value, was, hint) => el('div', { className: 'stat-cell', title: hint ?? '' }, [
+    el('span', { className: 'stat-key', textContent: label }),
+    el('span', { className: 'stat-val', textContent: value }),
+    was != null ? el('span', { className: 'stat-was', textContent: was }) : null,
+  ]);
+
+  const delta = (now, then, digits = 2) => {
+    const d = now - then;
+    if (Math.abs(d) < 0.005) return null;
+    return `${d > 0 ? '+' : ''}${d.toFixed(digits)}`;
+  };
+
+  $('#stat-line').replaceChildren(
+    row('DPS', stats.dps.toFixed(1), delta(stats.dps, base.dps, 1), 'Damage multiplied by tears per second.'),
+    row('Damage', stats.damage.toFixed(2), delta(stats.damage, base.damage), 'base x sqrt(ups x 1.2 + 1)'),
+    row('Tears/s', stats.fireRate.toFixed(2), delta(stats.fireRate, base.fireRate), `${stats.tearDelay} frames between shots`),
+    row('Range', stats.range.toFixed(1), delta(stats.range, base.range, 1)),
+    row('Shot speed', stats.shotSpeed.toFixed(2), delta(stats.shotSpeed, base.shotSpeed)),
+    row('Speed', stats.speed.toFixed(2), delta(stats.speed, base.speed), 'Capped at 2.00 in game.'),
+    row('Luck', stats.luck.toFixed(1), delta(stats.luck, base.luck, 1)),
+    row('Health', `${stats.health}\u2665 ${stats.soulHearts ? `+${stats.soulHearts}` : ''}`.trim(), null),
+  );
 }
 
 function renderRoll() {
@@ -899,6 +986,31 @@ function wireEvents() {
   $('#candidates').addEventListener('click', (e) => {
     const button = e.target.closest('[data-pick]');
     if (button) choose(button.dataset.pick);
+  });
+
+  for (const btn of $$('.mode-btn')) {
+    btn.addEventListener('click', () => {
+      if (btn.dataset.mode === state.mode) return;
+      state.mode = btn.dataset.mode;
+      localStorage.setItem('the-13-0-mode', state.mode);
+      // The pools differ between modes, so a half-played run cannot carry over.
+      announceQueue = [];
+      if (!$('#transform-pop').hidden) showNextAnnouncement();
+      history.replaceState(null, '', '#/draft');
+      startRun();
+    });
+  }
+
+  const charSelect = $('#mode-char');
+  charSelect.replaceChildren(
+    ...state.characters.map((c) => el('option', { value: c.id, textContent: c.name, title: c.note ?? '' })),
+  );
+  charSelect.value = state.character;
+  charSelect.addEventListener('change', () => {
+    state.character = charSelect.value;
+    localStorage.setItem('the-13-0-character', state.character);
+    history.replaceState(null, '', '#/draft');
+    startRun();
   });
 
   $('#transform-go').addEventListener('click', showNextAnnouncement);

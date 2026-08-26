@@ -2,6 +2,38 @@
   "scrapeLayer": true,
   "items": [
     {
+      "id": "COLLECTIBLE_HEART",
+      "name": "<3",
+      "scraped": {
+        "quality": 2,
+        "pools": [
+          "treasure",
+          "greedboss",
+          "ultrasecret"
+        ],
+        "type": "passive",
+        "stats": {
+          "red_containers": 1,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": []
+        }
+      },
+      "rated": null,
+      "tags": [
+        "nolostbr",
+        "health_up"
+      ]
+    },
+    {
       "id": "COLLECTIBLE_120_VOLT",
       "name": "120 Volt",
       "scraped": {
@@ -35,7 +67,7 @@
     },
     {
       "id": "COLLECTIBLE_ONE_UP",
-      "name": "1up!",
+      "name": "1UP",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -115,7 +147,7 @@
     },
     {
       "id": "COLLECTIBLE_2SPOOKY",
-      "name": "2spooky",
+      "name": "2Spooky",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -1153,7 +1185,7 @@
     },
     {
       "id": "COLLECTIBLE_APPLE",
-      "name": "Apple",
+      "name": "Apple!",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -1377,7 +1409,7 @@
     },
     {
       "id": "COLLECTIBLE_BACKSTABBER",
-      "name": "Backstabber",
+      "name": "BackStabber",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -1546,7 +1578,7 @@
     },
     {
       "id": "COLLECTIBLE_BBF",
-      "name": "Bbf",
+      "name": "BBF",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -1642,7 +1674,7 @@
     },
     {
       "id": "COLLECTIBLE_BERSERK",
-      "name": "Berserk",
+      "name": "Berserk!",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -2829,7 +2861,7 @@
     },
     {
       "id": "COLLECTIBLE_BOBBYBOMB",
-      "name": "Bobbybomb",
+      "name": "Bobby-Bomb",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -3023,6 +3055,35 @@
       ]
     },
     {
+      "id": "COLLECTIBLE_THE_BOOK_OF_BELIAL",
+      "name": "Book of Belial",
+      "scraped": {
+        "quality": 0,
+        "pools": [],
+        "type": "passive",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": [
+            "damage"
+          ]
+        }
+      },
+      "rated": null,
+      "tags": [
+        "damage_up"
+      ]
+    },
+    {
       "id": "COLLECTIBLE_BOOK_OF_REVELATIONS",
       "name": "Book of Revelations",
       "scraped": {
@@ -3205,7 +3266,7 @@
     },
     {
       "id": "COLLECTIBLE_BOOM",
-      "name": "Boom",
+      "name": "Boom!",
       "scraped": {
         "quality": 0,
         "pools": [
@@ -3230,6 +3291,37 @@
       "rated": null,
       "tags": [
         "offensive"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_THE_BOOMERANG",
+      "name": "Boomerang",
+      "scraped": {
+        "quality": 2,
+        "pools": [
+          "shop",
+          "cranegame"
+        ],
+        "type": "active",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": []
+        }
+      },
+      "rated": null,
+      "tags": [
+        "offensive",
+        "active"
       ]
     },
     {
@@ -3552,7 +3644,7 @@
     },
     {
       "id": "COLLECTIBLE_BRIMSTONE_BOMBS",
-      "name": "Brimstone Bombs",
+      "name": "Brimstone bombs",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -3710,7 +3802,7 @@
     },
     {
       "id": "COLLECTIBLE_BROKEN_SHOVEL2",
-      "name": "Broken Shovel2",
+      "name": "Broken Shovel",
       "scraped": {
         "quality": 4,
         "pools": [],
@@ -4458,7 +4550,7 @@
     },
     {
       "id": "COLLECTIBLE_CATONINETAILS",
-      "name": "Catoninetails",
+      "name": "Cat-o-nine-tails",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -4903,47 +4995,6 @@
         "nochallenge",
         "nodaily",
         "active"
-      ]
-    },
-    {
-      "id": "COLLECTIBLE_COMMON_COLD",
-      "name": "Common Cold",
-      "scraped": {
-        "quality": 1,
-        "pools": [
-          "treasure",
-          "greedtreasure"
-        ],
-        "type": "passive",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": [
-            "tearcolor",
-            "tearflag"
-          ]
-        }
-      },
-      "rated": {
-        "source": "hand",
-        "note": "Occasional poison.",
-        "offense": 1.12,
-        "aoe": 1,
-        "tracking": 0,
-        "defense": 1,
-        "evasion": 0
-      },
-      "tags": [
-        "dot"
       ]
     },
     {
@@ -5730,7 +5781,7 @@
     },
     {
       "id": "COLLECTIBLE_D_INFINITY",
-      "name": "D Infinity",
+      "name": "D infinity",
       "scraped": {
         "quality": 4,
         "pools": [
@@ -5953,47 +6004,6 @@
         "offensive",
         "nocantrip",
         "active"
-      ]
-    },
-    {
-      "id": "COLLECTIBLE_D6",
-      "name": "D6",
-      "scraped": {
-        "quality": 4,
-        "pools": [
-          "treasure",
-          "greedshop",
-          "cranegame",
-          "ultrasecret"
-        ],
-        "type": "active",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": []
-        }
-      },
-      "rated": {
-        "source": "hand",
-        "note": "Rerolls items. Its value is upstream of combat, but it is real.",
-        "offense": 1.25,
-        "aoe": 1.2,
-        "tracking": 0,
-        "defense": 1.05,
-        "evasion": 0
-      },
-      "tags": [
-        "active",
-        "reroll"
       ]
     },
     {
@@ -6384,7 +6394,7 @@
     },
     {
       "id": "COLLECTIBLE_DARK_PRINCES_CROWN",
-      "name": "Dark Princes Crown",
+      "name": "Dark Prince's Crown",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -7538,7 +7548,7 @@
     },
     {
       "id": "COLLECTIBLE_E_COLI",
-      "name": "E Coli",
+      "name": "E. Coli",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -7834,7 +7844,7 @@
     },
     {
       "id": "COLLECTIBLE_ESAU_JR",
-      "name": "Esau Jr",
+      "name": "Esau Jr.",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -8380,7 +8390,7 @@
     },
     {
       "id": "COLLECTIBLE_FALSE_PHD",
-      "name": "False Phd",
+      "name": "False PHD",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -8590,7 +8600,7 @@
     },
     {
       "id": "COLLECTIBLE_FINGER",
-      "name": "Finger",
+      "name": "Finger!",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -8738,7 +8748,7 @@
     },
     {
       "id": "COLLECTIBLE_FLUSH",
-      "name": "Flush",
+      "name": "Flush!",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -9105,7 +9115,7 @@
     },
     {
       "id": "COLLECTIBLE_GB_BUG",
-      "name": "Gb Bug",
+      "name": "GB Bug",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -9573,7 +9583,7 @@
     },
     {
       "id": "COLLECTIBLE_GLOWING_HOUR_GLASS",
-      "name": "Glowing Hour Glass",
+      "name": "Glowing Hourglass",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -10048,7 +10058,7 @@
     },
     {
       "id": "COLLECTIBLE_GUPPYS_HAIR_BALL",
-      "name": "Guppy's Hair Ball",
+      "name": "Guppy's Hairball",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -10483,38 +10493,6 @@
       ]
     },
     {
-      "id": "COLLECTIBLE_HEART",
-      "name": "Heart",
-      "scraped": {
-        "quality": 2,
-        "pools": [
-          "treasure",
-          "greedboss",
-          "ultrasecret"
-        ],
-        "type": "passive",
-        "stats": {
-          "red_containers": 1,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": []
-        }
-      },
-      "rated": null,
-      "tags": [
-        "nolostbr",
-        "health_up"
-      ]
-    },
-    {
       "id": "COLLECTIBLE_HEARTBREAK",
       "name": "Heartbreak",
       "scraped": {
@@ -10917,7 +10895,7 @@
     },
     {
       "id": "COLLECTIBLE_HUMBLEING_BUNDLE",
-      "name": "Humbleing Bundle",
+      "name": "Humbling Bundle",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -11046,7 +11024,7 @@
     },
     {
       "id": "COLLECTIBLE_IBS",
-      "name": "Ibs",
+      "name": "IBS",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -11568,7 +11546,7 @@
     },
     {
       "id": "COLLECTIBLE_IV_BAG",
-      "name": "Iv Bag",
+      "name": "IV Bag",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -12079,7 +12057,7 @@
     },
     {
       "id": "COLLECTIBLE_KEY_PIECE_1",
-      "name": "Key Piece 1",
+      "name": "Key Piece #1",
       "scraped": {
         "quality": 0,
         "pools": [],
@@ -12112,7 +12090,7 @@
     },
     {
       "id": "COLLECTIBLE_KEY_PIECE_2",
-      "name": "Key Piece 2",
+      "name": "Key Piece #2",
       "scraped": {
         "quality": 0,
         "pools": [],
@@ -12810,47 +12788,6 @@
       ]
     },
     {
-      "id": "COLLECTIBLE_LIL_BRIMSTONE",
-      "name": "Lil Brimstone",
-      "scraped": {
-        "quality": 3,
-        "pools": [
-          "treasure",
-          "devil",
-          "babyshop"
-        ],
-        "type": "familiar",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": []
-        }
-      },
-      "rated": {
-        "source": "hand",
-        "note": "Familiar Brimstone. Meaningful damage that aims itself.",
-        "offense": 1.35,
-        "aoe": 1.25,
-        "tracking": 0.7,
-        "defense": 1,
-        "evasion": 0
-      },
-      "tags": [
-        "familiar",
-        "laser",
-        "charged"
-      ]
-    },
-    {
       "id": "COLLECTIBLE_LIL_CHEST",
       "name": "Lil Chest",
       "scraped": {
@@ -12984,45 +12921,6 @@
         "summonable",
         "monstermanual",
         "offensive",
-        "familiar"
-      ]
-    },
-    {
-      "id": "COLLECTIBLE_LIL_HAUNT",
-      "name": "Lil Haunt",
-      "scraped": {
-        "quality": 1,
-        "pools": [
-          "treasure",
-          "greedtreasure",
-          "babyshop"
-        ],
-        "type": "familiar",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": []
-        }
-      },
-      "rated": {
-        "source": "hand",
-        "note": "Fears and body-blocks. Half its value is defensive.",
-        "offense": 1.15,
-        "aoe": 1.1,
-        "tracking": 0.7,
-        "defense": 1.15,
-        "evasion": 0
-      },
-      "tags": [
         "familiar"
       ]
     },
@@ -13174,6 +13072,86 @@
       ]
     },
     {
+      "id": "COLLECTIBLE_LIL_BRIMSTONE",
+      "name": "Lil' Brimstone",
+      "scraped": {
+        "quality": 3,
+        "pools": [
+          "treasure",
+          "devil",
+          "babyshop"
+        ],
+        "type": "familiar",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": []
+        }
+      },
+      "rated": {
+        "source": "hand",
+        "note": "Familiar Brimstone. Meaningful damage that aims itself.",
+        "offense": 1.35,
+        "aoe": 1.25,
+        "tracking": 0.7,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar",
+        "laser",
+        "charged"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_LIL_HAUNT",
+      "name": "Lil' Haunt",
+      "scraped": {
+        "quality": 1,
+        "pools": [
+          "treasure",
+          "greedtreasure",
+          "babyshop"
+        ],
+        "type": "familiar",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": []
+        }
+      },
+      "rated": {
+        "source": "hand",
+        "note": "Fears and body-blocks. Half its value is defensive.",
+        "offense": 1.15,
+        "aoe": 1.1,
+        "tracking": 0.7,
+        "defense": 1.15,
+        "evasion": 0
+      },
+      "tags": [
+        "familiar"
+      ]
+    },
+    {
       "id": "COLLECTIBLE_LINGER_BEAN",
       "name": "Linger Bean",
       "scraped": {
@@ -13239,7 +13217,7 @@
     },
     {
       "id": "COLLECTIBLE_LITTLE_CHAD",
-      "name": "Little Chad",
+      "name": "Little C.H.A.D.",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -14041,7 +14019,7 @@
     },
     {
       "id": "COLLECTIBLE_MAMA_MEGA",
-      "name": "Mama Mega",
+      "name": "Mama Mega!",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -14284,8 +14262,39 @@
       ]
     },
     {
+      "id": "COLLECTIBLE_MEAT_CLEAVER",
+      "name": "Meat Cleaver",
+      "scraped": {
+        "quality": 1,
+        "pools": [
+          "treasure",
+          "greedtreasure"
+        ],
+        "type": "active",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": []
+        }
+      },
+      "rated": null,
+      "tags": [
+        "offensive",
+        "active"
+      ]
+    },
+    {
       "id": "COLLECTIBLE_MEAT",
-      "name": "Meat",
+      "name": "Meat!",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -14317,37 +14326,6 @@
         "summonable",
         "damage_up",
         "health_up"
-      ]
-    },
-    {
-      "id": "COLLECTIBLE_MEAT_CLEAVER",
-      "name": "Meat Cleaver",
-      "scraped": {
-        "quality": 1,
-        "pools": [
-          "treasure",
-          "greedtreasure"
-        ],
-        "type": "active",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": []
-        }
-      },
-      "rated": null,
-      "tags": [
-        "offensive",
-        "active"
       ]
     },
     {
@@ -14657,7 +14635,7 @@
     },
     {
       "id": "COLLECTIBLE_MILK",
-      "name": "Milk",
+      "name": "Milk!",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -15673,7 +15651,7 @@
     },
     {
       "id": "COLLECTIBLE_MONEY__POWER",
-      "name": "Money Power",
+      "name": "Money = Power",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -15982,7 +15960,7 @@
     },
     {
       "id": "COLLECTIBLE_MR_BOOM",
-      "name": "Mr Boom",
+      "name": "Mr. Boom",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -16014,7 +15992,7 @@
     },
     {
       "id": "COLLECTIBLE_MR_DOLLY",
-      "name": "Mr Dolly",
+      "name": "Mr. Dolly",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -16053,7 +16031,7 @@
     },
     {
       "id": "COLLECTIBLE_MR_ME",
-      "name": "Mr Me",
+      "name": "Mr. Me!",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -16655,7 +16633,7 @@
     },
     {
       "id": "COLLECTIBLE_NUMBER_TWO",
-      "name": "Number Two",
+      "name": "Number two",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -16755,7 +16733,7 @@
     },
     {
       "id": "COLLECTIBLE_ODD_MUSHROOM_LARGE",
-      "name": "Odd Mushroom (Large)",
+      "name": "Odd Mushroom (Thick)",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -16801,7 +16779,7 @@
     },
     {
       "id": "COLLECTIBLE_ODD_MUSHROOM_THIN",
-      "name": "Odd Mushroom Thin",
+      "name": "Odd Mushroom (Thin)",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -16882,7 +16860,7 @@
     },
     {
       "id": "COLLECTIBLE_OPTIONS",
-      "name": "Options",
+      "name": "Options?",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -17276,7 +17254,7 @@
     },
     {
       "id": "COLLECTIBLE_PHD",
-      "name": "Phd",
+      "name": "PhD",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -17367,6 +17345,39 @@
       ]
     },
     {
+      "id": "COLLECTIBLE_THE_PINKING_SHEARS",
+      "name": "Pinking Shears",
+      "scraped": {
+        "quality": 2,
+        "pools": [
+          "treasure",
+          "greedtreasure"
+        ],
+        "type": "active",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": [
+            "familiars"
+          ]
+        }
+      },
+      "rated": null,
+      "tags": [
+        "offensive",
+        "active"
+      ]
+    },
+    {
       "id": "COLLECTIBLE_PISCES",
       "name": "Pisces",
       "scraped": {
@@ -17409,7 +17420,7 @@
     },
     {
       "id": "COLLECTIBLE_PJS",
-      "name": "Pjs",
+      "name": "PJs",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -17802,7 +17813,7 @@
     },
     {
       "id": "COLLECTIBLE_POP",
-      "name": "Pop",
+      "name": "Pop!",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -18666,6 +18677,43 @@
       ]
     },
     {
+      "id": "COLLECTIBLE_ROBOBABY",
+      "name": "Robo-Baby",
+      "scraped": {
+        "quality": 1,
+        "pools": [
+          "treasure",
+          "greedtreasure",
+          "cranegame",
+          "babyshop"
+        ],
+        "type": "familiar",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": []
+        }
+      },
+      "rated": null,
+      "tags": [
+        "summonable",
+        "baby",
+        "tech",
+        "monstermanual",
+        "offensive",
+        "familiar"
+      ]
+    },
+    {
       "id": "COLLECTIBLE_ROBO_BABY_2",
       "name": "Robo-Baby 2.0",
       "scraped": {
@@ -18704,43 +18752,6 @@
       "tags": [
         "familiar",
         "laser"
-      ]
-    },
-    {
-      "id": "COLLECTIBLE_ROBOBABY",
-      "name": "Robobaby",
-      "scraped": {
-        "quality": 1,
-        "pools": [
-          "treasure",
-          "greedtreasure",
-          "cranegame",
-          "babyshop"
-        ],
-        "type": "familiar",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": []
-        }
-      },
-      "rated": null,
-      "tags": [
-        "summonable",
-        "baby",
-        "tech",
-        "monstermanual",
-        "offensive",
-        "familiar"
       ]
     },
     {
@@ -19378,47 +19389,6 @@
       ]
     },
     {
-      "id": "COLLECTIBLE_SAD_ONION",
-      "name": "Sad Onion",
-      "scraped": {
-        "quality": 3,
-        "pools": [
-          "treasure",
-          "greedtreasure",
-          "cranegame"
-        ],
-        "type": "passive",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": [
-            "firedelay"
-          ]
-        }
-      },
-      "rated": {
-        "source": "hand",
-        "note": "Baseline calibration item. Everything else is measured against this.",
-        "offense": 1.22,
-        "aoe": 1,
-        "tracking": 0,
-        "defense": 1,
-        "evasion": 0
-      },
-      "tags": [
-        "tears_up"
-      ]
-    },
-    {
       "id": "COLLECTIBLE_SAFETY_PIN",
       "name": "Safety Pin",
       "scraped": {
@@ -19600,40 +19570,6 @@
         "nolostbr",
         "summonable",
         "damage_up"
-      ]
-    },
-    {
-      "id": "COLLECTIBLE_SATANIC_BIBLE",
-      "name": "Satanic Bible",
-      "scraped": {
-        "quality": 4,
-        "pools": [
-          "treasure",
-          "devil",
-          "library",
-          "greeddevil"
-        ],
-        "type": "active",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": []
-        }
-      },
-      "rated": null,
-      "tags": [
-        "nolostbr",
-        "book",
-        "active"
       ]
     },
     {
@@ -20231,7 +20167,7 @@
     },
     {
       "id": "COLLECTIBLE_SISSY_LONGLEGS",
-      "name": "Sissy Longlegs",
+      "name": "Sissy Long Legs",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -20403,48 +20339,6 @@
       ]
     },
     {
-      "id": "COLLECTIBLE_THE_SMALL_ROCK",
-      "name": "Small Rock",
-      "scraped": {
-        "quality": 3,
-        "pools": [
-          "cranegame"
-        ],
-        "type": "passive",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": [
-            "tearcolor",
-            "damage",
-            "speed",
-            "firedelay"
-          ]
-        }
-      },
-      "rated": {
-        "source": "hand",
-        "note": "Damage and a container, speed down.",
-        "offense": 1.15,
-        "aoe": 1,
-        "tracking": 0,
-        "defense": 1.08,
-        "evasion": 0
-      },
-      "tags": [
-        "damage_up"
-      ]
-    },
-    {
       "id": "COLLECTIBLE_SMART_FLY",
       "name": "Smart Fly",
       "scraped": {
@@ -20481,7 +20375,7 @@
     },
     {
       "id": "COLLECTIBLE_SMB_SUPER_FAN",
-      "name": "Smb Super Fan",
+      "name": "SMB Super Fan",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -20766,6 +20660,48 @@
       ]
     },
     {
+      "id": "COLLECTIBLE_SPIDERBITE",
+      "name": "Spider Bite",
+      "scraped": {
+        "quality": 2,
+        "pools": [
+          "treasure",
+          "greedtreasure",
+          "cranegame"
+        ],
+        "type": "passive",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": [
+            "tearcolor",
+            "tearflag"
+          ]
+        }
+      },
+      "rated": {
+        "source": "hand",
+        "note": "Slowing tears. Mild defensive value.",
+        "offense": 1.15,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "slowing"
+      ]
+    },
+    {
       "id": "COLLECTIBLE_SPIDER_BUTT",
       "name": "Spider Butt",
       "scraped": {
@@ -20865,48 +20801,6 @@
         "nolostbr",
         "summonable",
         "spider"
-      ]
-    },
-    {
-      "id": "COLLECTIBLE_SPIDERBITE",
-      "name": "Spiderbite",
-      "scraped": {
-        "quality": 2,
-        "pools": [
-          "treasure",
-          "greedtreasure",
-          "cranegame"
-        ],
-        "type": "passive",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": [
-            "tearcolor",
-            "tearflag"
-          ]
-        }
-      },
-      "rated": {
-        "source": "hand",
-        "note": "Slowing tears. Mild defensive value.",
-        "offense": 1.15,
-        "aoe": 1,
-        "tracking": 0,
-        "defense": 1.05,
-        "evasion": 0
-      },
-      "tags": [
-        "slowing"
       ]
     },
     {
@@ -21867,7 +21761,7 @@
     },
     {
       "id": "COLLECTIBLE_SUPLEX",
-      "name": "Suplex",
+      "name": "Suplex!",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -22457,10 +22351,10 @@
       ]
     },
     {
-      "id": "COLLECTIBLE_TELEPORT",
-      "name": "Teleport",
+      "id": "COLLECTIBLE_TELEPORT_20",
+      "name": "Teleport 2.0",
       "scraped": {
-        "quality": 0,
+        "quality": 3,
         "pools": [
           "treasure",
           "cranegame"
@@ -22488,10 +22382,10 @@
       ]
     },
     {
-      "id": "COLLECTIBLE_TELEPORT_20",
-      "name": "Teleport 20",
+      "id": "COLLECTIBLE_TELEPORT",
+      "name": "Teleport!",
       "scraped": {
-        "quality": 3,
+        "quality": 0,
         "pools": [
           "treasure",
           "cranegame"
@@ -22774,35 +22668,6 @@
       ]
     },
     {
-      "id": "COLLECTIBLE_THE_BOOK_OF_BELIAL",
-      "name": "The Book of Belial",
-      "scraped": {
-        "quality": 0,
-        "pools": [],
-        "type": "passive",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": [
-            "damage"
-          ]
-        }
-      },
-      "rated": null,
-      "tags": [
-        "damage_up"
-      ]
-    },
-    {
       "id": "COLLECTIBLE_THE_BOOK_OF_SIN",
       "name": "The Book of Sin",
       "scraped": {
@@ -22838,37 +22703,6 @@
       ]
     },
     {
-      "id": "COLLECTIBLE_THE_BOOMERANG",
-      "name": "The Boomerang",
-      "scraped": {
-        "quality": 2,
-        "pools": [
-          "shop",
-          "cranegame"
-        ],
-        "type": "active",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": []
-        }
-      },
-      "rated": null,
-      "tags": [
-        "offensive",
-        "active"
-      ]
-    },
-    {
       "id": "COLLECTIBLE_THE_CANDLE",
       "name": "The Candle",
       "scraped": {
@@ -22896,6 +22730,47 @@
       "tags": [
         "offensive",
         "active"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_COMMON_COLD",
+      "name": "The Common Cold",
+      "scraped": {
+        "quality": 1,
+        "pools": [
+          "treasure",
+          "greedtreasure"
+        ],
+        "type": "passive",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": [
+            "tearcolor",
+            "tearflag"
+          ]
+        }
+      },
+      "rated": {
+        "source": "hand",
+        "note": "Occasional poison.",
+        "offense": 1.12,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "dot"
       ]
     },
     {
@@ -22930,6 +22805,47 @@
         "offensive",
         "lazarussharedglobal",
         "nogreed"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_D6",
+      "name": "The D6",
+      "scraped": {
+        "quality": 4,
+        "pools": [
+          "treasure",
+          "greedshop",
+          "cranegame",
+          "ultrasecret"
+        ],
+        "type": "active",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": []
+        }
+      },
+      "rated": {
+        "source": "hand",
+        "note": "Rerolls items. Its value is upstream of combat, but it is real.",
+        "offense": 1.25,
+        "aoe": 1.2,
+        "tracking": 0,
+        "defense": 1.05,
+        "evasion": 0
+      },
+      "tags": [
+        "active",
+        "reroll"
       ]
     },
     {
@@ -23591,39 +23507,6 @@
       ]
     },
     {
-      "id": "COLLECTIBLE_THE_PINKING_SHEARS",
-      "name": "The Pinking Shears",
-      "scraped": {
-        "quality": 2,
-        "pools": [
-          "treasure",
-          "greedtreasure"
-        ],
-        "type": "active",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": [
-            "familiars"
-          ]
-        }
-      },
-      "rated": null,
-      "tags": [
-        "offensive",
-        "active"
-      ]
-    },
-    {
       "id": "COLLECTIBLE_THE_POLAROID",
       "name": "The Polaroid",
       "scraped": {
@@ -23726,6 +23609,81 @@
       ]
     },
     {
+      "id": "COLLECTIBLE_SAD_ONION",
+      "name": "The Sad Onion",
+      "scraped": {
+        "quality": 3,
+        "pools": [
+          "treasure",
+          "greedtreasure",
+          "cranegame"
+        ],
+        "type": "passive",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": [
+            "firedelay"
+          ]
+        }
+      },
+      "rated": {
+        "source": "hand",
+        "note": "Baseline calibration item. Everything else is measured against this.",
+        "offense": 1.22,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1,
+        "evasion": 0
+      },
+      "tags": [
+        "tears_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_SATANIC_BIBLE",
+      "name": "The Satanic Bible",
+      "scraped": {
+        "quality": 4,
+        "pools": [
+          "treasure",
+          "devil",
+          "library",
+          "greeddevil"
+        ],
+        "type": "active",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": []
+        }
+      },
+      "rated": null,
+      "tags": [
+        "nolostbr",
+        "book",
+        "active"
+      ]
+    },
+    {
       "id": "COLLECTIBLE_THE_SCOOPER",
       "name": "The Scooper",
       "scraped": {
@@ -23756,6 +23714,48 @@
       "tags": [
         "offensive",
         "active"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_THE_SMALL_ROCK",
+      "name": "The Small Rock",
+      "scraped": {
+        "quality": 3,
+        "pools": [
+          "cranegame"
+        ],
+        "type": "passive",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": [
+            "tearcolor",
+            "damage",
+            "speed",
+            "firedelay"
+          ]
+        }
+      },
+      "rated": {
+        "source": "hand",
+        "note": "Damage and a container, speed down.",
+        "offense": 1.15,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.08,
+        "evasion": 0
+      },
+      "tags": [
+        "damage_up"
       ]
     },
     {
@@ -23893,6 +23893,45 @@
         "syringe",
         "speed_up",
         "damage_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_WAFER",
+      "name": "The Wafer",
+      "scraped": {
+        "quality": 4,
+        "pools": [
+          "treasure",
+          "angel",
+          "greedtreasure"
+        ],
+        "type": "passive",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": []
+        }
+      },
+      "rated": {
+        "source": "hand",
+        "note": "Pure survivability. Carries glass-cannon drafts through the Beast.",
+        "offense": 1,
+        "aoe": 1,
+        "tracking": 0,
+        "defense": 1.85,
+        "evasion": 0
+      },
+      "tags": [
+        "damage_reduction"
       ]
     },
     {
@@ -24079,7 +24118,7 @@
     },
     {
       "id": "COLLECTIBLE_TMTRAINER",
-      "name": "Tmtrainer",
+      "name": "TMTRAINER",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -24143,7 +24182,7 @@
     },
     {
       "id": "COLLECTIBLE_TOOTH_PICKS",
-      "name": "Tooth Picks",
+      "name": "Toothpicks",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -25012,47 +25051,8 @@
       ]
     },
     {
-      "id": "COLLECTIBLE_WAFER",
-      "name": "Wafer",
-      "scraped": {
-        "quality": 4,
-        "pools": [
-          "treasure",
-          "angel",
-          "greedtreasure"
-        ],
-        "type": "passive",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": []
-        }
-      },
-      "rated": {
-        "source": "hand",
-        "note": "Pure survivability. Carries glass-cannon drafts through the Beast.",
-        "offense": 1,
-        "aoe": 1,
-        "tracking": 0,
-        "defense": 1.85,
-        "evasion": 0
-      },
-      "tags": [
-        "damage_reduction"
-      ]
-    },
-    {
       "id": "COLLECTIBLE_WAIT_WHAT",
-      "name": "Wait What",
+      "name": "Wait What?",
       "scraped": {
         "quality": 1,
         "pools": [],
@@ -25119,7 +25119,7 @@
     },
     {
       "id": "COLLECTIBLE_WE_NEED_TO_GO_DEEPER",
-      "name": "We Need to Go Deeper",
+      "name": "We Need to Go Deeper!",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -25361,7 +25361,7 @@
     },
     {
       "id": "COLLECTIBLE_XRAY_VISION",
-      "name": "Xray Vision",
+      "name": "X-Ray Vision",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -25392,7 +25392,7 @@
     },
     {
       "id": "COLLECTIBLE_YO_LISTEN",
-      "name": "Yo Listen",
+      "name": "YO LISTEN!",
       "scraped": {
         "quality": 2,
         "pools": [

@@ -125,7 +125,9 @@ test('no draftable item still shows a raw localisation key or a lost apostrophe'
   const known = new Set(['Glass Cannon', 'Glass Eye', 'Headless Baby', 'Jesus Juice', 'Mysterious Liquid', 'Sinus Infection']);
   for (const item of items) {
     if (item.scraped?.quality == null) continue;
-    assert.ok(!item.name.includes('#'), `${item.id}: name is still a localisation key`);
+    // A raw key looks like "#THE_WAFER_NAME". A bare # is not a problem —
+    // "Key Piece #1" really is called that.
+    assert.ok(!/^#[A-Z0-9_]+_NAME$/.test(item.name), `${item.id}: name is still a localisation key`);
     assert.ok(!/\s(Of|The|And|In|On|To|For|From)\s/.test(item.name), `${item.name}: small word capitalised mid-title`);
     // "Moms Key" is a possessive that lost its apostrophe; "Glass Eye" is not.
     if (/^[A-Z][a-z]+s\s/.test(item.name) && !known.has(item.name)) {

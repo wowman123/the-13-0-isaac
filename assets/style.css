@@ -568,3 +568,40 @@ td.is-strong { color: var(--red); }
 @media (prefers-reduced-motion: reduce) {
   .transform-scrim, .transform-card, .transform-piece, .transform-name { animation: none; }
 }
+
+/* Mode switch ------------------------------------------------------------- */
+.mode-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .6rem .9rem;
+  margin: 0 0 .9rem;
+}
+.mode-switch { display: flex; }
+.mode-btn {
+  font: 11px var(--pixel); text-transform: uppercase; color: var(--ink);
+  background: var(--parch-dim); border: 3px solid var(--ink); cursor: pointer;
+  padding: .5rem .85rem;
+}
+.mode-btn + .mode-btn { border-left-width: 0; }
+.mode-btn:hover { background: var(--parch-deep); }
+.mode-btn.is-on { color: var(--cream); background: var(--red); }
+.mode-char { display: flex; align-items: center; gap: .4rem; font: 10px var(--pixel); text-transform: uppercase; }
+.mode-char select {
+  font: 11px var(--pixel); color: var(--ink); background: var(--parch-dim);
+  border: 3px solid var(--ink); padding: .35rem .4rem;
+}
+.mode-note {
+  margin: 0; flex: 1 1 14rem; min-width: 0;
+  font-family: var(--sans); font-size: 12px; line-height: 1.4; color: var(--ink-faint);
+}
+
+/* The real stat line ------------------------------------------------------ */
+.stat-line {
+  display: grid; gap: .4rem;
+  grid-template-columns: repeat(auto-fit, minmax(5.4rem, 1fr));
+}
+.stat-cell {
+  display: grid; gap: .1rem; justify-items: center; text-align: center;
+  background: var(--parch-dim); border: 3px solid var(--ink); padding: .5rem .35rem;
+}
+.stat-key { font: 9px var(--pixel); text-transform: uppercase; color: var(--ink-soft); }
+.stat-val { font: 15px var(--pixel); color: var(--red); }
+.stat-was { font: 9px var(--pixel); color: #1d5c33; }

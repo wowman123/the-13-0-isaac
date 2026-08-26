@@ -6,6 +6,7 @@ import { dirname, join } from 'node:path';
 import { toScoreSpace, AXES } from '../../src/engine.js';
 import { composeDraft } from '../../src/synergy.js';
 import { resolveRating } from '../../src/ratings.js';
+import { composeAdvanced, isAdvancedItem } from '../../src/advanced.js';
 
 export const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
 
@@ -98,4 +99,47 @@ export function quantile(values, q) {
     else break;
   }
   return a[k];
+}
+
+
+/**
+ * The same sampling for Advanced mode.
+ *
+ * Two things differ. The pool is only the items Advanced can describe — a stat
+ * delta or a mechanic — because the rest are not offered there. And a build is
+ * composed through the real stat curves rather than assigned ratings, which is
+ * the whole point of the mode and the reason it needs its own difficulty solve.
+ */
+export function sampleAdvancedScores(
+  items, bosses, n, seed = 1337, draftSize = 5,
+  rules = load('data/synergies.json').rules,
+  transformations = load('data/transformations.json'),
+  statsById = load('data/item-stats.json').stats,
+) {
+  const pool = items.filter(
+    (i) => i.scraped?.quality != null
+      && (i.scraped?.pools ?? []).some((p) => !p.startsWith('greed'))
+      && isAdvancedItem(i, statsById),
+  );
+
+  const rng = mulberry32(seed);
+  const scores = new Float64Array(n * bosses.length);
+  const drafts = [];
+
+  for (let i = 0; i < n; i++) {
+    const picked = new Set();
+    while (picked.size < draftSize) picked.add(Math.floor(rng() * pool.length));
+    const idx = [...picked];
+    const { build } = composeAdvanced(idx.map((j) => pool[j]), statsById, rules, transformations);
+    const s = toScoreSpace(build);
+
+    for (let b = 0; b < bosses.length; b++) {
+      let acc = 0;
+      for (const axis of AXES) acc += (bosses[b].weights[axis] ?? 0) * s[axis];
+      scores[i * bosses.length + b] = acc;
+    }
+    drafts.push(idx);
+  }
+
+  return { scores, drafts, nBosses: bosses.length, n, pool };
 }
