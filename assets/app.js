@@ -132,10 +132,11 @@ async function init() {
   let transformations;
   let itemStats;
   let characters;
+  let notes;
 
   try {
-    [items, bosses, config, synergies, transformations, itemStats, characters] = await Promise.all(
-      ['data/items.json', 'data/bosses.json', 'data/config.json', 'data/synergies.json', 'data/transformations.json', 'data/item-stats.json', 'data/characters.json'].map(async (path) => {
+    [items, bosses, config, synergies, transformations, itemStats, characters, notes] = await Promise.all(
+      ['data/items.json', 'data/bosses.json', 'data/config.json', 'data/synergies.json', 'data/transformations.json', 'data/item-stats.json', 'data/characters.json', 'data/notes.json'].map(async (path) => {
         const res = await fetch(path);
         if (!res.ok) throw new Error(`${path} returned ${res.status}`);
         return res.json();
@@ -153,6 +154,8 @@ async function init() {
   state.rules = synergies.rules;
   state.transformations = transformations;
   state.itemStats = itemStats.stats;
+  state.itemText = itemStats.text ?? {};
+  state.notes = notes.notes ?? {};
   state.characters = characters.characters;
   for (const item of state.items) state.ratings.set(item.id, resolveRating(item));
 
@@ -429,13 +432,19 @@ function transformPreview(candidateId) {
  * pick from "which number is biggest" into "which one fits what I have".
  */
 /**
- * A sentence for an item nobody hand-rated.
+ * What to say about an item, best answer first.
  *
- * Only 181 of 721 items carry a written note. The rest used to print their raw
- * tag list — "Tags: nolostbr, health_up" — which is internal vocabulary and
- * told a player nothing. The same tags say something readable if you translate
- * them: what kind of item it is, what it does to your tears, and which stats it
- * moves. Nothing here is invented; it is the game's own `cache` field in words.
+ *   1. the hand-rated note, for the 181 items that have one
+ *   2. a hand-written note on whether it is worth a pick — these exist for the
+ *      items a player is offered most, and answer a different question from
+ *      the description below it: what an item does is not whether to take it
+ *   3. the sourced one-line description of what it actually does
+ *   4. a sentence generated from its tags, for the stat-ups that need no prose
+ *
+ * Nothing here is invented. Steps 3 and 4 are the game's own data in words, and
+ * step 2 is an opinion about data from step 3 rather than a claim about
+ * mechanics. Before any of this existed a row printed its raw tag list —
+ * "Tags: nolostbr, health_up" — which is internal vocabulary and said nothing.
  */
 const MECHANIC_WORDS = {
   homing: 'homing shots', laser: 'fires a laser', piercing: 'piercing shots',
@@ -458,6 +467,8 @@ const list = (parts) => (parts.length < 2
 
 function describe(item) {
   if (item.rated?.note) return item.rated.note;
+  if (state.notes?.[item.id]) return state.notes[item.id];
+  if (state.itemText?.[item.id]) return state.itemText[item.id];
 
   const tags = item.tags ?? [];
   const kind = { active: 'Active item', familiar: 'Familiar' }[item.scraped?.type] ?? 'Passive';

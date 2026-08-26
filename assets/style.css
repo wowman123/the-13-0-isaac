@@ -605,3 +605,9 @@ td.is-strong { color: var(--red); }
 .stat-key { font: 9px var(--pixel); text-transform: uppercase; color: var(--ink-soft); }
 .stat-val { font: 15px var(--pixel); color: var(--red); }
 .stat-was { font: 9px var(--pixel); color: #1d5c33; }
+
+.method-list {
+  margin: .4rem 0 .9rem 1.1rem; padding: 0;
+  font-family: var(--sans); font-size: 13.5px; line-height: 1.6; color: var(--ink-soft);
+}
+.method-list li { margin: .15rem 0; }

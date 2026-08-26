@@ -13,6 +13,12 @@
  * the collectible ids the game uses, which is also what `xmlId` holds here, so
  * the two line up exactly with no name matching involved.
  *
+ * The same source carries a one-line description of what each item does, which
+ * is the only licensed prose available: 513 of the 693 draftable items were
+ * never hand-rated and had nothing to say for themselves beyond a generated
+ * sentence about which stats they move. External Item Descriptions would cover
+ * them too, and better, but ships no licence file — see NOTICE.md.
+ *
  * Writes data/item-stats.json. Run it only when the upstream data changes.
  */
 
@@ -38,6 +44,7 @@ const byXmlId = new Map(scraped.filter((s) => s.xmlId).map((s) => [s.xmlId, s]))
 
 const stats = {};
 const names = {};
+const text = {};
 let withStats = 0;
 let unmatched = 0;
 
@@ -51,6 +58,10 @@ for (const [key, entry] of Object.entries(upstream)) {
   // wholesale rather than correcting by hand, one name at a time.
   if (typeof entry.name === 'string' && entry.name.trim()) names[mine.id] = entry.name.trim();
 
+  // What the item actually does, in one line. Items whose whole effect is a
+  // stat change carry no text here, because their numbers already say it.
+  if (typeof entry.text === 'string' && entry.text.trim()) text[mine.id] = entry.text.trim();
+
   const row = {};
   for (const field of NUMERIC) {
     const v = Number(entry[field]);
@@ -62,12 +73,13 @@ for (const [key, entry] of Object.entries(upstream)) {
 writeFileSync(
   join(root, 'data/item-stats.json'),
   `${JSON.stringify({
-    source: 'RebirthItemTracker items_rep.json (BSD-2-Clause) — numeric stat deltas and display names only',
+    source: 'RebirthItemTracker items_rep.json (BSD-2-Clause) — display names, one-line effect text, and numeric stat deltas',
     fields: NUMERIC,
     names,
+    text,
     stats,
   }, null, 2)}\n`,
 );
 
-console.log(`scrape-stats: ${Object.keys(names).length} names, ${withStats} items carry stat deltas`);
+console.log(`scrape-stats: ${Object.keys(names).length} names, ${Object.keys(text).length} descriptions, ${withStats} items carry stat deltas`);
 if (unmatched) console.log(`  ${unmatched} upstream ids matched nothing here (trinkets, cards, pills)`);

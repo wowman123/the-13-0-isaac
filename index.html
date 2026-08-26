@@ -260,6 +260,17 @@
       </div>
       <p>Because rules read the whole build rather than pairs, the draft stops being &ldquo;take the biggest number&rdquo;. During a run each candidate shows what it would combine with, so a weaker item that fits can beat a stronger one that does not.</p>
 
+      <h2>What an item row says</h2>
+      <p>181 items were rated by hand and carry a note written at the same time. The other 512 a draft can offer needed something better than the raw tag list they used to print, so a row now answers in the best terms available to it, in this order:</p>
+      <ol class="method-list">
+        <li>the hand-rated note, where one exists;</li>
+        <li>a hand-written verdict on whether the item is worth a pick &mdash; these exist for the items a player is offered most often;</li>
+        <li>a sourced one-line description of what the item actually does;</li>
+        <li>a sentence built from its tags, for the stat-ups that need no prose.</li>
+      </ol>
+      <p>Two and three answer different questions on purpose. What an item does is a fact about the game; whether to take it is a judgement about <em>this</em> game, and a five-item draft judged on thirteen boss fights is unkind to most of Isaac. Pills, trinkets, coins, keys and extra rooms are a large share of what the game hands you and almost none of it kills anything, so those notes say so plainly rather than letting a player wonder why the most exciting item in the offer scored nothing.</p>
+      <p>Nothing in either layer is invented. The descriptions and the stat numbers come from <a href="https://github.com/Rchardon/RebirthItemTracker">RebirthItemTracker</a> under a licence that permits it &mdash; see <code>NOTICE.md</code> &mdash; and the hand-written verdicts are opinions about those facts, not claims about mechanics.</p>
+
       <h2>Casual and Advanced</h2>
       <p>Everything above describes <strong>Casual</strong>: an item is worth what its five axes say, and those axes were assigned &mdash; by hand for 181 items, and from tags and quality for the rest. It is a model of the game, and its numbers are arguments rather than facts.</p>
       <p><strong>Advanced</strong> stops arguing and runs the game&rsquo;s own arithmetic. An item contributes the stat deltas the game actually publishes, and those are folded by the formulas the game itself uses:</p>

@@ -97,15 +97,21 @@ travels along, so here it is in full:
 > ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 > POSSIBILITY OF SUCH DAMAGE.
 
-Only two things are taken: the numeric stat deltas an item applies, and its
-display name. `tools/scrape-stats.mjs` regenerates the file.
+Three things are taken: each item's display name, the numeric stat deltas it
+applies, and its one-line description of what the item does.
+`tools/scrape-stats.mjs` regenerates the file.
+
+That third one is prose rather than fact, and it is included because this
+licence permits it — the notice above is the condition, and it is met. An
+earlier version of this file said only numbers and names were taken, which was
+true when it was written and is not any more.
 
 A note on what was **not** taken. The External Item Descriptions mod carries a
-written description for every item in the game, which would have filled in the
-items whose effects this project cannot describe. EID ships no licence file, so
-its descriptions are not redistributed here and the gap is left visible instead.
-Stat numbers are facts about the game and are treated the same way pools and
-quality are; a paragraph of prose is somebody's writing.
+longer and better description for every item in the game. EID ships no licence
+file, so nothing of its is redistributed here, and the items this project still
+cannot describe are left visibly undescribed instead. The rule being applied is
+not "prose is off limits" but "somebody's writing needs their permission":
+RebirthItemTracker gave it, EID has not.
 
 ## What is actually ours to give away
 

@@ -169,3 +169,39 @@ test('the stat tags read off `cache` actually reach the ratings', () => {
   const mean = spreads.reduce((a, b) => a + b, 0) / spreads.length;
   assert.ok(mean > 0.6, `only ${(mean * 100).toFixed(0)}% of a cell's items have distinct ratings`);
 });
+
+test('every hand-written note points at an item that exists', () => {
+  const notes = load('data/notes.json').notes;
+  const byId = new Map(items.map((i) => [i.id, i]));
+  for (const id of Object.keys(notes)) {
+    assert.ok(byId.has(id), `${id}: note for an item that is not in the pool`);
+  }
+});
+
+test('a hand-written note never restates the sourced description', () => {
+  // They answer different questions. If a note is just the description again,
+  // it is taking up the row without adding anything.
+  const notes = load('data/notes.json').notes;
+  const text = load('data/item-stats.json').text;
+  for (const [id, note] of Object.entries(notes)) {
+    if (!text[id]) continue;
+    assert.notEqual(note.trim().toLowerCase(), text[id].trim().toLowerCase(), `${id}: note is a copy of the description`);
+  }
+});
+
+test('nothing a player can be offered is left without something to say', () => {
+  const { text } = load('data/item-stats.json');
+  const notes = load('data/notes.json').notes;
+  const STAT = ['damage_up', 'tears_up', 'range_up', 'shot_speed', 'speed_up', 'luck_up', 'health_up', 'soul_hearts', 'black_hearts'];
+  const MECH = ['homing', 'laser', 'piercing', 'explosive', 'knife', 'orbital', 'familiar', 'dot', 'spectral', 'multishot', 'charged', 'flight'];
+
+  const silent = items.filter((i) => {
+    if (i.scraped?.quality == null) return false;
+    if (!(i.scraped?.pools ?? []).some((p) => !p.startsWith('greed'))) return false;
+    const tags = i.tags ?? [];
+    return !i.rated?.note && !notes[i.id] && !text[i.id]
+      && !tags.some((t) => STAT.includes(t) || MECH.includes(t));
+  });
+
+  assert.equal(silent.length, 0, `${silent.length} draftable items say nothing: ${silent.slice(0, 5).map((i) => i.name).join(', ')}`);
+});
