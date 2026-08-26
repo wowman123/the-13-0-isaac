@@ -66,6 +66,26 @@ The underlying facts belong to the game's authors. If you represent a rights
 holder and would prefer this not be distributed here, open an issue and it
 will be removed.
 
+## Character stats — `data/characters.json`
+
+Two sources, because no single one has all of it.
+
+Health, and whether a character fires tears at all, come from the game's own
+`players.xml`, taken from the [TBoIR-resources](https://github.com/Derugon/TBoIR-resources)
+mirror. As with `data/scraped.json`, what ships here is derived reference data
+— hearts and a boolean — rather than the resource file itself.
+
+The combat multipliers are not in any resource file. Damage, tears, range, shot
+speed, speed and luck are compiled into the game, so those are transcribed from
+the wiki's published attribute table, which is the same class of factual
+reference any Isaac wiki prints. `tools/scrape-characters.mjs` holds the
+transcription and spells out how that table's columns line up, because its
+header names seventeen characters while its rows carry twenty-one values.
+
+Where a stat could not be pinned to a character with certainty it is left at
+Isaac's default rather than guessed — the luck row is one value short of its own
+column count, so only the three entries that are unambiguous were taken.
+
 ## Item stats and display names — `data/item-stats.json`
 
 Derived from [RebirthItemTracker](https://github.com/Rchardon/RebirthItemTracker),

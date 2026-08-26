@@ -1,35 +1,243 @@
 {
-  "note": "Starting stats for Advanced mode. Only fields with a sourced number are listed: where a character differs from Isaac in a way no source stated numerically — Judas' short range, Cain's faster default fire — the field is left out rather than guessed at, and the character's note says so. Azazel is deliberately absent: his Brimstone is a continuous beam rather than tears, so damage x fire rate does not describe him and a number here would be wrong rather than merely rough. Values are quoted against Isaac, who is the game's own baseline.",
+  "note": "Starting stats for Advanced mode. Health and whether a character fires tears come from the game's own players.xml; the combat multipliers are compiled into the game rather than shipped as data, so they are transcribed from the wiki's attribute table — see tools/scrape-characters.mjs, which spells out how that table's columns line up. A character whose attack is not tears carries a caveat rather than a confident DPS number that would be wrong.",
+  "source": "players.xml via Derugon/TBoIR-resources (health, canShoot) + wiki attribute table (combat multipliers)",
   "characters": [
     {
       "id": "ISAAC",
       "name": "Isaac",
+      "tainted": false,
       "stats": {},
       "note": "The baseline. 3.5 damage, 10 frames between tears, 2.73 tears a second."
     },
     {
-      "id": "JUDAS",
-      "name": "Judas",
-      "stats": { "damageMult": 1.35, "health": 1 },
-      "note": "A third more damage for a single heart container. Also shorter range than Isaac, which is not modelled here because no source gave a number for it."
+      "id": "MAGDALENE",
+      "name": "Magdalene",
+      "tainted": false,
+      "stats": {
+        "speed": 0.85,
+        "health": 4
+      },
+      "note": "The most health in the game and the slowest legs to carry it."
     },
     {
       "id": "CAIN",
       "name": "Cain",
-      "stats": { "damageMult": 1.2, "speed": 1.3, "health": 2 },
-      "note": "Fast and hits harder, with one fewer heart. He also fires faster than Isaac by default, which is not modelled here for want of a number."
+      "tainted": false,
+      "stats": {
+        "damageMult": 1.2,
+        "speed": 1.3,
+        "range": 4.5,
+        "health": 2
+      },
+      "note": "Fast, hits harder, sees less of the room — the shortest range of the starting three."
     },
     {
-      "id": "SAMSON",
-      "name": "Samson",
-      "stats": { "tears": -0.1, "shotSpeed": 1.31, "speed": 1.1, "health": 3 },
-      "note": "Slightly slower tears than Isaac, but they travel faster and he keeps all three hearts."
+      "id": "JUDAS",
+      "name": "Judas",
+      "tainted": false,
+      "stats": {
+        "damageMult": 1.35,
+        "health": 1
+      },
+      "note": "A third more damage for a single heart container."
+    },
+    {
+      "id": "DARK_JUDAS",
+      "name": "Dark Judas",
+      "tainted": false,
+      "stats": {
+        "damageMult": 2,
+        "speed": 1.1,
+        "health": 0,
+        "soulHearts": 4
+      },
+      "note": "Double damage, four black hearts, and nothing else to lose."
+    },
+    {
+      "id": "BLUE_BABY",
+      "name": "???",
+      "tainted": false,
+      "stats": {
+        "damageMult": 1.05,
+        "speed": 1.1,
+        "health": 0,
+        "soulHearts": 6
+      },
+      "note": "Six soul hearts and no containers, so nothing heals you."
     },
     {
       "id": "EVE",
       "name": "Eve",
-      "stats": { "damageMult": 0.75, "speed": 1.23, "health": 2 },
-      "note": "Starts at three quarters damage. Whore of Babylon lifts her back to 1.00 at low health, which this does not simulate."
+      "tainted": false,
+      "stats": {
+        "damageMult": 0.75,
+        "speed": 1.23,
+        "health": 2
+      },
+      "note": "Starts at three quarters damage. Whore of Babylon lifts her back at low health, which this does not simulate."
+    },
+    {
+      "id": "SAMSON",
+      "name": "Samson",
+      "tainted": false,
+      "stats": {
+        "tears": -0.1,
+        "speed": 1.1,
+        "shotSpeed": 1.31,
+        "range": 5
+      },
+      "note": "Slightly slower tears that travel faster, and all three hearts kept."
+    },
+    {
+      "id": "AZAZEL",
+      "name": "Azazel",
+      "tainted": false,
+      "stats": {
+        "damageMult": 1.5,
+        "tears": 0.5,
+        "tearsMult": 0.267,
+        "speed": 1.25,
+        "range": 4.5,
+        "health": 0,
+        "soulHearts": 6
+      },
+      "note": "Half again the damage, six black hearts, and a fraction of the fire rate.",
+      "caveat": "Brimstone is a continuous beam rather than tears, so the stats are real but the DPS built from them is an approximation."
+    },
+    {
+      "id": "LAZARUS",
+      "name": "Lazarus",
+      "tainted": false,
+      "stats": {
+        "range": 4.5
+      },
+      "note": "Ordinary until he dies, at which point he gets stronger."
+    },
+    {
+      "id": "LAZARUS_RISEN",
+      "name": "Lazarus Risen",
+      "tainted": false,
+      "stats": {
+        "damageMult": 1.4,
+        "speed": 1.25,
+        "health": 1
+      },
+      "note": "The second life: more damage and quicker feet than the man who died."
+    },
+    {
+      "id": "EDEN",
+      "name": "Eden",
+      "tainted": false,
+      "stats": {},
+      "note": "Rolled at random, every run.",
+      "caveat": "Every stat is randomised at the start of a run. These are the midpoints, not what you would actually get."
+    },
+    {
+      "id": "THE_LOST",
+      "name": "The Lost",
+      "tainted": false,
+      "stats": {
+        "health": 0,
+        "soulHearts": 1
+      },
+      "note": "One hit. Everything else about the build is academic.",
+      "caveat": "Dies to a single hit. The health here is accurate and still understates how sharp that is."
+    },
+    {
+      "id": "LILITH",
+      "name": "Lilith",
+      "tainted": false,
+      "stats": {
+        "health": 1,
+        "soulHearts": 4
+      },
+      "note": "Blindfolded. Her familiar is the whole offence.",
+      "caveat": "Fires no tears at all — Incubus does the shooting. The DPS here describes an attack she does not have.",
+      "firesTears": false
+    },
+    {
+      "id": "KEEPER",
+      "name": "Keeper",
+      "tainted": false,
+      "stats": {
+        "damageMult": 1.2,
+        "tears": -1.9,
+        "speed": 0.9,
+        "luck": -2,
+        "health": 2
+      },
+      "note": "Coin hearts, a heavy tear penalty and the worst luck in the game.",
+      "caveat": "Health is coin hearts, which behave differently from the containers this model counts."
+    },
+    {
+      "id": "APOLLYON",
+      "name": "Apollyon",
+      "tainted": false,
+      "stats": {
+        "health": 2
+      },
+      "note": "Isaac with a Void. The stats are plain; the item is not."
+    },
+    {
+      "id": "THE_FORGOTTEN",
+      "name": "The Forgotten",
+      "tainted": false,
+      "stats": {
+        "damageMult": 1.5,
+        "tearsMult": 0.5,
+        "health": 2
+      },
+      "note": "Half again the damage, halved fire rate, and a club instead of tears.",
+      "caveat": "Swings a bone club. His tear stats exist but most of his damage is melee, which this does not model."
+    },
+    {
+      "id": "THE_SOUL",
+      "name": "The Soul",
+      "tainted": false,
+      "stats": {
+        "speed": 1.3,
+        "health": 0,
+        "soulHearts": 2
+      },
+      "note": "The other half of the Forgotten, quick and fragile.",
+      "caveat": "Fights with a chain rather than tears."
+    },
+    {
+      "id": "BETHANY",
+      "name": "Bethany",
+      "tainted": false,
+      "stats": {
+        "soulHearts": 4
+      },
+      "note": "Three containers plus soul charges, at ordinary stats."
+    },
+    {
+      "id": "JACOB",
+      "name": "Jacob",
+      "tainted": false,
+      "stats": {
+        "damage": 2.75,
+        "tears": 0.277,
+        "shotSpeed": 1.15,
+        "range": 5,
+        "luck": 1
+      },
+      "note": "Lower base damage than anyone, but the fastest tears and good luck."
+    },
+    {
+      "id": "ESAU",
+      "name": "Esau",
+      "tainted": false,
+      "stats": {
+        "damage": 3.75,
+        "tears": -0.1,
+        "shotSpeed": 0.85,
+        "range": 8,
+        "luck": -1,
+        "health": 1,
+        "soulHearts": 2
+      },
+      "note": "The highest base damage in the game, on the longest range, tied to a brother who is not."
     }
   ]
 }

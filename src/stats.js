@@ -33,6 +33,7 @@ export const BASE = Object.freeze({
   damage: 3.5,
   damageMult: 1,
   tears: 0,
+  tearsMult: 1,
   range: 6.5,
   shotSpeed: 1,
   speed: 1,
@@ -84,7 +85,10 @@ export function composeStats(deltas, character = BASE) {
   let flatDamage = 0;
   let damageMult = start.damageMult ?? 1;
   let tears = start.tears;
-  let tearsMult = 1;
+  // Azazel fires at roughly a quarter of Isaac's rate and the Forgotten at
+  // half; those are properties of the character, not of anything they picked
+  // up, so the multiplier starts from them rather than at 1.
+  let tearsMult = start.tearsMult ?? 1;
   let range = start.range;
   let shotSpeed = start.shotSpeed;
   let speed = start.speed;

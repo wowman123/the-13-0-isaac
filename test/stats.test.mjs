@@ -57,8 +57,8 @@ test('speed is capped where the game caps it', () => {
 
 test('every character is measured against Isaac, not against themselves', () => {
   const characters = load('data/characters.json').characters;
-  const judas = characters.find((c) => c.id === 'JUDAS');
-  const eve = characters.find((c) => c.id === 'EVE');
+  const judas = characters.find((c) => c.name === 'Judas');
+  const eve = characters.find((c) => c.name === 'Eve');
 
   // Judas' 1.35x has to show up as an advantage. Measuring him against his own
   // baseline would cancel it out and make the choice of character worthless.
@@ -122,4 +122,44 @@ test('both modes carry their own solved difficulty', () => {
   }
   // Solving one against the other's distribution would put a mode off target.
   assert.notEqual(config.advanced.difficulty, config.difficulty);
+});
+
+
+test('the full roster is present and each entry composes', () => {
+  const { characters } = load('data/characters.json');
+  assert.ok(characters.length >= 20, `only ${characters.length} characters`);
+
+  const ids = new Set();
+  for (const c of characters) {
+    assert.ok(c.id && c.name, 'a character is missing an id or a name');
+    assert.ok(!ids.has(c.id), `${c.id}: duplicate id`);
+    ids.add(c.id);
+
+    const s = composeStats([], c.stats);
+    for (const key of ['damage', 'fireRate', 'dps', 'effectiveHealth']) {
+      assert.ok(Number.isFinite(s[key]) && s[key] >= 0, `${c.name}: ${key} is ${s[key]}`);
+    }
+    // A character with no health at all would divide the defense axis by zero.
+    assert.ok(s.effectiveHealth > 0, `${c.name}: no health of any kind`);
+  }
+});
+
+test("a character's own fire-rate multiplier is not ignored", () => {
+  // Azazel fires at roughly a quarter of Isaac's rate. Reading tearsMult only
+  // from items silently gave him Isaac's rate on top of Isaac's damage bonus.
+  const characters = load('data/characters.json').characters;
+  const isaac = composeStats([], characters.find((c) => c.name === 'Isaac').stats);
+  const azazel = composeStats([], characters.find((c) => c.name === 'Azazel').stats);
+
+  assert.ok(azazel.fireRate < isaac.fireRate * 0.5, `Azazel fires at ${azazel.fireRate.toFixed(2)}/s`);
+  assert.ok(azazel.damage > isaac.damage, 'Azazel should still hit harder');
+});
+
+test('characters that do not fight with tears carry a caveat', () => {
+  const { characters } = load('data/characters.json');
+  for (const name of ['Azazel', 'Lilith', 'The Forgotten', 'Eden']) {
+    const c = characters.find((x) => x.name === name);
+    assert.ok(c, `${name} is missing from the roster`);
+    assert.ok(c.caveat, `${name}: damage x fire rate does not describe them, and nothing says so`);
+  }
 });

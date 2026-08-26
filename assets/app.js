@@ -525,9 +525,19 @@ function renderMode() {
     btn.classList.toggle('is-on', on);
   }
   $('#mode-char-wrap').hidden = !isAdvanced();
+
+  const character = activeCharacter();
   $('#mode-note').textContent = isAdvanced()
     ? `Real stats, the game's own curves. ${draftable().length} items — only the ones the data can describe.`
     : 'Items rated on five combat axes. The whole pool is in play.';
+
+  // Some characters do not fight with tears, so the DPS built from their stat
+  // line is not what they actually do. Say so rather than printing a confident
+  // number that happens to be wrong.
+  const caveat = $('#mode-caveat');
+  const show = isAdvanced() && Boolean(character.caveat);
+  caveat.hidden = !show;
+  caveat.textContent = show ? character.caveat : '';
 }
 
 /** The stat line, which only Advanced has. */
@@ -1013,9 +1023,15 @@ function wireEvents() {
   }
 
   const charSelect = $('#mode-char');
+  const group = (label, list) => (list.length
+    ? el('optgroup', { label }, list.map((c) => el('option', { value: c.id, textContent: c.name, title: c.note ?? '' })))
+    : null);
   charSelect.replaceChildren(
-    ...state.characters.map((c) => el('option', { value: c.id, textContent: c.name, title: c.note ?? '' })),
+    group('Characters', state.characters.filter((c) => !c.tainted)),
+    group('Tainted', state.characters.filter((c) => c.tainted)),
   );
+  // A stored character from an older build may no longer be in the list.
+  if (!state.characters.some((c) => c.id === state.character)) state.character = 'ISAAC';
   charSelect.value = state.character;
   charSelect.addEventListener('change', () => {
     state.character = charSelect.value;

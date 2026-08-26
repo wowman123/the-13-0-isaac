@@ -611,3 +611,12 @@ td.is-strong { color: var(--red); }
   font-family: var(--sans); font-size: 13.5px; line-height: 1.6; color: var(--ink-soft);
 }
 .method-list li { margin: .15rem 0; }
+
+/* Where damage x fire rate stops describing a character. */
+.mode-caveat {
+  flex: 1 1 100%; margin: 0;
+  font-family: var(--sans); font-size: 12px; line-height: 1.45; color: var(--ink);
+  background: var(--parch-deep); border-left: 5px solid var(--red);
+  padding: .4rem .6rem;
+}
+.mode-char select { max-width: 11rem; }
