@@ -34,14 +34,23 @@ export function slug(name) {
  * "Odd Mushroom Thin". Hand-rated items override this with their curated name;
  * this is what the imported tail displays.
  */
+/**
+ * Words that stay lowercase inside a title. Without this every name reads
+ * "Book Of The Dead", which is not how the game writes it.
+ */
+const SMALL_WORDS = new Set(['of', 'the', 'and', 'a', 'an', 'in', 'on', 'to', 'for', 'from', 'with']);
+
 export function humanise(name) {
   const key = /^#(.+?)_NAME$/.exec(name.trim());
   if (!key) return name;
-  return key[1]
-    .toLowerCase()
-    .split('_')
-    .filter(Boolean)
-    .map((w) => (/^\d/.test(w) ? w : w[0].toUpperCase() + w.slice(1)))
+  const words = key[1].toLowerCase().split('_').filter(Boolean);
+  return words
+    .map((w, i) => {
+      if (/^\d/.test(w)) return w;
+      // A small word is only lowercase in the middle; it still opens a title.
+      if (i > 0 && i < words.length - 1 && SMALL_WORDS.has(w)) return w;
+      return w[0].toUpperCase() + w.slice(1);
+    })
     .join(' ');
 }
 

@@ -96,3 +96,12 @@ test('an override rescues a name that cannot be derived', () => {
   assert.deepEqual(r.unmatched, []);
   assert.ok(find(r, 'COLLECTIBLE_ONE_UP'));
 });
+
+
+test('a title lowercases small words in the middle, never at the edges', () => {
+  assert.equal(humanise('#BOOK_OF_THE_DEAD_NAME'), 'Book of the Dead');
+  assert.equal(humanise('#A_POUND_OF_FLESH_NAME'), 'A Pound of Flesh');
+  // First and last word always carry a capital, small word or not.
+  assert.equal(humanise('#THE_WAFER_NAME'), 'The Wafer');
+  assert.equal(humanise('#THERES_OPTIONS_NAME'), 'Theres Options');
+});

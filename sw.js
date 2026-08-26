@@ -8,7 +8,7 @@
  * Bump CACHE when shipping — it is what evicts the previous version.
  */
 
-const CACHE = 'the-13-0-v3';
+const CACHE = 'the-13-0-v4';
 
 const SHELL = [
   './',

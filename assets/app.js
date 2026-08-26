@@ -396,6 +396,57 @@ function transformPreview(candidateId) {
  * Which rules taking this candidate would newly trigger. This is what turns a
  * pick from "which number is biggest" into "which one fits what I have".
  */
+/**
+ * A sentence for an item nobody hand-rated.
+ *
+ * Only 181 of 721 items carry a written note. The rest used to print their raw
+ * tag list — "Tags: nolostbr, health_up" — which is internal vocabulary and
+ * told a player nothing. The same tags say something readable if you translate
+ * them: what kind of item it is, what it does to your tears, and which stats it
+ * moves. Nothing here is invented; it is the game's own `cache` field in words.
+ */
+const MECHANIC_WORDS = {
+  homing: 'homing shots', laser: 'fires a laser', piercing: 'piercing shots',
+  explosive: 'explosive shots', knife: 'a knife instead of tears',
+  orbital: 'an orbital', familiar: 'a familiar that fights for you',
+  dot: 'damage over time', spectral: 'spectral shots',
+  multishot: 'extra shots', charged: 'a charged shot', flight: 'flight',
+};
+
+const STAT_WORDS = {
+  damage_up: 'damage', tears_up: 'fire rate', range_up: 'range',
+  shot_speed: 'shot speed', speed_up: 'speed', luck_up: 'luck',
+  health_up: 'health', soul_hearts: 'soul hearts', black_hearts: 'black hearts',
+};
+
+/** "a, b and c" — an item that moves four stats should not read like a CSV. */
+const list = (parts) => (parts.length < 2
+  ? (parts[0] ?? '')
+  : `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`);
+
+function describe(item) {
+  if (item.rated?.note) return item.rated.note;
+
+  const tags = item.tags ?? [];
+  const kind = { active: 'Active item', familiar: 'Familiar' }[item.scraped?.type] ?? 'Passive';
+  const mechanics = Object.keys(MECHANIC_WORDS).filter((t) => tags.includes(t) && t !== 'familiar');
+  const stats = Object.keys(STAT_WORDS).filter((t) => tags.includes(t));
+
+  const sentences = [`${kind}.`];
+  if (mechanics.length) sentences.push(`Gives ${list(mechanics.map((t) => MECHANIC_WORDS[t]))}.`);
+  if (stats.length) sentences.push(`Raises ${list(stats.map((t) => STAT_WORDS[t]))}.`);
+
+  // "Active item." and "Familiar." already tell a drafter what they are picking,
+  // so they stand on their own. A bare passive genuinely says nothing, and the
+  // data has nothing more to give: no cache entry means the effect is scripted
+  // in the game rather than declared. Say that plainly rather than padding it.
+  if (sentences.length === 1 && kind === 'Passive') {
+    sentences.push('Effect not described in the item data.');
+  }
+
+  return sentences.join(' ');
+}
+
 function synergyPreview(candidateId) {
   const held = run.picks.map(byId);
   const already = new Set(findSynergies(held, state.rules).map((r) => r.id));
@@ -472,7 +523,7 @@ function renderCandidates() {
         sprite(id),
         el('span', { className: 'candidate-body' }, [
           el('span', { className: 'candidate-name', textContent: item.name }),
-          el('span', { className: 'candidate-note', textContent: item.rated?.note ?? `Tags: ${item.tags.join(', ') || 'none'}` }),
+          el('span', { className: 'candidate-note', textContent: describe(item) }),
           preview.length || forms.length
             ? el('span', { className: 'candidate-syn' }, [
                 ...(id === run.pulled

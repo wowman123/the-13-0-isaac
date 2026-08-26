@@ -21,6 +21,14 @@ export const AXIS_RANGE = Object.freeze({
  * `tracking` splits into two kinds of entry: an absolute floor the mechanic
  * grants you (homing gives 0.90 whatever else is going on) and a multiplier
  * that scales whatever you ended up with (charged costs you 40% of it).
+ *
+ * Two kinds of tag live here. The first twelve are mechanics — how your tears
+ * behave. The rest are stat movements read off the game's own `cache`
+ * attribute, which says which stats an item touches. Those are deliberately
+ * mild: the quality curve already answers "how good is this item", and these
+ * only have to answer "good at what". Without them 414 of 693 draftable items
+ * had no usable tag at all and fell through to quality alone, which made every
+ * item in a Pool x Quality cell numerically identical to its neighbours.
  */
 export const TAG_TABLE = Object.freeze({
   homing:     { tracking: 0.90 },
@@ -35,6 +43,22 @@ export const TAG_TABLE = Object.freeze({
   multishot:  { offense: 1.25, aoe: 1.30 },
   charged:    { trackingMult: 0.60 },
   flight:     { evasion: 0.35 },
+
+  // An active item is a burst you fire, not a stat you carry. Worth something
+  // for clearing a room, but it cannot carry a run the way a damage up does —
+  // and the "two actives" conflict already punishes stacking them.
+  active:     { offense: 1.08, aoe: 1.15 },
+
+  // Stat movements, from `cache`.
+  damage_up:  { offense: 1.18 },
+  tears_up:   { offense: 1.15 },
+  range_up:   { offense: 1.05, aoe: 1.08 },
+  shot_speed: { offense: 1.04 },
+  luck_up:    { offense: 1.05 },
+  speed_up:   { evasion: 0.20 },
+  health_up:  { defense: 1.20 },
+  soul_hearts:  { defense: 1.12 },
+  black_hearts: { defense: 1.10, aoe: 1.10 },
 });
 
 /** Offense-only fallback for items with no rating and no usable tags. */

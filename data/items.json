@@ -181,7 +181,7 @@
     },
     {
       "id": "COLLECTIBLE_4_5_VOLT",
-      "name": "4 5 Volt",
+      "name": "4.5 Volt",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -324,7 +324,7 @@
     },
     {
       "id": "COLLECTIBLE_A_BAR_OF_SOAP",
-      "name": "A Bar Of Soap",
+      "name": "A Bar of Soap",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -388,7 +388,7 @@
     },
     {
       "id": "COLLECTIBLE_A_LUMP_OF_COAL",
-      "name": "A Lump Of Coal",
+      "name": "A Lump of Coal",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -458,7 +458,7 @@
     },
     {
       "id": "COLLECTIBLE_A_POUND_OF_FLESH",
-      "name": "A Pound Of Flesh",
+      "name": "A Pound of Flesh",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -698,7 +698,7 @@
     },
     {
       "id": "COLLECTIBLE_ACT_OF_CONTRITION",
-      "name": "Act Of Contrition",
+      "name": "Act of Contrition",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -1346,7 +1346,7 @@
     },
     {
       "id": "COLLECTIBLE_AZAZELS_RAGE",
-      "name": "Azazels Rage",
+      "name": "Azazel's Rage",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -1411,7 +1411,7 @@
     },
     {
       "id": "COLLECTIBLE_BAG_OF_CRAFTING",
-      "name": "Bag Of Crafting",
+      "name": "Bag of Crafting",
       "scraped": {
         "quality": 4,
         "pools": [
@@ -1481,7 +1481,7 @@
     },
     {
       "id": "COLLECTIBLE_BALL_OF_TAR",
-      "name": "Ball Of Tar",
+      "name": "Ball of Tar",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -1999,7 +1999,7 @@
     },
     {
       "id": "COLLECTIBLE_BIRDS_EYE",
-      "name": "Birds Eye",
+      "name": "Bird's Eye",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -2710,6 +2710,42 @@
       ]
     },
     {
+      "id": "COLLECTIBLE_BOBS_BRAIN",
+      "name": "Bob's Brain",
+      "scraped": {
+        "quality": 1,
+        "pools": [
+          "treasure",
+          "greedtreasure",
+          "babyshop",
+          "rottenbeggar"
+        ],
+        "type": "familiar",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": []
+        }
+      },
+      "rated": null,
+      "tags": [
+        "bob",
+        "summonable",
+        "monstermanual",
+        "offensive",
+        "familiar"
+      ]
+    },
+    {
       "id": "COLLECTIBLE_BOBS_CURSE",
       "name": "Bob's Curse",
       "scraped": {
@@ -2821,42 +2857,6 @@
       "tags": [
         "summonable",
         "offensive"
-      ]
-    },
-    {
-      "id": "COLLECTIBLE_BOBS_BRAIN",
-      "name": "Bobs Brain",
-      "scraped": {
-        "quality": 1,
-        "pools": [
-          "treasure",
-          "greedtreasure",
-          "babyshop",
-          "rottenbeggar"
-        ],
-        "type": "familiar",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": []
-        }
-      },
-      "rated": null,
-      "tags": [
-        "bob",
-        "summonable",
-        "monstermanual",
-        "offensive",
-        "familiar"
       ]
     },
     {
@@ -3065,7 +3065,7 @@
     },
     {
       "id": "COLLECTIBLE_BOOK_OF_SECRETS",
-      "name": "Book Of Secrets",
+      "name": "Book of Secrets",
       "scraped": {
         "quality": 0,
         "pools": [
@@ -3137,7 +3137,7 @@
     },
     {
       "id": "COLLECTIBLE_BOOK_OF_THE_DEAD",
-      "name": "Book Of The Dead",
+      "name": "Book of the Dead",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -3172,7 +3172,7 @@
     },
     {
       "id": "COLLECTIBLE_BOOK_OF_VIRTUES",
-      "name": "Book Of Virtues",
+      "name": "Book of Virtues",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -3376,7 +3376,7 @@
     },
     {
       "id": "COLLECTIBLE_BOX_OF_SPIDERS",
-      "name": "Box Of Spiders",
+      "name": "Box of Spiders",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -3477,7 +3477,7 @@
     },
     {
       "id": "COLLECTIBLE_BREATH_OF_LIFE",
-      "name": "Breath Of Life",
+      "name": "Breath of Life",
       "scraped": {
         "quality": 0,
         "pools": [
@@ -3884,7 +3884,7 @@
     },
     {
       "id": "COLLECTIBLE_BUDDY_IN_A_BOX",
-      "name": "Buddy In A Box",
+      "name": "Buddy in a Box",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -4177,7 +4177,7 @@
     },
     {
       "id": "COLLECTIBLE_CAINS_OTHER_EYE",
-      "name": "Cains Other Eye",
+      "name": "Cain's Other Eye",
       "scraped": {
         "quality": 0,
         "pools": [
@@ -4709,7 +4709,7 @@
     },
     {
       "id": "COLLECTIBLE_CHARM_OF_THE_VAMPIRE",
-      "name": "Charm Of The Vampire",
+      "name": "Charm of the Vampire",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -4811,7 +4811,7 @@
     },
     {
       "id": "COLLECTIBLE_CIRCLE_OF_PROTECTION",
-      "name": "Circle Of Protection",
+      "name": "Circle of Protection",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -5158,7 +5158,7 @@
     },
     {
       "id": "COLLECTIBLE_CONTRACT_FROM_BELOW",
-      "name": "Contract From Below",
+      "name": "Contract from Below",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -5470,7 +5470,7 @@
     },
     {
       "id": "COLLECTIBLE_CROWN_OF_LIGHT",
-      "name": "Crown Of Light",
+      "name": "Crown of Light",
       "scraped": {
         "quality": 4,
         "pools": [
@@ -5652,7 +5652,7 @@
     },
     {
       "id": "COLLECTIBLE_CURSE_OF_THE_TOWER",
-      "name": "Curse Of The Tower",
+      "name": "Curse of the Tower",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -6060,6 +6060,39 @@
       ]
     },
     {
+      "id": "COLLECTIBLE_DADS_KEY",
+      "name": "Dad's Key",
+      "scraped": {
+        "quality": 1,
+        "pools": [
+          "treasure",
+          "keymaster",
+          "greedtreasure",
+          "oldchest"
+        ],
+        "type": "active",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": []
+        }
+      },
+      "rated": null,
+      "tags": [
+        "offensive",
+        "active"
+      ]
+    },
+    {
       "id": "COLLECTIBLE_DADS_LOST_COIN",
       "name": "Dad's Lost Coin",
       "scraped": {
@@ -6100,6 +6133,35 @@
       },
       "tags": [
         "range_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_DADS_NOTE",
+      "name": "Dad's Note",
+      "scraped": {
+        "quality": 0,
+        "pools": [],
+        "type": "passive",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": []
+        }
+      },
+      "rated": null,
+      "tags": [
+        "lazarusshared",
+        "noeden",
+        "quest"
       ]
     },
     {
@@ -6173,68 +6235,6 @@
         "spider",
         "offensive",
         "familiar"
-      ]
-    },
-    {
-      "id": "COLLECTIBLE_DADS_KEY",
-      "name": "Dads Key",
-      "scraped": {
-        "quality": 1,
-        "pools": [
-          "treasure",
-          "keymaster",
-          "greedtreasure",
-          "oldchest"
-        ],
-        "type": "active",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": []
-        }
-      },
-      "rated": null,
-      "tags": [
-        "offensive",
-        "active"
-      ]
-    },
-    {
-      "id": "COLLECTIBLE_DADS_NOTE",
-      "name": "Dads Note",
-      "scraped": {
-        "quality": 0,
-        "pools": [],
-        "type": "passive",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": []
-        }
-      },
-      "rated": null,
-      "tags": [
-        "lazarusshared",
-        "noeden",
-        "quest"
       ]
     },
     {
@@ -6746,7 +6746,7 @@
     },
     {
       "id": "COLLECTIBLE_DEATHS_LIST",
-      "name": "Deaths List",
+      "name": "Death's List",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -6776,7 +6776,7 @@
     },
     {
       "id": "COLLECTIBLE_DEATHS_TOUCH",
-      "name": "Deaths Touch",
+      "name": "Death's Touch",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -6851,7 +6851,7 @@
     },
     {
       "id": "COLLECTIBLE_DECK_OF_CARDS",
-      "name": "Deck Of Cards",
+      "name": "Deck of Cards",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -7258,7 +7258,7 @@
     },
     {
       "id": "COLLECTIBLE_DOCTORS_REMOTE",
-      "name": "Doctors Remote",
+      "name": "Doctor's Remote",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -7605,7 +7605,7 @@
     },
     {
       "id": "COLLECTIBLE_EDENS_BLESSING",
-      "name": "Edens Blessing",
+      "name": "Eden's Blessing",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -7640,7 +7640,7 @@
     },
     {
       "id": "COLLECTIBLE_EDENS_SOUL",
-      "name": "Edens Soul",
+      "name": "Eden's Soul",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -8275,7 +8275,7 @@
     },
     {
       "id": "COLLECTIBLE_EYE_OF_GREED",
-      "name": "Eye Of Greed",
+      "name": "Eye of Greed",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -8307,7 +8307,7 @@
     },
     {
       "id": "COLLECTIBLE_EYE_OF_THE_OCCULT",
-      "name": "Eye Of The Occult",
+      "name": "Eye of the Occult",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -8557,7 +8557,7 @@
     },
     {
       "id": "COLLECTIBLE_FATES_REWARD",
-      "name": "Fates Reward",
+      "name": "Fate's Reward",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -9606,7 +9606,7 @@
     },
     {
       "id": "COLLECTIBLE_GLYPH_OF_BALANCE",
-      "name": "Glyph Of Balance",
+      "name": "Glyph of Balance",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -9831,7 +9831,7 @@
     },
     {
       "id": "COLLECTIBLE_GREEDS_GULLET",
-      "name": "Greeds Gullet",
+      "name": "Greed's Gullet",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -10013,6 +10013,40 @@
       ]
     },
     {
+      "id": "COLLECTIBLE_GUPPYS_EYE",
+      "name": "Guppy's Eye",
+      "scraped": {
+        "quality": 2,
+        "pools": [
+          "devil",
+          "redchest",
+          "greeddevil"
+        ],
+        "type": "passive",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": [
+            "pickupvision"
+          ]
+        }
+      },
+      "rated": null,
+      "tags": [
+        "guppy",
+        "offensive"
+      ]
+    },
+    {
       "id": "COLLECTIBLE_GUPPYS_HAIR_BALL",
       "name": "Guppy's Hair Ball",
       "scraped": {
@@ -10051,42 +10085,8 @@
       ]
     },
     {
-      "id": "COLLECTIBLE_GUPPYS_EYE",
-      "name": "Guppys Eye",
-      "scraped": {
-        "quality": 2,
-        "pools": [
-          "devil",
-          "redchest",
-          "greeddevil"
-        ],
-        "type": "passive",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": [
-            "pickupvision"
-          ]
-        }
-      },
-      "rated": null,
-      "tags": [
-        "guppy",
-        "offensive"
-      ]
-    },
-    {
       "id": "COLLECTIBLE_GUPPYS_HEAD",
-      "name": "Guppys Head",
+      "name": "Guppy's Head",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -10122,7 +10122,7 @@
     },
     {
       "id": "COLLECTIBLE_GUPPYS_PAW",
-      "name": "Guppys Paw",
+      "name": "Guppy's Paw",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -10158,7 +10158,7 @@
     },
     {
       "id": "COLLECTIBLE_GUPPYS_TAIL",
-      "name": "Guppys Tail",
+      "name": "Guppy's Tail",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -10388,7 +10388,7 @@
     },
     {
       "id": "COLLECTIBLE_HEAD_OF_KRAMPUS",
-      "name": "Head Of Krampus",
+      "name": "Head of Krampus",
       "scraped": {
         "quality": 2,
         "pools": [],
@@ -10416,7 +10416,7 @@
     },
     {
       "id": "COLLECTIBLE_HEAD_OF_THE_KEEPER",
-      "name": "Head Of The Keeper",
+      "name": "Head of the Keeper",
       "scraped": {
         "quality": 2,
         "pools": [],
@@ -11438,8 +11438,44 @@
       ]
     },
     {
+      "id": "COLLECTIBLE_S_ONLY_FRIEND",
+      "name": "Isaac's Only Friend",
+      "scraped": {
+        "quality": 2,
+        "pools": [
+          "treasure",
+          "keymaster",
+          "greedtreasure",
+          "babyshop"
+        ],
+        "type": "familiar",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": []
+        }
+      },
+      "rated": null,
+      "tags": [
+        "summonable",
+        "monstermanual",
+        "offensive",
+        "fly",
+        "familiar"
+      ]
+    },
+    {
       "id": "COLLECTIBLE_ISAACS_TEARS",
-      "name": "Isaacs Tears",
+      "name": "Isaac's Tears",
       "scraped": {
         "quality": 0,
         "pools": [
@@ -11469,7 +11505,7 @@
     },
     {
       "id": "COLLECTIBLE_ISAACS_TOMB",
-      "name": "Isaacs Tomb",
+      "name": "Isaac's Tomb",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -11562,7 +11598,7 @@
     },
     {
       "id": "COLLECTIBLE_JACOBS_LADDER",
-      "name": "Jacobs Ladder",
+      "name": "Jacob's Ladder",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -11598,7 +11634,7 @@
     },
     {
       "id": "COLLECTIBLE_JAR_OF_FLIES",
-      "name": "Jar Of Flies",
+      "name": "Jar of Flies",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -11633,7 +11669,7 @@
     },
     {
       "id": "COLLECTIBLE_JAR_OF_WISPS",
-      "name": "Jar Of Wisps",
+      "name": "Jar of Wisps",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -11733,7 +11769,7 @@
     },
     {
       "id": "COLLECTIBLE_JUDAS_SHADOW",
-      "name": "Judas Shadow",
+      "name": "Judas' Shadow",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -11901,7 +11937,7 @@
     },
     {
       "id": "COLLECTIBLE_KEEPERS_BOX",
-      "name": "Keepers Box",
+      "name": "Keeper's Box",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -11935,7 +11971,7 @@
     },
     {
       "id": "COLLECTIBLE_KEEPERS_KIN",
-      "name": "Keepers Kin",
+      "name": "Keeper's Kin",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -11969,7 +12005,7 @@
     },
     {
       "id": "COLLECTIBLE_KEEPERS_SACK",
-      "name": "Keepers Sack",
+      "name": "Keeper's Sack",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -13752,7 +13788,7 @@
     },
     {
       "id": "COLLECTIBLE_MAGGYS_BOW",
-      "name": "Maggys Bow",
+      "name": "Maggy's Bow",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -14557,7 +14593,7 @@
     },
     {
       "id": "COLLECTIBLE_MIDAS_TOUCH",
-      "name": "Midas Touch",
+      "name": "Midas' Touch",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -14834,6 +14870,83 @@
       ]
     },
     {
+      "id": "COLLECTIBLE_MOMS_BOTTLE_OF_PILLS",
+      "name": "Mom's Bottle of Pills",
+      "scraped": {
+        "quality": 1,
+        "pools": [
+          "treasure",
+          "shop",
+          "beggar",
+          "demonbeggar",
+          "momschest",
+          "greedtreasure",
+          "cranegame",
+          "oldchest"
+        ],
+        "type": "active",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": []
+        }
+      },
+      "rated": null,
+      "tags": [
+        "mom",
+        "offensive",
+        "nocantrip",
+        "active"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MOMS_BOX",
+      "name": "Mom's Box",
+      "scraped": {
+        "quality": 3,
+        "pools": [
+          "shop",
+          "momschest",
+          "greedshop",
+          "cranegame",
+          "oldchest",
+          "woodenchest"
+        ],
+        "type": "active",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": [
+            "all"
+          ]
+        }
+      },
+      "rated": null,
+      "tags": [
+        "mom",
+        "offensive",
+        "active"
+      ]
+    },
+    {
       "id": "COLLECTIBLE_MOMS_BRA",
       "name": "Mom's Bra",
       "scraped": {
@@ -14870,6 +14983,77 @@
       },
       "tags": [
         "active"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MOMS_BRACELET",
+      "name": "Mom's Bracelet",
+      "scraped": {
+        "quality": 2,
+        "pools": [
+          "shop",
+          "greedshop",
+          "cranegame",
+          "oldchest"
+        ],
+        "type": "active",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": []
+        }
+      },
+      "rated": null,
+      "tags": [
+        "mom",
+        "offensive",
+        "active"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MOMS_COIN_PURSE",
+      "name": "Mom's Coin Purse",
+      "scraped": {
+        "quality": 1,
+        "pools": [
+          "shop",
+          "boss",
+          "beggar",
+          "demonbeggar",
+          "momschest",
+          "greedboss",
+          "oldchest"
+        ],
+        "type": "passive",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": []
+        }
+      },
+      "rated": null,
+      "tags": [
+        "mom",
+        "offensive",
+        "nocantrip"
       ]
     },
     {
@@ -14958,6 +15142,117 @@
       ]
     },
     {
+      "id": "COLLECTIBLE_MOMS_EYESHADOW",
+      "name": "Mom's Eyeshadow",
+      "scraped": {
+        "quality": 1,
+        "pools": [
+          "treasure",
+          "momschest",
+          "greedtreasure",
+          "oldchest"
+        ],
+        "type": "passive",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": [
+            "tearcolor"
+          ]
+        }
+      },
+      "rated": null,
+      "tags": [
+        "summonable",
+        "mom",
+        "offensive"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MOMS_HEELS",
+      "name": "Mom's Heels",
+      "scraped": {
+        "quality": 1,
+        "pools": [
+          "boss",
+          "momschest",
+          "greedboss",
+          "ultrasecret",
+          "oldchest"
+        ],
+        "type": "passive",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": [
+            "range"
+          ]
+        }
+      },
+      "rated": null,
+      "tags": [
+        "summonable",
+        "mom",
+        "offensive",
+        "range_up"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MOMS_KEY",
+      "name": "Mom's Key",
+      "scraped": {
+        "quality": 3,
+        "pools": [
+          "shop",
+          "keymaster",
+          "momschest",
+          "greedboss",
+          "oldchest"
+        ],
+        "type": "passive",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": [
+            "pickupvision"
+          ]
+        }
+      },
+      "rated": null,
+      "tags": [
+        "summonable",
+        "mom",
+        "offensive"
+      ]
+    },
+    {
       "id": "COLLECTIBLE_MOMS_KNIFE",
       "name": "Mom's Knife",
       "scraped": {
@@ -15002,6 +15297,44 @@
         "piercing",
         "charged",
         "replaces_tears"
+      ]
+    },
+    {
+      "id": "COLLECTIBLE_MOMS_LIPSTICK",
+      "name": "Mom's Lipstick",
+      "scraped": {
+        "quality": 1,
+        "pools": [
+          "boss",
+          "momschest",
+          "greedboss",
+          "ultrasecret",
+          "oldchest"
+        ],
+        "type": "passive",
+        "stats": {
+          "red_containers": 0,
+          "soul_hearts": 0,
+          "black_hearts": 0,
+          "damage_flat": null,
+          "damage_mult": null,
+          "tears_flat": null,
+          "firerate_mult": null,
+          "shot_speed": null,
+          "range": null,
+          "speed": null,
+          "luck": null,
+          "affects": [
+            "range"
+          ]
+        }
+      },
+      "rated": null,
+      "tags": [
+        "summonable",
+        "mom",
+        "offensive",
+        "range_up"
       ]
     },
     {
@@ -15088,305 +15421,8 @@
       ]
     },
     {
-      "id": "COLLECTIBLE_MOMS_BOTTLE_OF_PILLS",
-      "name": "Moms Bottle Of Pills",
-      "scraped": {
-        "quality": 1,
-        "pools": [
-          "treasure",
-          "shop",
-          "beggar",
-          "demonbeggar",
-          "momschest",
-          "greedtreasure",
-          "cranegame",
-          "oldchest"
-        ],
-        "type": "active",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": []
-        }
-      },
-      "rated": null,
-      "tags": [
-        "mom",
-        "offensive",
-        "nocantrip",
-        "active"
-      ]
-    },
-    {
-      "id": "COLLECTIBLE_MOMS_BOX",
-      "name": "Moms Box",
-      "scraped": {
-        "quality": 3,
-        "pools": [
-          "shop",
-          "momschest",
-          "greedshop",
-          "cranegame",
-          "oldchest",
-          "woodenchest"
-        ],
-        "type": "active",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": [
-            "all"
-          ]
-        }
-      },
-      "rated": null,
-      "tags": [
-        "mom",
-        "offensive",
-        "active"
-      ]
-    },
-    {
-      "id": "COLLECTIBLE_MOMS_BRACELET",
-      "name": "Moms Bracelet",
-      "scraped": {
-        "quality": 2,
-        "pools": [
-          "shop",
-          "greedshop",
-          "cranegame",
-          "oldchest"
-        ],
-        "type": "active",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": []
-        }
-      },
-      "rated": null,
-      "tags": [
-        "mom",
-        "offensive",
-        "active"
-      ]
-    },
-    {
-      "id": "COLLECTIBLE_MOMS_COIN_PURSE",
-      "name": "Moms Coin Purse",
-      "scraped": {
-        "quality": 1,
-        "pools": [
-          "shop",
-          "boss",
-          "beggar",
-          "demonbeggar",
-          "momschest",
-          "greedboss",
-          "oldchest"
-        ],
-        "type": "passive",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": []
-        }
-      },
-      "rated": null,
-      "tags": [
-        "mom",
-        "offensive",
-        "nocantrip"
-      ]
-    },
-    {
-      "id": "COLLECTIBLE_MOMS_EYESHADOW",
-      "name": "Moms Eyeshadow",
-      "scraped": {
-        "quality": 1,
-        "pools": [
-          "treasure",
-          "momschest",
-          "greedtreasure",
-          "oldchest"
-        ],
-        "type": "passive",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": [
-            "tearcolor"
-          ]
-        }
-      },
-      "rated": null,
-      "tags": [
-        "summonable",
-        "mom",
-        "offensive"
-      ]
-    },
-    {
-      "id": "COLLECTIBLE_MOMS_HEELS",
-      "name": "Moms Heels",
-      "scraped": {
-        "quality": 1,
-        "pools": [
-          "boss",
-          "momschest",
-          "greedboss",
-          "ultrasecret",
-          "oldchest"
-        ],
-        "type": "passive",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": [
-            "range"
-          ]
-        }
-      },
-      "rated": null,
-      "tags": [
-        "summonable",
-        "mom",
-        "offensive",
-        "range_up"
-      ]
-    },
-    {
-      "id": "COLLECTIBLE_MOMS_KEY",
-      "name": "Moms Key",
-      "scraped": {
-        "quality": 3,
-        "pools": [
-          "shop",
-          "keymaster",
-          "momschest",
-          "greedboss",
-          "oldchest"
-        ],
-        "type": "passive",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": [
-            "pickupvision"
-          ]
-        }
-      },
-      "rated": null,
-      "tags": [
-        "summonable",
-        "mom",
-        "offensive"
-      ]
-    },
-    {
-      "id": "COLLECTIBLE_MOMS_LIPSTICK",
-      "name": "Moms Lipstick",
-      "scraped": {
-        "quality": 1,
-        "pools": [
-          "boss",
-          "momschest",
-          "greedboss",
-          "ultrasecret",
-          "oldchest"
-        ],
-        "type": "passive",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": [
-            "range"
-          ]
-        }
-      },
-      "rated": null,
-      "tags": [
-        "summonable",
-        "mom",
-        "offensive",
-        "range_up"
-      ]
-    },
-    {
       "id": "COLLECTIBLE_MOMS_PERFUME",
-      "name": "Moms Perfume",
+      "name": "Mom's Perfume",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -15425,7 +15461,7 @@
     },
     {
       "id": "COLLECTIBLE_MOMS_PURSE",
-      "name": "Moms Purse",
+      "name": "Mom's Purse",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -15460,7 +15496,7 @@
     },
     {
       "id": "COLLECTIBLE_MOMS_RAZOR",
-      "name": "Moms Razor",
+      "name": "Mom's Razor",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -15495,7 +15531,7 @@
     },
     {
       "id": "COLLECTIBLE_MOMS_RING",
-      "name": "Moms Ring",
+      "name": "Mom's Ring",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -15530,7 +15566,7 @@
     },
     {
       "id": "COLLECTIBLE_MOMS_SHOVEL",
-      "name": "Moms Shovel",
+      "name": "Mom's Shovel",
       "scraped": {
         "quality": 4,
         "pools": [],
@@ -15562,7 +15598,7 @@
     },
     {
       "id": "COLLECTIBLE_MOMS_UNDERWEAR",
-      "name": "Moms Underwear",
+      "name": "Mom's Underwear",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -15600,7 +15636,7 @@
     },
     {
       "id": "COLLECTIBLE_MOMS_WIG",
-      "name": "Moms Wig",
+      "name": "Mom's Wig",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -15851,7 +15887,7 @@
     },
     {
       "id": "COLLECTIBLE_MONTEZUMAS_REVENGE",
-      "name": "Montezumas Revenge",
+      "name": "Montezuma's Revenge",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -16985,7 +17021,7 @@
     },
     {
       "id": "COLLECTIBLE_PANDORAS_BOX",
-      "name": "Pandoras Box",
+      "name": "Pandora's Box",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -17160,7 +17196,7 @@
     },
     {
       "id": "COLLECTIBLE_PAY_TO_PLAY",
-      "name": "Pay To Play",
+      "name": "Pay to Play",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -18742,7 +18778,7 @@
     },
     {
       "id": "COLLECTIBLE_ROCKET_IN_A_JAR",
-      "name": "Rocket In A Jar",
+      "name": "Rocket in a Jar",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -19045,42 +19081,6 @@
       ]
     },
     {
-      "id": "COLLECTIBLE_S_ONLY_FRIEND",
-      "name": "S Only Friend",
-      "scraped": {
-        "quality": 2,
-        "pools": [
-          "treasure",
-          "keymaster",
-          "greedtreasure",
-          "babyshop"
-        ],
-        "type": "familiar",
-        "stats": {
-          "red_containers": 0,
-          "soul_hearts": 0,
-          "black_hearts": 0,
-          "damage_flat": null,
-          "damage_mult": null,
-          "tears_flat": null,
-          "firerate_mult": null,
-          "shot_speed": null,
-          "range": null,
-          "speed": null,
-          "luck": null,
-          "affects": []
-        }
-      },
-      "rated": null,
-      "tags": [
-        "summonable",
-        "monstermanual",
-        "offensive",
-        "fly",
-        "familiar"
-      ]
-    },
-    {
       "id": "COLLECTIBLE_SACK_HEAD",
       "name": "Sack Head",
       "scraped": {
@@ -19114,7 +19114,7 @@
     },
     {
       "id": "COLLECTIBLE_SACK_OF_PENNIES",
-      "name": "Sack Of Pennies",
+      "name": "Sack of Pennies",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -19147,7 +19147,7 @@
     },
     {
       "id": "COLLECTIBLE_SACK_OF_SACKS",
-      "name": "Sack Of Sacks",
+      "name": "Sack of Sacks",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -19533,7 +19533,7 @@
     },
     {
       "id": "COLLECTIBLE_SAMSONS_CHAINS",
-      "name": "Samsons Chains",
+      "name": "Samson's Chains",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -20042,7 +20042,7 @@
     },
     {
       "id": "COLLECTIBLE_SHARD_OF_GLASS",
-      "name": "Shard Of Glass",
+      "name": "Shard of Glass",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -20657,7 +20657,7 @@
     },
     {
       "id": "COLLECTIBLE_SPEAR_OF_DESTINY",
-      "name": "Spear Of Destiny",
+      "name": "Spear of Destiny",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -20911,7 +20911,7 @@
     },
     {
       "id": "COLLECTIBLE_SPIN_TO_WIN",
-      "name": "Spin To Win",
+      "name": "Spin to Win",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -22420,7 +22420,7 @@
     },
     {
       "id": "COLLECTIBLE_TELEPATHY_FOR_DUMMIES",
-      "name": "Telepathy For Dummies",
+      "name": "Telepathy for Dummies",
       "scraped": {
         "quality": 1,
         "pools": [
@@ -22775,7 +22775,7 @@
     },
     {
       "id": "COLLECTIBLE_THE_BOOK_OF_BELIAL",
-      "name": "The Book Of Belial",
+      "name": "The Book of Belial",
       "scraped": {
         "quality": 0,
         "pools": [],
@@ -22804,7 +22804,7 @@
     },
     {
       "id": "COLLECTIBLE_THE_BOOK_OF_SIN",
-      "name": "The Book Of Sin",
+      "name": "The Book of Sin",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -23938,7 +23938,7 @@
     },
     {
       "id": "COLLECTIBLE_THERES_OPTIONS",
-      "name": "Theres Options",
+      "name": "There's Options",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -24112,7 +24112,7 @@
     },
     {
       "id": "COLLECTIBLE_TOOTH_AND_NAIL",
-      "name": "Tooth And Nail",
+      "name": "Tooth and Nail",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -24651,7 +24651,7 @@
     },
     {
       "id": "COLLECTIBLE_URN_OF_SOULS",
-      "name": "Urn Of Souls",
+      "name": "Urn of Souls",
       "scraped": {
         "quality": 3,
         "pools": [
@@ -25119,7 +25119,7 @@
     },
     {
       "id": "COLLECTIBLE_WE_NEED_TO_GO_DEEPER",
-      "name": "We Need To Go Deeper",
+      "name": "We Need to Go Deeper",
       "scraped": {
         "quality": 2,
         "pools": [
@@ -25185,7 +25185,7 @@
     },
     {
       "id": "COLLECTIBLE_WHORE_OF_BABYLON",
-      "name": "Whore Of Babylon",
+      "name": "Whore of Babylon",
       "scraped": {
         "quality": 2,
         "pools": [

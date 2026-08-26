@@ -176,12 +176,39 @@ console.log(`  best build overall     ${pct(anyBuild.best)}  ${names(anyBuild.cu
 console.log(`  best that transforms   ${pct(transformedBuild.best)}  [${transformedBuild.name}] ${names(transformedBuild.cur)}`);
 console.log(`  gap                    ${gap >= 0 ? '+' : ''}${gap.toFixed(2)} points`);
 console.log(`\nplay (${N.toLocaleString()} runs each)`);
+const played = {};
 for (const agent of ['odds', 'chase']) {
   const r = play(agent, N);
+  played[agent] = r;
   console.log(`  ${agent.padEnd(6)} median ${pct(r.median)}  mean ${pct(r.mean)}  p90 ${pct(r.p90)}  transformed ${pct(r.rate)}`);
 }
 
-if (gap < -1) {
-  console.log('\nthe transformation ceiling is more than a point short — payouts are too small to ever be correct');
+/**
+ * The ceiling gap above is reported, not asserted. Near the top of the curve a
+ * percentage point is not the same size as one in the middle — 97% against 98%
+ * is a much smaller edge than 20% against 21% — so a fixed points threshold
+ * says nothing useful once the best builds saturate.
+ *
+ * What actually has to hold is about the decision a player faces, and it is
+ * bounded on both sides. Chasing a family must cost something, or it is a free
+ * lunch and every draft becomes the same hunt; and it must not cost so much
+ * that taking the odds is always right, which is where this started.
+ */
+const { odds: o, chase: c } = played;
+const problems = [];
+if (c.median > o.median && c.mean > o.mean) {
+  problems.push(`chasing beats playing for odds on both median and mean (${pct(c.median)}/${pct(c.mean)} vs ${pct(o.median)}/${pct(o.mean)}) — payouts are too generous, the chase is a free lunch`);
+}
+if (c.mean < o.mean * 0.85) {
+  problems.push(`chasing gives up ${((1 - c.mean / o.mean) * 100).toFixed(0)}% of mean score — payouts are too small for it ever to be correct`);
+}
+if (c.rate < 0.10) {
+  problems.push(`a player chasing families only completes one ${pct(c.rate)} of the time — the payout is unreachable, so its size is cosmetic`);
+}
+
+if (problems.length) {
+  console.log();
+  for (const p of problems) console.log(`FAIL: ${p}`);
   process.exit(1);
 }
+console.log('\nchasing is a real option: it costs a little and it lands often enough to be worth choosing.');

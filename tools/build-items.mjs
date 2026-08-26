@@ -13,6 +13,7 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { AXIS_RANGE } from '../src/ratings.js';
+import { humanise } from '../src/scrape-parse.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const AXES = ['offense', 'aoe', 'tracking', 'defense', 'evasion'];
@@ -68,14 +69,33 @@ if (errors.length) {
 
 // Merge the scrape layer over the top if it has been generated.
 const scrapedPath = join(root, 'data/scraped.json');
+// A few display names cannot be recovered from the localisation key — an
+// apostrophe or a decimal point is simply not in it. Keyed by the raw key so a
+// re-scrape keeps working.
+const namesPath = join(root, 'data/name-overrides.json');
+const nameOverrides = existsSync(namesPath)
+  ? Object.fromEntries(Object.entries(JSON.parse(readFileSync(namesPath, 'utf8')))
+      .filter(([k]) => !k.startsWith('_')))
+  : {};
+const unusedNames = new Set(Object.keys(nameOverrides));
+
 let merged = 0;
 if (existsSync(scrapedPath)) {
   const scraped = JSON.parse(readFileSync(scrapedPath, 'utf8'));
+  for (const s of scraped.items) {
+    // Re-derive from the raw localisation key rather than trusting the name the
+    // scrape happened to write. The key is the source of truth, so improving
+    // humanise() reaches the committed data without needing a re-scrape.
+    if (s.xmlName) s.name = humanise(s.xmlName);
+    const better = nameOverrides[s.xmlName];
+    if (better) { s.name = better; unusedNames.delete(s.xmlName); }
+  }
   const byId = new Map(scraped.items.map((s) => [s.id, s]));
 
   for (const item of items) {
     const s = byId.get(item.id);
     if (!s) continue;
+    if (nameOverrides[s.xmlName]) item.name = s.name;
     item.scraped = { quality: s.quality, pools: s.pools, type: s.type, stats: s.stats };
     merged++;
     byId.delete(item.id);
@@ -103,6 +123,13 @@ writeFileSync(
   // day. Git already records when this was generated.
   `${JSON.stringify({ scrapeLayer: existsSync(scrapedPath), items }, null, 2)}\n`,
 );
+
+// A stale override is a silent lie about the data, so say so rather than
+// letting it sit in the file forever.
+if (unusedNames.size) {
+  console.error(`build-items: ${unusedNames.size} name override(s) matched nothing: ${[...unusedNames].join(', ')}`);
+  process.exit(1);
+}
 
 console.log(`build-items: ${items.length} items written`);
 console.log(
