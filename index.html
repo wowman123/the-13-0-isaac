@@ -116,6 +116,21 @@
       <div id="progress" class="progress"></div>
     </section>
 
+    <!-- Daily only: how you did against the deal, and how you have been doing. -->
+    <section class="panel" id="par-panel" hidden>
+      <h2 id="par-title">How you did</h2>
+      <p class="panel-note" id="par-note"></p>
+      <div class="par-bar"><span class="par-fill" id="par-fill"></span><span class="par-you" id="par-you"></span></div>
+      <p class="par-scale" id="par-scale"></p>
+      <div id="par-best" class="par-best" hidden>
+        <h3>The best build in today's deal</h3>
+        <ol class="par-line" id="par-line"></ol>
+      </div>
+      <button class="btn btn-quiet" id="par-reveal">Show me the best line</button>
+
+      <div class="streaks" id="streaks"></div>
+    </section>
+
     <!-- Endless only: what this build has already survived. -->
     <section class="panel" id="fights-panel" hidden>
       <h2 id="fights-title">Fights cleared</h2>
@@ -315,7 +330,14 @@
       <p><strong>There are no respins.</strong> A respin is a fresh draw, which would put two players on different puzzles immediately. The daily asks something narrower than free play does &mdash; given exactly these five offers, what is the best build you can make &mdash; and that question has one answer everybody is chasing.</p>
       <p>The daily runs the Casual ruleset. Advanced draws from a smaller pool and answers to its own difficulty solve, so a daily that sometimes ran one and sometimes the other would not be comparable between two players, let alone between two days.</p>
       <p>A round is drawn only from intersections holding at least four items. A one-item cell in free play is texture, and the game says so out loud; as a fifth of a fixed puzzle everyone is measured on, it is a round nobody gets to play.</p>
-      <p>Sharing a result posts the shape of the run &mdash; the quality of each pick and what it came to &mdash; and never an item name, so posting it does not hand the answer to somebody who has not played yet.</p>
+      <h3>How much of the deal you found</h3>
+      <p>Because a daily fixes all five offers before the first pick, it has an exact best answer &mdash; and without one, a score says very little. 24% sounds respectable and is dreadful if the deal allowed 54%; 12% sounds poor and is close to perfect if 13% was the ceiling. So every possible build is enumerated when a daily finishes and you are told the share of them you beat. A deal allows a few thousand builds, which is about a tenth of a second of brute force rather than a search that might miss the answer. Free play cannot do this: it redraws after every pick, so its tree is the whole item pool deep and there is nothing to exhaust.</p>
+      <p>The first attempt interpolated between the deal&rsquo;s floor and its ceiling, and flattered everybody &mdash; the worst build in a deal is often a thousandth of a percent, which made scoring 2% out of a possible 54% read as &ldquo;the better half&rdquo;. A percentile needs no scale chosen for it and answers the question directly.</p>
+      <p>The best line itself stays hidden until you ask for it. It is worth having and worth not being shown before you have decided you want it.</p>
+
+      <h3>Coming back</h3>
+      <p>Streaks and a record of past days are kept, bucketed by the share of each deal you beat rather than by raw score &mdash; raw scores are not comparable between days, because 12% on a deal that allowed 13% is a better day&rsquo;s work than 30% on one that allowed 60%. A streak survives an unplayed today and only breaks on a missed day; ending it the moment you woke up would be a punishment for sleeping. All of it lives in your browser, so there is no leaderboard and no account, and clearing site data ends the streak.</p>
+      <p>Sharing a result posts the shape of the run &mdash; the quality of each pick, what it came to, and the ceiling it was measured against &mdash; and never an item name, so posting it does not hand the answer to somebody who has not played yet.</p>
 
       <h2>What an item row says</h2>
       <p>181 items were rated by hand and carry a note written at the same time. The other 512 a draft can offer needed something better than the raw tag list they used to print, so a row now answers in the best terms available to it, in this order:</p>

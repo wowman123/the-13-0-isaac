@@ -14,6 +14,8 @@ import { dayKey } from '../src/random.js';
 import { fightAt, endlessSummary, endlessShare, HEADSTART } from '../src/endless.js';
 import { bossOdds } from '../src/engine.js';
 import { diagnose, diagnosisText } from '../src/diagnose.js';
+import { parForDeal, parScore, parGrade } from '../src/par.js';
+import { recordDay, summary } from '../src/streak.js';
 import { mulberry32, hashString } from '../src/random.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -69,19 +71,54 @@ const seedFromHash = () =>
 
 const DAILY_STORE = 'the-13-0-daily';
 
-/** What this browser has already done today, if anything. */
-function dailyResult(day = dayKey()) {
+/** Everything this browser has played, by day. */
+function dailyHistory() {
   try {
-    const all = JSON.parse(localStorage.getItem(DAILY_STORE) || '{}');
-    return all[day] ?? null;
-  } catch { return null; }
+    return JSON.parse(localStorage.getItem(DAILY_STORE) || '{}');
+  } catch { return {}; }
 }
 
-function saveDailyResult(day, picks, total) {
+function dailyResult(day = dayKey()) {
+  return dailyHistory()[day] ?? null;
+}
+
+/**
+ * Keep the whole history rather than only today. A daily with no memory is a
+ * puzzle you do once; the streak is the reason to come back tomorrow.
+ */
+function saveDailyResult(day, picks, total, par, perfect) {
   try {
-    // Only today's is worth keeping; the rest is somebody else's puzzle.
-    localStorage.setItem(DAILY_STORE, JSON.stringify({ [day]: { picks, total } }));
+    localStorage.setItem(
+      DAILY_STORE,
+      JSON.stringify(recordDay(dailyHistory(), day, { picks, total, par, perfect })),
+    );
   } catch { /* private browsing; the run still finishes, it just is not remembered */ }
+}
+
+/**
+ * The exact best and worst builds today's deal allowed.
+ *
+ * Only possible because a daily fixes all five offers before the first pick:
+ * a few thousand builds is brute force, where free play redraws after every
+ * pick and has no tree to exhaust. Cached because it is the same answer all
+ * day and costs about a tenth of a second.
+ */
+let parCache = null;
+function dealPar() {
+  if (!run?.daily) return null;
+  if (parCache?.day === run.daily.day) return parCache.par;
+
+  const par = parForDeal(
+    run.daily.rounds,
+    byId,
+    (item) => state.ratings.get(item.id),
+    state.bosses,
+    state.config,
+    state.rules,
+    state.transformations,
+  );
+  parCache = { day: run.daily.day, par };
+  return par;
 }
 
 /** The starting stat line for whoever is selected. Isaac unless chosen. */
@@ -432,7 +469,15 @@ function choose(id) {
     run.finished = true;
     run.roll = null;
     run.candidates = [];
-    if (run.daily) saveDailyResult(run.daily.day, [...run.picks], oddsFor(run.picks).total);
+    if (run.daily) {
+      const total = oddsFor(run.picks).total;
+      const par = dealPar();
+      const fraction = par ? parScore(total, par.totals) : null;
+      saveDailyResult(
+        run.daily.day, [...run.picks], total, fraction,
+        Boolean(par && total >= par.best.total - 1e-12),
+      );
+    }
   } else {
     run.round += 1;
     rollFresh();
@@ -738,6 +783,7 @@ function renderRun() {
   renderCandidates();
   renderBuildStrip();
   renderStats();
+  renderPar();
   renderFights();
   renderProgress();
 
@@ -822,6 +868,83 @@ function renderStats() {
     row('Speed', stats.speed.toFixed(2), delta(stats.speed, base.speed), 'Capped at 2.00 in game.'),
     row('Luck', stats.luck.toFixed(1), delta(stats.luck, base.luck, 1)),
     row('Health', `${stats.health}\u2665 ${stats.soulHearts ? `+${stats.soulHearts}` : ''}`.trim(), null),
+  );
+}
+
+/**
+ * Daily: how much of the deal you found, and how you have been doing.
+ *
+ * A raw score means very little on its own. 24% sounds respectable and is
+ * dreadful if the deal allowed 54%; 12% sounds poor and is near perfect if 13%
+ * was the ceiling. What a player wants is the share of possible builds they
+ * beat, and today's deal is small enough to know that exactly.
+ */
+function renderPar() {
+  const panel = $('#par-panel');
+  panel.hidden = !(isDaily() && run.finished);
+  if (panel.hidden) return;
+
+  const par = dealPar();
+  const total = oddsFor(run.picks).total;
+  const fraction = par ? parScore(total, par.totals) : 0;
+  const isBest = Boolean(par && total >= par.best.total - 1e-12);
+
+  $('#par-title').textContent = `You beat ${(fraction * 100).toFixed(0)}% of possible builds`;
+  $('#par-note').textContent = par
+    ? `${fmtPct(total)}% out of a possible ${fmtPct(par.best.total)}% — ${parGrade(fraction, isBest)}. `
+      + `Today's deal allowed ${par.count.toLocaleString()} different builds.`
+    : '';
+
+  $('#par-fill').style.setProperty('--w', `${(fraction * 100).toFixed(1)}%`);
+  $('#par-you').style.setProperty('--x', `${(fraction * 100).toFixed(1)}%`);
+  $('#par-scale').textContent = par
+    ? `Worst build available ${fmtPct(par.worst.total)}%  ·  best ${fmtPct(par.best.total)}%`
+    : '';
+
+  // Hidden until asked for: the answer is worth having, and worth not being
+  // shown before you have decided you want it.
+  $('#par-reveal').hidden = isBest || Boolean(run.revealed);
+  $('#par-best').hidden = !(isBest || run.revealed);
+  if (isBest || run.revealed) {
+    $('#par-line').replaceChildren(...(par?.best.picks ?? []).map((id) => {
+      const item = byId(id);
+      return el('li', { className: 'par-item', dataset: { id }, title: 'Show this item' }, [
+        sprite(id),
+        el('span', { textContent: item?.name ?? id }),
+      ]);
+    }));
+  }
+
+  renderStreaks();
+}
+
+/** The record of how this browser has done, day to day. */
+function renderStreaks() {
+  const s = summary(dailyHistory(), dayKey());
+  const stat = (label, value) => el('div', { className: 'streak-stat' }, [
+    el('span', { className: 'streak-val', textContent: String(value) }),
+    el('span', { className: 'streak-key', textContent: label }),
+  ]);
+
+  const maxCount = Math.max(1, ...s.distribution.map((b) => b.count));
+  $('#streaks').replaceChildren(
+    el('div', { className: 'streak-row' }, [
+      stat('played', s.played),
+      stat('streak', s.streak),
+      stat('best streak', s.best),
+      stat('perfect', s.perfect),
+    ]),
+    s.played > 1
+      ? el('div', { className: 'streak-dist' }, s.distribution.map((b) => el('div', { className: 'dist-row' }, [
+          el('span', { className: 'dist-key', textContent: b.label }),
+          el('span', { className: 'dist-bar', style: `--w: ${Math.round((b.count / maxCount) * 100)}%` }),
+          el('span', { className: 'dist-val', textContent: String(b.count) }),
+        ])))
+      : null,
+    el('p', {
+      className: 'streak-note',
+      textContent: 'Kept in this browser only — there is no account behind this, which also means clearing site data ends the streak.',
+    }),
   );
 }
 
@@ -1399,6 +1522,12 @@ function wireEvents() {
     if (e.key.toLowerCase() === 'q' && !$('#respin-quality').disabled) respin('quality');
   });
 
+  $('#par-reveal').addEventListener('click', () => { run.revealed = true; renderRun(); });
+  $('#par-line').addEventListener('click', (e) => {
+    const row = e.target.closest('[data-id]');
+    if (row) showItem(row.dataset.id);
+  });
+
   $('#item-close').addEventListener('click', hideItem);
   $('#item-scrim').addEventListener('click', hideItem);
 
@@ -1424,11 +1553,14 @@ function wireEvents() {
 
   $('#btn-share-daily').addEventListener('click', async (e) => {
     const button = e.currentTarget;
+    const par = dealPar();
+    const total = oddsFor(run.picks).total;
     const text = shareText(
       run.daily.day,
       run.picks.map((id) => byId(id)?.scraped?.quality ?? 0),
-      oddsFor(run.picks).total,
+      total,
       location.origin + location.pathname,
+      par ? { best: par.best.total, beat: parScore(total, par.totals) } : null,
     );
     const original = button.textContent;
     try {

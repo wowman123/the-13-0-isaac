@@ -93,8 +93,16 @@ export function buildDaily(items, day = dayKey()) {
  */
 const QUALITY_BLOCK = ['⬜', '🟦', '🟩', '🟨', '🟥'];
 
-export function shareText(day, picks, total, site = '') {
+export function shareText(day, picks, total, site = '', par = null) {
   const blocks = picks.map((q) => QUALITY_BLOCK[Math.max(0, Math.min(4, q))]).join('');
-  const pct = total >= 0.1 ? `${(total * 100).toFixed(1)}%` : `${(total * 100).toFixed(2)}%`;
-  return [`The 13-0 — ${day}`, blocks, `${pct} chance of a 13-0`, site].filter(Boolean).join('\n');
+  const pct = (p) => (p >= 0.1 ? `${(p * 100).toFixed(1)}%` : `${(p * 100).toFixed(2)}%`);
+
+  // The score alone says little without the ceiling it was measured against —
+  // 24% is dreadful on a deal that allowed 54% and excellent on one that
+  // allowed 25%. Neither number names an item, so neither spoils anything.
+  const line = par
+    ? `${pct(total)} of a possible ${pct(par.best)} — beat ${(par.beat * 100).toFixed(0)}% of builds`
+    : `${pct(total)} chance of a 13-0`;
+
+  return [`The 13-0 — ${day}`, blocks, line, site].filter(Boolean).join('\n');
 }
