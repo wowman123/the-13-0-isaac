@@ -17,7 +17,8 @@ import { diagnose, diagnosisText } from '../src/diagnose.js';
 import { parForDeal, parScore, parGrade } from '../src/par.js';
 import { recordDay, summary } from '../src/streak.js';
 import { mulberry32, hashString } from '../src/random.js';
-import { CHAOS_ID, ALL_POOLS, poolsCollapsed, inPool } from '../src/chaos.js';
+import { ALL_POOLS, ANY_QUALITY, WILDCARD_OFFER, activeRules, inPool, qualities } from '../src/rule-items.js';
+import { poolLabel as label } from '../src/pools.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -139,36 +140,23 @@ let run;
  */
 const isRealPool = (pool) => !pool.startsWith('greed');
 
-const POOL_LABELS = {
-  treasure: 'Treasure Room',
-  shop: 'Shop',
-  boss: 'Boss Room',
-  devil: 'Devil Room',
-  angel: 'Angel Room',
-  secret: 'Secret Room',
-  ultrasecret: 'Ultra Secret Room',
-  curse: 'Curse Room',
-  library: 'Library',
-  cranegame: 'Crane Game',
-  beggar: 'Beggar',
-  demonbeggar: 'Devil Beggar',
-  rottenbeggar: 'Rotten Beggar',
-  goldenchest: 'Golden Chest',
-  redchest: 'Red Chest',
-  oldchest: 'Old Chest',
-  wooden: 'Wooden Chest',
-  bombbum: 'Bomb Bum',
-  babyshop: 'Baby Shop',
-  planetarium: 'Planetarium',
-  moms: "Mom's Chest",
-};
 
-const poolLabel = (pool) => (pool === ALL_POOLS
-  ? 'All pools'
-  : POOL_LABELS[pool] ?? pool.replace(/^\w/, (c) => c.toUpperCase()));
+const poolLabel = (pool) => label(pool, ALL_POOLS);
 
-/** Has this run taken Chaos, and so lost the pool half of every roll? */
-const chaosHeld = () => poolsCollapsed(run?.picks?.map(byId) ?? []);
+/** Which of the draft's own rules this build has bent, and how far. */
+const rules = () => activeRules(run?.picks?.map(byId) ?? [], state.ruleItems);
+
+/**
+ * How many candidates one pedestal shows.
+ *
+ * The pedestal items do not widen this. In the game they give you more
+ * pedestals, and a pedestal is its own draw from the pool — so they add rolls
+ * rather than candidates, which is both what the item says and the only version
+ * of it worth a pick. Six more items from the same intersection is barely worth
+ * anything: within one Pool x Quality the items are close in value, so the
+ * eighth-best is nearly the sixth-best. A second intersection is a real choice.
+ */
+const offerSize = () => (run?.roll?.quality === ANY_QUALITY ? WILDCARD_OFFER : OFFER);
 const shortId = (id) => id.replace(/^COLLECTIBLE_/, '');
 const byId = (id) => state.items.find((i) => i.id === id);
 const pct = (p) => p * 100;
@@ -223,10 +211,11 @@ async function init() {
   let itemStats;
   let characters;
   let notes;
+  let ruleItems;
 
   try {
-    [items, bosses, config, synergies, transformations, itemStats, characters, notes] = await Promise.all(
-      ['data/items.json', 'data/bosses.json', 'data/config.json', 'data/synergies.json', 'data/transformations.json', 'data/item-stats.json', 'data/characters.json', 'data/notes.json'].map(async (path) => {
+    [items, bosses, config, synergies, transformations, itemStats, characters, notes, ruleItems] = await Promise.all(
+      ['data/items.json', 'data/bosses.json', 'data/config.json', 'data/synergies.json', 'data/transformations.json', 'data/item-stats.json', 'data/characters.json', 'data/notes.json', 'data/rule-items.json'].map(async (path) => {
         const res = await fetch(path);
         if (!res.ok) throw new Error(`${path} returned ${res.status}`);
         return res.json();
@@ -246,6 +235,7 @@ async function init() {
   state.itemStats = itemStats.stats;
   state.itemText = itemStats.text ?? {};
   state.notes = notes.notes ?? {};
+  state.ruleItems = ruleItems;
   state.characters = characters.characters;
   for (const item of state.items) state.ratings.set(item.id, resolveRating(item));
 
@@ -347,7 +337,7 @@ function draftable() {
 function cell(pool, quality) {
   const taken = isEndless() ? null : new Set(run.picks);
   return draftable().filter(
-    (i) => i.scraped.quality === quality
+    (i) => (quality === ANY_QUALITY || i.scraped.quality === quality)
       && inPool(i, pool, isRealPool)
       && (!taken || !taken.has(i.id)),
   );
@@ -355,21 +345,22 @@ function cell(pool, quality) {
 
 /** Every intersection with at least one item left in it. */
 function viableCells() {
-  // With Chaos held the pool half of the roll is gone, so there is one cell per
-  // quality rather than one per intersection — and rolling the pool axis at all
-  // would be theatre.
-  if (chaosHeld()) {
-    const out = [];
-    for (let quality = 0; quality <= 4; quality++) {
-      if (cell(ALL_POOLS, quality).length) out.push({ pool: ALL_POOLS, quality });
-    }
-    return out;
+  const r = rules();
+  // A spent wildcard is not one you still hold: Death Certificate offers the
+  // whole pool once, and then the draft goes back to having axes.
+  if (r.wildcards > (run.wildcardsUsed ?? 0)) {
+    return [{ pool: ALL_POOLS, quality: ANY_QUALITY, wildcard: true }];
   }
 
-  const pools = [...new Set(draftable().flatMap((i) => i.scraped.pools.filter(isRealPool)))];
+  // Chaos removes the pool half, leaving one cell per quality rather than one
+  // per intersection — rolling an axis that no longer exists would be theatre.
+  const pools = r.combinePools
+    ? [ALL_POOLS]
+    : [...new Set(draftable().flatMap((i) => i.scraped.pools.filter(isRealPool)))];
+
   const out = [];
   for (const pool of pools) {
-    for (let quality = 0; quality <= 4; quality++) {
+    for (const quality of qualities(r)) {
       if (cell(pool, quality).length) out.push({ pool, quality });
     }
   }
@@ -408,6 +399,9 @@ function startRun() {
     finished: false,
     daily,
     seed,
+    rerollsUsed: 0,
+    wildcardsUsed: 0,
+    extras: [],   // the extra pedestals this roll put out, if any
     // Endless resolves a fight after every pick rather than scoring five at
     // the end, so it carries the log of what it has already survived.
     fights: [],
@@ -448,10 +442,40 @@ function rollFresh() {
   run.roll = reachable.length ? pickRandom(reachable) : null;
   run.candidates = [];
   run.pulled = null;
+  run.extras = [];
+  // The D6 recharges between rooms in the game, so its redraw comes back for
+  // every round rather than being a pool of two spent whenever.
+  run.rerollsUsed = 0;
   if (!run.roll) return;
 
-  const offer = sample(cell(run.roll.pool, run.roll.quality), OFFER);
-  run.pulled = pullCompletion(offer, cell(run.roll.pool, run.roll.quality), run.leaning, pickRandom);
+  buildOffer();
+}
+
+/**
+ * Fill the offer from the roll, plus one more roll per extra pedestal.
+ *
+ * The primary roll is the one on the header and the one the respins argue with;
+ * the extras are drawn the same way it was, each landing on its own
+ * intersection. An item already on the table is not added twice, so two rolls
+ * that land in the same place show one set of items rather than two copies.
+ */
+function buildOffer() {
+  const r = rules();
+  const primary = cell(run.roll.pool, run.roll.quality);
+  const offer = sample(primary, offerSize());
+
+  run.extras = [];
+  const cells = viableCells().filter((c) => !c.wildcard);
+  for (let i = 0; i < r.extraRolls && cells.length; i++) {
+    const extra = pickRandom(cells);
+    run.extras.push(extra);
+    for (const item of sample(cell(extra.pool, extra.quality), OFFER)) {
+      if (!offer.includes(item)) offer.push(item);
+    }
+  }
+
+  // The lean argues with the roll you were given, so it looks in that cell.
+  run.pulled = pullCompletion(offer, primary, run.leaning ?? [], pickRandom);
   run.candidates = offer.map((i) => i.id);
 }
 
@@ -459,31 +483,46 @@ function rollFresh() {
  * Respin one axis and keep the other — the asymmetry that makes a good roll on
  * one side worth protecting.
  */
+/** Redraw the candidates, keeping the roll that produced them. */
+function rerollOffer() {
+  const r = rules();
+  if (run.finished || !run.roll) return;
+  if ((run.rerollsUsed ?? 0) >= r.offerRerolls) return;
+
+  run.rerollsUsed = (run.rerollsUsed ?? 0) + 1;
+  buildOffer();
+  renderRun();
+}
+
 function respin(axis) {
   if (!run.roll || run.respins[axis] <= 0 || run.finished) return;
 
-  // There is nothing to respin on an axis that no longer exists.
-  if (axis === 'pool' && chaosHeld()) return;
+  // There is nothing to respin on an axis that no longer exists. Chaos removes
+  // the pool for the rest of the run and a wildcard roll removes both for one
+  // round, and either way the axis is gone rather than unlucky.
+  if (axis === 'pool' && run.roll.pool === ALL_POOLS) return;
+  if (axis === 'quality' && run.roll.quality === ANY_QUALITY) return;
 
   const { pool, quality } = run.roll;
+  // A respin lands where a fresh roll could, so it honours the quality floor.
   const options = axis === 'pool'
     ? [...new Set(draftable().flatMap((i) => i.scraped.pools.filter(isRealPool)))]
         .filter((p) => p !== pool && cell(p, quality).length)
-    : [0, 1, 2, 3, 4].filter((q) => q !== quality && cell(pool, q).length);
+    : qualities(rules()).filter((q) => q !== quality && cell(pool, q).length);
 
   if (!options.length) return; // nothing else to land on; do not burn the respin
 
   run.respins[axis] -= 1;
   run.roll = axis === 'pool' ? { pool: pickRandom(options), quality } : { pool, quality: pickRandom(options) };
-  const cellItems = cell(run.roll.pool, run.roll.quality);
-  const offer = sample(cellItems, OFFER);
-  run.pulled = pullCompletion(offer, cellItems, run.leaning ?? [], pickRandom);
-  run.candidates = offer.map((i) => i.id);
+  buildOffer();
   renderRun();
 }
 
 function choose(id) {
   if (run.finished || !run.candidates.includes(id)) return;
+
+  // A wildcard roll is spent the moment it is used, not when it is granted.
+  if (run.roll?.quality === ANY_QUALITY) run.wildcardsUsed = (run.wildcardsUsed ?? 0) + 1;
 
   const before = new Set(findTransformations(run.picks.map(byId), state.transformations).map((t) => t.id));
   run.history.push({ ...run.roll, candidates: [...run.candidates], chosen: id });
@@ -1021,21 +1060,46 @@ function renderRoll() {
   $('#roll-pool').textContent = poolLabel(run.roll.pool);
   $('#roll-quality').textContent = `Q${run.roll.quality}`;
 
-  const chaos = chaosHeld();
+  const r = rules();
+  const wild = run.roll?.quality === ANY_QUALITY;
   for (const axis of ['pool', 'quality']) {
     const left = run.respins[axis];
-    const dead = axis === 'pool' && chaos;
-    $(`#respin-${axis}-left`).textContent = left;
+    const dead = wild || (axis === 'pool' && r.combinePools);
+    $(`#respin-${axis}`).textContent = '';
+    $(`#respin-${axis}`).append(
+      `Respin ${axis} `,
+      el('b', { id: `respin-${axis}-left`, textContent: String(left) }),
+    );
     $(`#respin-${axis}`).disabled = left <= 0 || run.finished || dead;
-    $(`#respin-${axis}`).title = dead ? 'Chaos removed the pool axis — there is nothing to respin.' : '';
+    $(`#respin-${axis}`).title = dead ? 'That axis is gone — there is nothing left to respin.' : '';
   }
 
-  // Say what happened, once, rather than leaving the roll silently different.
-  const chaosLine = $('#roll-chaos');
-  chaosLine.hidden = !chaos;
-  chaosLine.textContent = chaos
-    ? 'Chaos combined the pools. Every roll from here is quality alone, and every item of that quality is on the table.'
-    : '';
+  // Rerolling the offer is a third kind of respin, and the only one that argues
+  // with the six items rather than with the roll that produced them.
+  const rerollsLeft = r.offerRerolls - (run.rerollsUsed ?? 0);
+  const reroll = $('#reroll-offer');
+  reroll.hidden = r.offerRerolls === 0;
+  reroll.disabled = rerollsLeft <= 0 || run.finished || !run.candidates?.length;
+  reroll.textContent = '';
+  reroll.append('Reroll items ', el('b', { textContent: String(Math.max(0, rerollsLeft)) }));
+
+  // Say what each rule item did, rather than leaving the roll silently changed.
+  const lines = r.active.map((x) => x.does);
+  if ((run.extras ?? []).length) {
+    // Naming them matters: without this the extra items look like the header's
+    // roll offering things it cannot offer. Two extras that landed in the same
+    // place are named once, because they put out one set of items, not two.
+    const where = [...new Set(run.extras.map((c) => `${poolLabel(c.pool)} \u00d7 Q${c.quality}`))];
+    const list = where.length > 1 ? `${where.slice(0, -1).join(', ')} and ${where.at(-1)}` : where[0];
+    lines.unshift(
+      `${run.extras.length === 1 ? 'An extra pedestal' : `${run.extras.length} extra pedestals`}, `
+      + `rolling ${list}. Their items are on the table too.`,
+    );
+  }
+  if (wild) lines.unshift('This roll ignores both axes. Every item in the game is on the table, once.');
+  const box = $('#roll-rules');
+  box.hidden = !lines.length;
+  box.replaceChildren(...lines.map((t) => el('span', { className: 'rule-line', textContent: t })));
 
   // When the roll was bent toward a family you are two into, say so. A hidden
   // thumb on the scale would just read as luck.
@@ -1058,9 +1122,12 @@ function renderCandidates() {
 
   $('#candidates-title').textContent = `Choose 1 of ${run.candidates.length}`;
   const n = run.candidates.length;
-  $('#candidates-note').textContent = n < OFFER
-    ? `Only ${n} item${n === 1 ? '' : 's'} sit${n === 1 ? 's' : ''} where those two rolls cross. Thin intersections are part of the game.`
-    : 'These are the items sitting where those two rolls cross.';
+  const extras = (run.extras ?? []).length;
+  $('#candidates-note').textContent = extras
+    ? `These come from ${extras + 1} separate rolls, so they do not all sit in the same intersection.`
+    : n < offerSize()
+      ? `Only ${n} item${n === 1 ? '' : 's'} sit${n === 1 ? 's' : ''} where those two rolls cross. Thin intersections are part of the game.`
+      : 'These are the items sitting where those two rolls cross.';
 
   host.replaceChildren(
     ...run.candidates.map((id) => {
@@ -1471,6 +1538,16 @@ function buildMethodView() {
     ])),
   );
 
+  // The rule items are data, so the Method page reads them off the same file the
+  // draft does rather than repeating the list in prose that could drift.
+  $('#rule-item-table tbody').replaceChildren(
+    ...(state.ruleItems?.items ?? []).map((rule) => el('tr', {}, [
+      el('td', {}, el('b', { textContent: byId(rule.id)?.name ?? rule.id })),
+      el('td', {}, el('q', { textContent: rule.says })),
+      el('td', { textContent: rule.does }),
+    ])),
+  );
+
   $('#boss-table tbody').replaceChildren(
     ...state.bosses.map((b) => el('tr', {}, [
       el('td', { textContent: b.index }),
@@ -1627,6 +1704,7 @@ function wireEvents() {
     setTimeout(() => { button.textContent = original; }, 1600);
   });
 
+  $('#reroll-offer').addEventListener('click', rerollOffer);
   $('#respin-pool').addEventListener('click', () => respin('pool'));
   $('#respin-quality').addEventListener('click', () => respin('quality'));
   $('#btn-restart').addEventListener('click', () => {

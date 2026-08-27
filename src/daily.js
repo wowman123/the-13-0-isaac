@@ -22,7 +22,25 @@
  */
 
 import { mulberry32, hashString, dayKey, sampleWith, pickWith } from './random.js';
-import { CHAOS_ID } from './chaos.js';
+import { ruleItemIds } from './rule-items.js';
+
+/**
+ * The ids a daily must not offer, when no spec is passed.
+ *
+ * Kept as a literal rather than read from disk because this module is loaded by
+ * the page, the tools and the tests, and only one of those can read a file. The
+ * test suite asserts it matches data/rule-items.json, so it cannot drift.
+ */
+export const DEFAULT_RULE_SPEC = {
+  items: [
+    { id: 'COLLECTIBLE_CHAOS' },
+    { id: 'COLLECTIBLE_SACRED_ORB' },
+    { id: 'COLLECTIBLE_MORE_OPTIONS' },
+    { id: 'COLLECTIBLE_THERES_OPTIONS' },
+    { id: 'COLLECTIBLE_D6' },
+    { id: 'COLLECTIBLE_DEATH_CERTIFICATE' },
+  ],
+};
 
 export const DAILY_ROUNDS = 5;
 export const DAILY_OFFER = 6;
@@ -49,19 +67,19 @@ export const seedForDay = (day = dayKey()) => hashString(`the-13-0:${day}`);
  * be a dead option, and worse, a different number of real choices for whoever
  * happened to take it early.
  */
-export function buildDaily(items, day = dayKey()) {
+export function buildDaily(items, day = dayKey(), ruleSpec = null) {
+  const RULE_ITEMS = ruleItemIds(ruleSpec ?? DEFAULT_RULE_SPEC);
   const rng = mulberry32(seedForDay(day));
   const isRealPool = (p) => !p.startsWith('greed');
 
   let remaining = items.filter(
     (i) => i.scraped?.quality != null
       && (i.scraped?.pools ?? []).some(isRealPool)
-      // Chaos combines the pools for every roll after you take it, and a daily
-      // has no rolls after you take it — all five are dealt before the first
-      // pick, so that everyone answers the same question. Offering an item
-      // whose whole effect a daily cannot honour would be worse than leaving it
-      // out, so it is left out.
-      && i.id !== CHAOS_ID,
+      // Every rule item changes the rolls that come after it, and a daily has
+      // none — all five are dealt before the first pick, so that everybody
+      // answers the same question. Offering an item whose whole effect a daily
+      // cannot honour would be worse than leaving it out, so they are left out.
+      && !RULE_ITEMS.has(i.id),
   );
   const pools = [...new Set(remaining.flatMap((i) => i.scraped.pools.filter(isRealPool)))].sort();
 

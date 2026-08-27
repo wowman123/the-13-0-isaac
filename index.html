@@ -97,11 +97,12 @@
           <span class="roll-val" id="roll-quality">&mdash;</span>
         </div>
       </div>
-      <p class="roll-chaos" id="roll-chaos" hidden></p>
+      <p class="roll-rules" id="roll-rules" hidden></p>
       <p class="roll-lean" id="roll-lean" hidden></p>
       <div class="respins">
         <button id="respin-pool" class="btn btn-quiet">Respin pool <b id="respin-pool-left">3</b></button>
         <button id="respin-quality" class="btn btn-quiet">Respin quality <b id="respin-quality-left">3</b></button>
+        <button id="reroll-offer" class="btn btn-quiet" hidden>Reroll items <b>0</b></button>
       </div>
     </section>
 
@@ -314,23 +315,33 @@
       </div>
       <p>Because rules read the whole build rather than pairs, the draft stops being &ldquo;take the biggest number&rdquo;. During a run each candidate shows what it would combine with, so a weaker item that fits can beat a stronger one that does not.</p>
 
-      <h2>Chaos</h2>
-      <p>Every roll here is a Pool &times; Quality intersection, and the pool half is the whole constraint &mdash; it is what stops a Treasure Room roll from offering you the Devil Room&rsquo;s best item. <strong>Chaos removes it.</strong> The game&rsquo;s own description of the item is &ldquo;all item pools are combined&rdquo;, so once you hold it every roll is quality alone and every item of that quality is on the table.</p>
-      <p>That makes it the sharpest decision in the draft, because Chaos does nothing in a fight. It is a pick spent on nothing, paid now, for a better draw on every pick after it &mdash; so its value is almost entirely a question of when it turns up. Simulated over four hundred drafts a side, playing as well as the offers allow:</p>
+      <h2>Items that change the rules</h2>
+      <p>Every roll here is a Pool &times; Quality intersection showing six candidates, and that sentence hides four separate rules: which pool, which quality, how many pedestals, and that your pick has to come from one of them. Six items in the game reach outside their own build and undo one of those. Each does here what its own in-game description says it does &mdash; the descriptions are quoted, not written for this &mdash; and none of them does anything at all in a fight.</p>
+      <div class="table-scroll">
+        <table class="ref-table" id="rule-item-table">
+          <thead><tr><th>Item</th><th>The game says</th><th>Here</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p>That shared shape &mdash; a slot spent now, paid back only forwards &mdash; makes them the sharpest decisions in the draft, and it means what they are worth is almost entirely a question of <em>when</em> they turn up. Simulated over four hundred drafts an arm, every arm dealt from the same seeds, played by a chooser that takes the best item on the table and spends its respins when they help:</p>
       <div class="table-scroll">
         <table class="ref-table">
-          <thead><tr><th>Chaos</th><th>Median</th><th>Top 10%</th></tr></thead>
+          <thead><tr><th>Taken on</th><th>Pick 1</th><th>Pick 2</th><th>Pick 4</th></tr></thead>
           <tbody>
-            <tr><td>never taken</td><td>22.6%</td><td>45.9%</td></tr>
-            <tr><td>taken on pick 1</td><td>34.2%</td><td>56.8%</td></tr>
-            <tr><td>taken on pick 2</td><td>29.9%</td><td>52.4%</td></tr>
-            <tr><td>taken on pick 4</td><td>19.6%</td><td>42.4%</td></tr>
+            <tr><td>Chaos</td><td>54.5%</td><td>51.1%</td><td>40.4%</td></tr>
+            <tr><td>Sacred Orb</td><td>54.8%</td><td>52.2%</td><td>45.3%</td></tr>
+            <tr><td>More Options</td><td>53.6%</td><td>49.0%</td><td>43.2%</td></tr>
+            <tr><td>There&rsquo;s Options</td><td>50.3%</td><td>46.6%</td><td>40.2%</td></tr>
+            <tr><td>The D6</td><td>50.7%</td><td>50.5%</td><td>42.1%</td></tr>
+            <tr><td>Death Certificate</td><td>53.0%</td><td>50.8%</td><td>45.9%</td></tr>
+            <tr><td><em>none of them</em></td><td colspan="3"><em>50.7% median</em></td></tr>
           </tbody>
         </table>
       </div>
-      <p>Early it is close to a free upgrade to the rest of the run. On the fourth pick it is one wasted slot and one improved one, which is a loss. Nothing had to be tuned to make that true &mdash; it falls out of the item costing a pick and paying only forwards.</p>
-      <p>It is rare enough to stay a treat rather than a strategy: it sits at quality 3 in the Shop and Secret Room, which works out at a 0.64% chance of appearing in any given roll and 3.2% of turning up at all across a five-pick draft.</p>
-      <p>The daily never offers it. All five of its rounds are dealt before the first pick, so that everybody answers the same question &mdash; which means an item whose entire effect is on later rolls has no effect there at all, and offering one it cannot honour would be worse than leaving it out.</p>
+      <p>Early, the strong ones are close to a free upgrade to the rest of the run. By the fourth pick every one of them is a wasted slot and one improved roll, which is a loss &mdash; and the ordering is a loss too: There&rsquo;s Options and the D6 barely clear breaking even even on pick 1, which is the correct verdict on the smallest of the six effects. Nothing was tuned to make that true. It falls out of the items costing a pick and paying only forwards.</p>
+      <p>One reading did have to be chosen, though, and the measurement chose it. More Options and There&rsquo;s Options give you extra <em>pedestals</em>, and a first attempt read that as extra candidates on the same roll &mdash; which turned out to be worth almost nothing. Within one Pool &times; Quality the items are close in value, so the eighth-best is nearly the sixth-best; doubling the offer to twelve only brought the item level with never taking it. A pedestal in the game is its own draw from the pool, so here each one is its own roll, landing on its own intersection. That is both the more faithful reading and the one that makes the item worth a slot.</p>
+      <p>They stay rare enough to be a treat rather than a strategy: across a five-pick draft, one of the six turns up at all in 21.4% of runs, and any given roll shows one 4.7% of the time.</p>
+      <p>The daily never offers any of them. All five of its rounds are dealt before the first pick, so that everybody answers the same question &mdash; which means an item whose entire effect is on later rolls has no effect there at all, and offering one it cannot honour would be worse than leaving it out.</p>
 
       <h2>Playing it</h2>
       <p>The number keys take the item in that position, <code>R</code> restarts, and <code>P</code> and <code>Q</code> spend a respin on the pool or the quality. Clicking an item&rsquo;s name or sprite opens everything the site knows about it &mdash; its five axes, which rules it can trigger, which families it counts toward, and which rolls can even offer it &mdash; without spending your pick on it.</p>

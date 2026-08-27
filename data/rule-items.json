@@ -1,0 +1,46 @@
+{
+  "note": "Items that change how the draft itself works rather than what the build is worth. Every one of these does here exactly what the game says it does — the descriptions are quoted from the item data, not invented for this — and each removes or bends a different one of the draft's own rules: the pool axis, the quality floor, how many pedestals a round puts in front of you, whether an offer can be redrawn, and whether a pick has to come from a roll at all. They are deliberately the only items in the game that reach outside their own build, and all but one of them do nothing in a fight, so taking one is always a pick spent on a better future rather than on damage.",
+  "items": [
+    {
+      "id": "COLLECTIBLE_CHAOS",
+      "effect": "combinePools",
+      "says": "All item pools are combined",
+      "does": "Every roll after this one is quality alone. Every item of that quality is on the table, whichever room it normally lives in."
+    },
+    {
+      "id": "COLLECTIBLE_SACRED_ORB",
+      "effect": "minQuality",
+      "value": 2,
+      "says": "Prevents quality 0 and 1 items from appearing",
+      "does": "No roll can land on quality 0 or 1 again. The floor of the draft comes up, so a bad roll is now a mediocre one."
+    },
+    {
+      "id": "COLLECTIBLE_MORE_OPTIONS",
+      "effect": "extraRolls",
+      "value": 2,
+      "says": "Choice of 2 or 3 items in each Treasure Room",
+      "does": "Two extra pedestals on every roll from here, and a pedestal is its own roll: each one lands on its own Pool × Quality and shows its own six. Three intersections to choose from instead of one."
+    },
+    {
+      "id": "COLLECTIBLE_THERES_OPTIONS",
+      "effect": "extraRolls",
+      "value": 1,
+      "says": "Choice of 2 items after each boss",
+      "does": "One extra pedestal on every roll, rolled separately from the first. Stacks with More Options, as it does in the game."
+    },
+    {
+      "id": "COLLECTIBLE_D6",
+      "effect": "offerRerolls",
+      "value": 1,
+      "says": "Rerolls pedestal items",
+      "does": "One redraw of the items in front of you every round, keeping the roll that produced them. The D6 recharges in the game and it recharges here, so the redraw comes back for the next pick."
+    },
+    {
+      "id": "COLLECTIBLE_DEATH_CERTIFICATE",
+      "effect": "wildcard",
+      "value": 1,
+      "says": "Allows you to choose one item among all items in the game",
+      "does": "One later roll ignores both axes and offers twelve items from the whole pool. Exactly once, then it is spent."
+    }
+  ]
+}
