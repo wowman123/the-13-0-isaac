@@ -17,6 +17,7 @@ import { diagnose, diagnosisText } from '../src/diagnose.js';
 import { parForDeal, parScore, parGrade } from '../src/par.js';
 import { recordDay, summary } from '../src/streak.js';
 import { mulberry32, hashString } from '../src/random.js';
+import { CHAOS_ID, ALL_POOLS, poolsCollapsed, inPool } from '../src/chaos.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -162,7 +163,12 @@ const POOL_LABELS = {
   moms: "Mom's Chest",
 };
 
-const poolLabel = (pool) => POOL_LABELS[pool] ?? pool.replace(/^\w/, (c) => c.toUpperCase());
+const poolLabel = (pool) => (pool === ALL_POOLS
+  ? 'All pools'
+  : POOL_LABELS[pool] ?? pool.replace(/^\w/, (c) => c.toUpperCase()));
+
+/** Has this run taken Chaos, and so lost the pool half of every roll? */
+const chaosHeld = () => poolsCollapsed(run?.picks?.map(byId) ?? []);
 const shortId = (id) => id.replace(/^COLLECTIBLE_/, '');
 const byId = (id) => state.items.find((i) => i.id === id);
 const pct = (p) => p * 100;
@@ -342,13 +348,24 @@ function cell(pool, quality) {
   const taken = isEndless() ? null : new Set(run.picks);
   return draftable().filter(
     (i) => i.scraped.quality === quality
-      && i.scraped.pools.includes(pool)
+      && inPool(i, pool, isRealPool)
       && (!taken || !taken.has(i.id)),
   );
 }
 
 /** Every intersection with at least one item left in it. */
 function viableCells() {
+  // With Chaos held the pool half of the roll is gone, so there is one cell per
+  // quality rather than one per intersection — and rolling the pool axis at all
+  // would be theatre.
+  if (chaosHeld()) {
+    const out = [];
+    for (let quality = 0; quality <= 4; quality++) {
+      if (cell(ALL_POOLS, quality).length) out.push({ pool: ALL_POOLS, quality });
+    }
+    return out;
+  }
+
   const pools = [...new Set(draftable().flatMap((i) => i.scraped.pools.filter(isRealPool)))];
   const out = [];
   for (const pool of pools) {
@@ -444,6 +461,9 @@ function rollFresh() {
  */
 function respin(axis) {
   if (!run.roll || run.respins[axis] <= 0 || run.finished) return;
+
+  // There is nothing to respin on an axis that no longer exists.
+  if (axis === 'pool' && chaosHeld()) return;
 
   const { pool, quality } = run.roll;
   const options = axis === 'pool'
@@ -1001,11 +1021,21 @@ function renderRoll() {
   $('#roll-pool').textContent = poolLabel(run.roll.pool);
   $('#roll-quality').textContent = `Q${run.roll.quality}`;
 
+  const chaos = chaosHeld();
   for (const axis of ['pool', 'quality']) {
     const left = run.respins[axis];
+    const dead = axis === 'pool' && chaos;
     $(`#respin-${axis}-left`).textContent = left;
-    $(`#respin-${axis}`).disabled = left <= 0 || run.finished;
+    $(`#respin-${axis}`).disabled = left <= 0 || run.finished || dead;
+    $(`#respin-${axis}`).title = dead ? 'Chaos removed the pool axis — there is nothing to respin.' : '';
   }
+
+  // Say what happened, once, rather than leaving the roll silently different.
+  const chaosLine = $('#roll-chaos');
+  chaosLine.hidden = !chaos;
+  chaosLine.textContent = chaos
+    ? 'Chaos combined the pools. Every roll from here is quality alone, and every item of that quality is on the table.'
+    : '';
 
   // When the roll was bent toward a family you are two into, say so. A hidden
   // thumb on the scale would just read as luck.

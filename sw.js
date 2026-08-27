@@ -8,7 +8,7 @@
  * Bump CACHE when shipping — it is what evicts the previous version.
  */
 
-const CACHE = 'the-13-0-v12';
+const CACHE = 'the-13-0-v13';
 
 const SHELL = [
   './',
@@ -26,6 +26,7 @@ const SHELL = [
   './src/daily.js',
   './src/endless.js',
   './src/diagnose.js',
+  './src/chaos.js',
   './src/par.js',
   './src/streak.js',
   './src/random.js',

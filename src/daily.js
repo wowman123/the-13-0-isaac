@@ -22,6 +22,7 @@
  */
 
 import { mulberry32, hashString, dayKey, sampleWith, pickWith } from './random.js';
+import { CHAOS_ID } from './chaos.js';
 
 export const DAILY_ROUNDS = 5;
 export const DAILY_OFFER = 6;
@@ -53,7 +54,14 @@ export function buildDaily(items, day = dayKey()) {
   const isRealPool = (p) => !p.startsWith('greed');
 
   let remaining = items.filter(
-    (i) => i.scraped?.quality != null && (i.scraped?.pools ?? []).some(isRealPool),
+    (i) => i.scraped?.quality != null
+      && (i.scraped?.pools ?? []).some(isRealPool)
+      // Chaos combines the pools for every roll after you take it, and a daily
+      // has no rolls after you take it — all five are dealt before the first
+      // pick, so that everyone answers the same question. Offering an item
+      // whose whole effect a daily cannot honour would be worse than leaving it
+      // out, so it is left out.
+      && i.id !== CHAOS_ID,
   );
   const pools = [...new Set(remaining.flatMap((i) => i.scraped.pools.filter(isRealPool)))].sort();
 

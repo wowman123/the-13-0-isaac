@@ -97,6 +97,7 @@
           <span class="roll-val" id="roll-quality">&mdash;</span>
         </div>
       </div>
+      <p class="roll-chaos" id="roll-chaos" hidden></p>
       <p class="roll-lean" id="roll-lean" hidden></p>
       <div class="respins">
         <button id="respin-pool" class="btn btn-quiet">Respin pool <b id="respin-pool-left">3</b></button>
@@ -312,6 +313,24 @@
         </table>
       </div>
       <p>Because rules read the whole build rather than pairs, the draft stops being &ldquo;take the biggest number&rdquo;. During a run each candidate shows what it would combine with, so a weaker item that fits can beat a stronger one that does not.</p>
+
+      <h2>Chaos</h2>
+      <p>Every roll here is a Pool &times; Quality intersection, and the pool half is the whole constraint &mdash; it is what stops a Treasure Room roll from offering you the Devil Room&rsquo;s best item. <strong>Chaos removes it.</strong> The game&rsquo;s own description of the item is &ldquo;all item pools are combined&rdquo;, so once you hold it every roll is quality alone and every item of that quality is on the table.</p>
+      <p>That makes it the sharpest decision in the draft, because Chaos does nothing in a fight. It is a pick spent on nothing, paid now, for a better draw on every pick after it &mdash; so its value is almost entirely a question of when it turns up. Simulated over four hundred drafts a side, playing as well as the offers allow:</p>
+      <div class="table-scroll">
+        <table class="ref-table">
+          <thead><tr><th>Chaos</th><th>Median</th><th>Top 10%</th></tr></thead>
+          <tbody>
+            <tr><td>never taken</td><td>22.6%</td><td>45.9%</td></tr>
+            <tr><td>taken on pick 1</td><td>34.2%</td><td>56.8%</td></tr>
+            <tr><td>taken on pick 2</td><td>29.9%</td><td>52.4%</td></tr>
+            <tr><td>taken on pick 4</td><td>19.6%</td><td>42.4%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Early it is close to a free upgrade to the rest of the run. On the fourth pick it is one wasted slot and one improved one, which is a loss. Nothing had to be tuned to make that true &mdash; it falls out of the item costing a pick and paying only forwards.</p>
+      <p>It is rare enough to stay a treat rather than a strategy: it sits at quality 3 in the Shop and Secret Room, which works out at a 0.64% chance of appearing in any given roll and 3.2% of turning up at all across a five-pick draft.</p>
+      <p>The daily never offers it. All five of its rounds are dealt before the first pick, so that everybody answers the same question &mdash; which means an item whose entire effect is on later rolls has no effect there at all, and offering one it cannot honour would be worse than leaving it out.</p>
 
       <h2>Playing it</h2>
       <p>The number keys take the item in that position, <code>R</code> restarts, and <code>P</code> and <code>Q</code> spend a respin on the pool or the quality. Clicking an item&rsquo;s name or sprite opens everything the site knows about it &mdash; its five axes, which rules it can trigger, which families it counts toward, and which rolls can even offer it &mdash; without spending your pick on it.</p>
