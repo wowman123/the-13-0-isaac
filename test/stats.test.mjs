@@ -163,3 +163,61 @@ test('characters that do not fight with tears carry a caveat', () => {
     assert.ok(c.caveat, `${name}: damage x fire rate does not describe them, and nothing says so`);
   }
 });
+
+
+test('the roster covers both rosters and every entry has health', () => {
+  const { characters } = load('data/characters.json');
+  const regular = characters.filter((c) => !c.tainted);
+  const tainted = characters.filter((c) => c.tainted);
+
+  assert.ok(regular.length >= 21, `only ${regular.length} regular characters`);
+  assert.ok(tainted.length >= 19, `only ${tainted.length} tainted characters`);
+
+  // Eden shipped with zero health because her column had no player id and the
+  // lookup quietly returned an empty object. Nobody may have none.
+  for (const c of characters) {
+    const s = composeStats([], c.stats);
+    assert.ok(s.effectiveHealth > 0, `${c.name}: no health of any kind`);
+  }
+});
+
+test('health matches what players.xml says, not what a default filled in', () => {
+  // A missing hp attribute means no red containers for most characters, and
+  // means "rolled at the start of the run" only for Eden. Reading it either way
+  // for everyone gets one of those two groups wrong.
+  const { characters } = load('data/characters.json');
+  const health = (name) => composeStats([], characters.find((c) => c.name === name).stats).effectiveHealth;
+
+  assert.equal(health('Isaac'), 6);
+  assert.equal(health('Dark Judas'), 4);        // no hp attribute, four black hearts
+  assert.equal(health('The Soul'), 2);
+  assert.equal(health('Tainted Judas'), 4);
+  assert.equal(health('Tainted Soul'), 1);
+  assert.equal(health('Tainted Bethany'), 12);
+  assert.equal(health('Tainted Lost'), 1);
+  assert.equal(health('Eden'), 6);              // randomised, so Isaac's stands in
+});
+
+test('the Forgotten pair splits its stats between its two halves', () => {
+  // The wiki table marks these with a dash rather than a number, in different
+  // columns in different rows. Reading a dash as zero would give the Soul no
+  // damage at all and the Forgotten no speed.
+  const { characters } = load('data/characters.json');
+  const forgotten = characters.find((c) => c.name === 'Tainted Forgotten');
+  const soul = characters.find((c) => c.name === 'Tainted Soul');
+
+  assert.equal(forgotten.stats.speed, undefined, 'the body has no speed of its own');
+  assert.ok(forgotten.stats.damageMult > 1, 'the body carries the damage');
+  assert.equal(soul.stats.damageMult, undefined, 'the Soul has no tear damage');
+  assert.ok(composeStats([], soul.stats).speed > 0, 'the Soul still moves');
+});
+
+test('tainted fire-rate penalties survive into the stat line', () => {
+  const { characters } = load('data/characters.json');
+  const rate = (name) => composeStats([], characters.find((c) => c.name === name).stats).fireRate;
+  const isaac = rate('Isaac');
+
+  assert.ok(rate('Tainted Azazel') < isaac * 0.4, 'Tainted Azazel fires at a third of the rate');
+  assert.ok(rate('Tainted Eve') < isaac * 0.75, 'Tainted Eve fires at two thirds');
+  assert.ok(rate('Tainted Keeper') < isaac * 0.5, 'Tainted Keeper is at -2.2 tears');
+});

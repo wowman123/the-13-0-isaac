@@ -238,6 +238,214 @@
         "soulHearts": 2
       },
       "note": "The highest base damage in the game, on the longest range, tied to a brother who is not."
+    },
+    {
+      "id": "TAINTED_ISAAC",
+      "name": "Tainted Isaac",
+      "tainted": true,
+      "stats": {},
+      "note": "Isaac's stats exactly. What changes is that he can carry only eight items at a time."
+    },
+    {
+      "id": "TAINTED_MAGDALENE",
+      "name": "Tainted Magdalene",
+      "tainted": true,
+      "stats": {
+        "damageMult": 0.75,
+        "health": 4
+      },
+      "note": "Three quarters damage, four containers with half of them empty, and health draining the whole way."
+    },
+    {
+      "id": "TAINTED_CAIN",
+      "name": "Tainted Cain",
+      "tainted": true,
+      "stats": {
+        "damageMult": 1.2,
+        "speed": 1.3,
+        "range": 4.5,
+        "health": 2
+      },
+      "note": "Cain's speed and damage, with a crafting bag where the reroll used to be."
+    },
+    {
+      "id": "TAINTED_JUDAS",
+      "name": "Tainted Judas",
+      "tainted": true,
+      "stats": {
+        "speed": 1.23,
+        "range": 4.5,
+        "health": 0,
+        "soulHearts": 4
+      },
+      "note": "Ordinary until Dark Arts, which is where his entire game lives."
+    },
+    {
+      "id": "TAINTED_BLUE_BABY",
+      "name": "Tainted ???",
+      "tainted": true,
+      "stats": {
+        "tears": -0.35,
+        "speed": 0.9,
+        "health": 0,
+        "soulHearts": 6
+      },
+      "note": "Slower tears and slower feet, throwing poop bombs."
+    },
+    {
+      "id": "TAINTED_EVE",
+      "name": "Tainted Eve",
+      "tainted": true,
+      "stats": {
+        "damageMult": 1.2,
+        "tears": -0.5,
+        "tearsMult": 0.66,
+        "health": 2
+      },
+      "note": "More damage than Eve at two thirds the fire rate."
+    },
+    {
+      "id": "TAINTED_SAMSON",
+      "name": "Tainted Samson",
+      "tainted": true,
+      "stats": {
+        "tears": -0.1,
+        "range": 5
+      },
+      "note": "Samson's tears and range without his shot speed."
+    },
+    {
+      "id": "TAINTED_AZAZEL",
+      "name": "Tainted Azazel",
+      "tainted": true,
+      "stats": {
+        "damageMult": 1.5,
+        "tearsMult": 0.3333333333333333,
+        "health": 0,
+        "soulHearts": 6
+      },
+      "note": "Half again the damage at a third of the rate.",
+      "caveat": "A short Brimstone beam at a third of Isaac's fire rate. The stats are real; the DPS built from them is an approximation."
+    },
+    {
+      "id": "TAINTED_LAZARUS",
+      "name": "Tainted Lazarus",
+      "tainted": true,
+      "stats": {
+        "range": 4.5
+      },
+      "note": "Alive he is ordinary. The other half of him is not."
+    },
+    {
+      "id": "DEAD_TAINTED_LAZARUS",
+      "name": "Dead Tainted Lazarus",
+      "tainted": true,
+      "stats": {
+        "damageMult": 1.5,
+        "tears": -0.1,
+        "speed": 0.9,
+        "health": 0,
+        "soulHearts": 4
+      },
+      "note": "Half again the damage and two soul hearts. The better half of the pair."
+    },
+    {
+      "id": "TAINTED_EDEN",
+      "name": "Tainted Eden",
+      "tainted": true,
+      "stats": {},
+      "note": "Rolled at random every run, health included.",
+      "caveat": "Every stat is rolled at the start of a run, health included. These are the midpoints, not what you would get."
+    },
+    {
+      "id": "TAINTED_LOST",
+      "name": "Tainted Lost",
+      "tainted": true,
+      "stats": {
+        "damageMult": 1.3,
+        "health": 0,
+        "soulHearts": 1
+      },
+      "note": "Thirty percent more damage and one hit of health, with flight and spectral tears free.",
+      "caveat": "Dies to a single hit, with the damage bonus meant to make up for it."
+    },
+    {
+      "id": "TAINTED_LILITH",
+      "name": "Tainted Lilith",
+      "tainted": true,
+      "stats": {
+        "speed": 0.85,
+        "health": 1,
+        "soulHearts": 4
+      },
+      "note": "The slowest legs in the roster, and a baby doing all the shooting.",
+      "caveat": "Fights through a demonic baby rather than any tears of her own."
+    },
+    {
+      "id": "TAINTED_KEEPER",
+      "name": "Tainted Keeper",
+      "tainted": true,
+      "stats": {
+        "tears": -2.2,
+        "luck": -2,
+        "health": 2
+      },
+      "note": "Coin hearts and tears at -2.2, which is barely a fire rate at all.",
+      "caveat": "Coin hearts, which behave differently from the containers this model counts."
+    },
+    {
+      "id": "TAINTED_APOLLYON",
+      "name": "Tainted Apollyon",
+      "tainted": true,
+      "stats": {
+        "tears": -0.5,
+        "health": 2
+      },
+      "note": "Slower tears than Apollyon, and locusts instead of a Void."
+    },
+    {
+      "id": "TAINTED_FORGOTTEN",
+      "name": "Tainted Forgotten",
+      "tainted": true,
+      "stats": {
+        "damageMult": 1.5,
+        "tearsMult": 0.5,
+        "health": 0,
+        "soulHearts": 6
+      },
+      "note": "Half again the damage, halved rate, and a club. The Soul carries the legs.",
+      "caveat": "Swings a bone club, and has no speed of its own — the Soul moves the pair."
+    },
+    {
+      "id": "TAINTED_SOUL",
+      "name": "Tainted Soul",
+      "tainted": true,
+      "stats": {
+        "health": 0,
+        "soulHearts": 1
+      },
+      "note": "The half that moves. No tears of her own at all.",
+      "caveat": "Fights with a chain and has no tear stats at all. Only her speed and health are real numbers here."
+    },
+    {
+      "id": "TAINTED_BETHANY",
+      "name": "Tainted Bethany",
+      "tainted": true,
+      "stats": {
+        "soulHearts": 6
+      },
+      "note": "Three containers and six soul hearts, spent as blood charges.",
+      "caveat": "Runs on blood charges spent out of her own health rather than on soul hearts."
+    },
+    {
+      "id": "TAINTED_JACOB",
+      "name": "Tainted Jacob",
+      "tainted": true,
+      "stats": {
+        "tears": 0.277
+      },
+      "note": "Jacob's quick tears, with Dark Esau hunting him the whole way.",
+      "caveat": "Hunted by Dark Esau the whole run, which this does not model at all."
     }
   ]
 }
