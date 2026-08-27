@@ -11,6 +11,8 @@ import { composeAdvanced, isAdvancedItem } from '../src/advanced.js';
 import { composeStats, baselineStats, BASE } from '../src/stats.js';
 import { buildDaily, shareText } from '../src/daily.js';
 import { dayKey } from '../src/random.js';
+import { fightAt, endlessSummary, endlessShare, HEADSTART } from '../src/endless.js';
+import { bossOdds } from '../src/engine.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -44,7 +46,12 @@ const state = {
  * two players, let alone between two days.
  */
 const isDaily = () => state.mode === 'daily';
+const isEndless = () => state.mode === 'endless';
+// Endless keeps the casual ruleset and only changes the shape of a run, so
+// anything asking "which scoring model" should not see it as advanced.
 const isAdvanced = () => state.mode === 'advanced';
+
+const ENDLESS_BEST = 'the-13-0-endless-best';
 
 const DAILY_STORE = 'the-13-0-daily';
 
@@ -186,6 +193,7 @@ async function init() {
   for (const item of state.items) state.ratings.set(item.id, resolveRating(item));
 
   buildItemsView();
+  buildFightsView();
   buildMethodView();
   wireEvents();
 
@@ -209,7 +217,7 @@ function readHash() {
   const hash = location.hash.slice(1);
   const [path, query] = hash.split('?');
   const view = (path.replace(/^\//, '') || 'draft').split('/')[0];
-  showView(['draft', 'items', 'method'].includes(view) ? view : 'draft');
+  showView(['draft', 'items', 'fights', 'method'].includes(view) ? view : 'draft');
 
   // A finished run can be shared as a link. Restoring one shows the result
   // rather than resuming play — the rolls that produced it are gone.
@@ -301,6 +309,9 @@ function startRun() {
     respins: isDaily() ? { pool: 0, quality: 0 } : { pool: RESPINS, quality: RESPINS },
     finished: false,
     daily,
+    // Endless resolves a fight after every pick rather than scoring five at
+    // the end, so it carries the log of what it has already survived.
+    fights: [],
   };
 
   // Replaying today shows what you already did rather than dealing again.
@@ -378,7 +389,12 @@ function choose(id) {
   const earned = findTransformations(run.picks.map(byId), state.transformations)
     .filter((t) => !before.has(t.id));
 
-  if (run.picks.length >= ROUNDS) {
+  if (isEndless()) {
+    // The first few picks are free: the ladder expects a five-item build and
+    // meeting Basement I with one is not difficulty, it is a broken opening.
+    if (run.picks.length > HEADSTART) resolveFight();
+    else { run.round += 1; rollFresh(); }
+  } else if (run.picks.length >= ROUNDS) {
     run.finished = true;
     run.roll = null;
     run.candidates = [];
@@ -391,6 +407,42 @@ function choose(id) {
   // After the render, so the announcement lands over a board that already shows
   // the pick. A single pick can in principle finish two families, so it queues.
   if (earned.length) announce(earned);
+}
+
+/**
+ * Endless: having taken an item, face the next fight with the build you now
+ * have. The roll is honest — the same per-fight probability the ladder shows —
+ * so a run ends when it ends and no pity is applied.
+ */
+function resolveFight() {
+  const { build } = composeDraft(
+    run.picks.map(byId),
+    run.picks.map((id) => state.ratings.get(id)),
+    state.rules,
+    state.transformations,
+  );
+
+  const fight = fightAt(run.fights.length, state.bosses);
+  const chance = bossOdds(build, fight, state.config);
+  const cleared = Math.random() < chance;
+
+  run.fights.push({ label: fight.label, lap: fight.lap, chance, cleared });
+
+  if (!cleared) {
+    run.finished = true;
+    run.roll = null;
+    run.candidates = [];
+    const best = Number(localStorage.getItem(ENDLESS_BEST) ?? 0);
+    const cleared_ = endlessSummary(run.fights).cleared;
+    if (cleared_ > best) {
+      run.newBest = true;
+      try { localStorage.setItem(ENDLESS_BEST, String(cleared_)); } catch { /* private browsing */ }
+    }
+    return;
+  }
+
+  run.round += 1;
+  rollFresh();
 }
 
 // ------------------------------------------------------- the announcement
@@ -558,16 +610,21 @@ function renderRun() {
   $('#run-title').textContent = done ? 'Your run.' : 'Draft your build.';
   $('#roll-panel').hidden = done;
   $('#candidates-panel').hidden = done;
-  $('#results').hidden = !done;
+  // Endless is scored in fights survived, not in a thirteen-fight probability,
+  // so the fight log is its result screen and the odds panel would answer a
+  // question nobody asked.
+  $('#results').hidden = !done || isEndless();
   // Sharing a daily posts the shape of the run without naming an item, so it
   // does not hand the answer to anybody who has not played today yet.
   $('#btn-share-daily').hidden = !(done && isDaily());
+  $('#btn-share-endless').hidden = !(done && isEndless());
 
   renderMode();
   renderRoll();
   renderCandidates();
   renderBuildStrip();
   renderStats();
+  renderFights();
   renderProgress();
 
   if (done) renderResults();
@@ -584,7 +641,9 @@ function renderMode() {
   $('#mode-char-wrap').hidden = !isAdvanced();
 
   const character = activeCharacter();
-  $('#mode-note').textContent = isDaily()
+  $('#mode-note').textContent = isEndless()
+    ? `One item, then one fight, for as long as you last. ${Number(localStorage.getItem(ENDLESS_BEST) ?? 0) ? `Your best is ${localStorage.getItem(ENDLESS_BEST)}.` : 'The thirteen come first, then they come again harder.'}`
+    : isDaily()
     ? `Today's deal, the same for everyone. All five offers are dealt up front and there are no respins — the only thing that varies is what you take.`
     : isAdvanced()
       ? `Real stats, the game's own curves. ${draftable().length} items — only the ones the data can describe.`
@@ -645,6 +704,40 @@ function renderStats() {
     row('Speed', stats.speed.toFixed(2), delta(stats.speed, base.speed), 'Capped at 2.00 in game.'),
     row('Luck', stats.luck.toFixed(1), delta(stats.luck, base.luck, 1)),
     row('Health', `${stats.health}\u2665 ${stats.soulHearts ? `+${stats.soulHearts}` : ''}`.trim(), null),
+  );
+}
+
+/** Endless: the ladder you have climbed so far, and the one that stopped you. */
+function renderFights() {
+  const panel = $('#fights-panel');
+  panel.hidden = !isEndless() || !run.fights.length;
+  if (panel.hidden) return;
+
+  const { cleared, died, luckiest } = endlessSummary(run.fights);
+  const best = Number(localStorage.getItem(ENDLESS_BEST) ?? 0);
+
+  $('#fights-title').textContent = died
+    ? `${cleared} fight${cleared === 1 ? '' : 's'} cleared`
+    : `${cleared} down, still going`;
+
+  $('#fights-note').textContent = died
+    ? [
+        `${died.label} ended it, at ${fmtPct(died.chance)}% to clear.`,
+        luckiest && luckiest.chance < 0.5 ? `You had already got past ${luckiest.label} on ${fmtPct(luckiest.chance)}%.` : '',
+        run.newBest ? 'That is your deepest run yet.' : best ? `Your best is ${best}.` : '',
+      ].filter(Boolean).join(' ')
+    : 'Take an item, face the next fight. The build keeps growing; so does the ladder.';
+
+  $('#fight-log').replaceChildren(
+    ...run.fights.map((f) => el('li', { className: `fight-row${f.cleared ? '' : ' is-dead'}` }, [
+      el('span', { className: 'fight-name', textContent: f.label }),
+      el('span', {
+        className: 'fight-bar',
+        style: `--w: ${Math.max(2, Math.round(f.chance * 100))}%; --c: ${oddsColour(f.chance)}`,
+      }),
+      el('span', { className: 'fight-odds', textContent: `${fmtPct(f.chance)}%` }),
+      el('span', { className: 'fight-mark', textContent: f.cleared ? '\u2713' : '\u2715' }),
+    ])),
   );
 }
 
@@ -725,8 +818,11 @@ function renderCandidates() {
 }
 
 function renderBuildStrip() {
+  // Endless has no fixed length, so the strip grows with the build rather than
+  // showing five sockets that stopped meaning anything after the fifth pick.
+  const slots = isEndless() ? Math.max(run.picks.length, 1) : ROUNDS;
   $('#build-strip').replaceChildren(
-    ...Array.from({ length: ROUNDS }, (_, i) => {
+    ...Array.from({ length: slots }, (_, i) => {
       const id = run.picks[i];
       if (!id) {
         return el('li', { className: 'build-cell is-empty' }, el('span', { textContent: i + 1 }));
@@ -997,6 +1093,48 @@ function renderItemsTable() {
 }
 
 // ---------------------------------------------------------------- method view
+/**
+ * The thirteen fights, and what each one actually asks for.
+ *
+ * The boss weights are the most consequential numbers in the project and the
+ * only ones with no source behind them, so the page that shows them says so
+ * rather than presenting them as fact.
+ */
+function buildFightsView() {
+  const host = $('#boss-list');
+  const maxWeight = Math.max(...state.bosses.flatMap((b) => Object.values(b.weights ?? {})));
+  const maxThreshold = Math.max(...state.bosses.map((b) => b.threshold));
+
+  host.replaceChildren(...state.bosses.map((boss, i) => el('div', { className: 'boss' }, [
+    el('div', { className: 'boss-head' }, [
+      el('span', { className: 'boss-index', textContent: String(i + 1) }),
+      el('span', { className: 'boss-name', textContent: boss.name }),
+      el('span', {
+        className: 'boss-threshold',
+        title: 'How much it takes to beat this fight.',
+        textContent: `threshold ${boss.threshold.toFixed(1)}`,
+      }),
+    ]),
+    el('div', { className: 'boss-axes' }, AXES.map((axis) => {
+      const w = boss.weights?.[axis] ?? 0;
+      return el('div', { className: 'boss-axis' }, [
+        el('span', { className: 'boss-axis-key', textContent: axis }),
+        el('span', {
+          className: 'boss-axis-bar',
+          style: `--w: ${Math.round((w / maxWeight) * 100)}%`,
+        }),
+        el('span', { className: 'boss-axis-val', textContent: w ? w.toFixed(2) : '—' }),
+      ]);
+    })),
+    el('span', {
+      className: 'boss-rise',
+      style: `--w: ${Math.round((boss.threshold / maxThreshold) * 100)}%`,
+      title: 'Where this fight sits on the climb.',
+    }),
+    boss.note ? el('p', { className: 'boss-note', textContent: boss.note }) : null,
+  ])));
+}
+
 function buildMethodView() {
   const c = state.config;
 
@@ -1128,6 +1266,20 @@ function wireEvents() {
     const original = button.textContent;
     try {
       await navigator.clipboard.writeText(text);
+      button.textContent = 'Copied';
+    } catch {
+      button.textContent = 'Copy failed';
+    }
+    setTimeout(() => { button.textContent = original; }, 1600);
+  });
+
+  $('#btn-share-endless').addEventListener('click', async (e) => {
+    const button = e.currentTarget;
+    const original = button.textContent;
+    try {
+      await navigator.clipboard.writeText(
+        endlessShare(run.fights, location.origin + location.pathname),
+      );
       button.textContent = 'Copied';
     } catch {
       button.textContent = 'Copy failed';

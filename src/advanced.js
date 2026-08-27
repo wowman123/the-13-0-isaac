@@ -15,8 +15,15 @@
  *             rather than numbers and the game states no value for them
  *   synergies unchanged — how items interact is real in either mode
  *
- * Items the stat data cannot describe and that carry no mechanic are excluded
- * from the Advanced pool entirely rather than offered as picks worth nothing.
+ * A third source fills a gap the first two leave. 59 items were hand-rated for
+ * Casual but publish no stat delta and carry no mechanic — Box of Friends,
+ * Book of Revelations, BFFS. A hand rating is already a considered judgement of
+ * what an item does in a fight, so Advanced uses it rather than pretending the
+ * item does not exist. It applies only where nothing else describes the item:
+ * an item with both a rating and a stat delta would otherwise be counted twice.
+ *
+ * Items that none of the three can describe are excluded from the Advanced pool
+ * rather than offered as picks worth nothing.
  */
 
 import { NEUTRAL, softCap, union } from './engine.js';
@@ -30,9 +37,19 @@ export const MECHANIC_TAGS = Object.freeze([
   'orbital', 'familiar', 'dot', 'spectral', 'multishot', 'charged', 'flight',
 ]);
 
+const hasMechanic = (item) => (item.tags ?? []).some((t) => MECHANIC_TAGS.includes(t));
+
 /** Can Advanced mode say anything about this item at all? */
 export const isAdvancedItem = (item, statsById) =>
-  Boolean(statsById[item.id]) || (item.tags ?? []).some((t) => MECHANIC_TAGS.includes(t));
+  Boolean(statsById[item.id]) || hasMechanic(item) || Boolean(item.rated);
+
+/**
+ * Items whose only description is a hand rating. Anything with a stat delta or
+ * a mechanic is already accounted for, and folding its rating in as well would
+ * count the same item twice.
+ */
+const handOnly = (items, statsById) =>
+  items.filter((i) => i.rated && !statsById[i.id] && !hasMechanic(i));
 
 /**
  * Fold the stat axes and the mechanic axes into one vector.
@@ -49,6 +66,19 @@ export function composeAdvanced(items, statsById, rules, transformations = null,
   const mech = fromTags(items.flatMap((i) => (i.tags ?? []).filter((t) => MECHANIC_TAGS.includes(t))));
 
   let build = { ...NEUTRAL, ...axes };
+
+  // Hand ratings compose the way they do in Casual: multiplicative axes
+  // multiply, tracking takes the best on offer, evasion unions.
+  for (const item of handOnly(items, statsById)) {
+    const r = item.rated;
+    build = {
+      offense: build.offense * r.offense,
+      aoe: build.aoe * r.aoe,
+      tracking: Math.max(build.tracking, r.tracking),
+      defense: build.defense * r.defense,
+      evasion: union([build.evasion, r.evasion]),
+    };
+  }
   if (mech) {
     build = {
       offense: build.offense * mech.offense,

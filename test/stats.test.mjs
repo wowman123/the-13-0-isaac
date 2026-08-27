@@ -93,7 +93,7 @@ test('Advanced offers only items it can say something about', () => {
       && (i.scraped?.pools ?? []).some((p) => !p.startsWith('greed'))
       && isAdvancedItem(i, stats),
   );
-  assert.ok(pool.length > 250, `only ${pool.length} items are draftable in Advanced`);
+  assert.ok(pool.length > 350, `only ${pool.length} items are draftable in Advanced`);
 });
 
 test('Advanced composition stays inside the axis ranges', () => {
@@ -220,4 +220,35 @@ test('tainted fire-rate penalties survive into the stat line', () => {
   assert.ok(rate('Tainted Azazel') < isaac * 0.4, 'Tainted Azazel fires at a third of the rate');
   assert.ok(rate('Tainted Eve') < isaac * 0.75, 'Tainted Eve fires at two thirds');
   assert.ok(rate('Tainted Keeper') < isaac * 0.5, 'Tainted Keeper is at -2.2 tears');
+});
+
+
+test('a hand rating counts in Advanced, and never counts twice', () => {
+  const stats = load('data/item-stats.json').stats;
+  const { items } = load('data/items.json');
+  const rules = load('data/synergies.json').rules;
+  const forms = load('data/transformations.json');
+  const MECH = ['homing', 'laser', 'piercing', 'explosive', 'knife', 'orbital', 'familiar', 'dot', 'spectral', 'multishot', 'charged', 'flight'];
+
+  // An item nothing else describes is still a considered judgement, so it is
+  // used rather than the item being dropped from the pool.
+  const handOnly = items.find(
+    (i) => i.rated && !stats[i.id] && !(i.tags ?? []).some((t) => MECH.includes(t)),
+  );
+  assert.ok(handOnly, 'expected at least one hand-rated item with no other description');
+  assert.ok(isAdvancedItem(handOnly, stats));
+
+  const bare = composeAdvanced([], stats, rules, forms).build;
+  const withIt = composeAdvanced([handOnly], stats, rules, forms).build;
+  assert.notDeepEqual(bare, withIt, `${handOnly.name} changed nothing`);
+
+  // An item with both a rating and a stat delta must be folded in once. Adding
+  // it should move the build by its stats alone, not by stats times rating.
+  const both = items.find((i) => i.rated && stats[i.id]);
+  assert.ok(both, 'expected an item with both');
+  const viaBoth = composeAdvanced([both], stats, rules, forms).build;
+  const viaStatsOnly = composeAdvanced(
+    [{ ...both, rated: null }], stats, rules, forms,
+  ).build;
+  assert.deepEqual(viaBoth, viaStatsOnly, `${both.name} is counted twice`);
 });

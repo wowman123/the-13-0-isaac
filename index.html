@@ -46,6 +46,7 @@
     <nav class="tabs" id="tabs">
       <a href="#/draft" data-view="draft">Draft</a>
       <a href="#/items" data-view="items">Items</a>
+      <a href="#/fights" data-view="fights">Fights</a>
       <a href="#/method" data-view="method">Method</a>
     </nav>
   </div></div>
@@ -71,6 +72,7 @@
         <button class="mode-btn" id="mode-casual" data-mode="casual" aria-pressed="true">Casual</button>
         <button class="mode-btn" id="mode-advanced" data-mode="advanced" aria-pressed="false">Advanced</button>
         <button class="mode-btn" id="mode-daily" data-mode="daily" aria-pressed="false">Daily</button>
+        <button class="mode-btn" id="mode-endless" data-mode="endless" aria-pressed="false">Endless</button>
       </div>
       <label class="mode-char" id="mode-char-wrap" hidden>
         <span>Character</span>
@@ -111,6 +113,16 @@
       <h2>Transformations in progress</h2>
       <p class="panel-note">Three items from one family transform Isaac. Two is not a transformation, but it is a reason to take the third &mdash; and once you are holding two, the run starts hunting the third for you.</p>
       <div id="progress" class="progress"></div>
+    </section>
+
+    <!-- Endless only: what this build has already survived. -->
+    <section class="panel" id="fights-panel" hidden>
+      <h2 id="fights-title">Fights cleared</h2>
+      <p class="panel-note" id="fights-note"></p>
+      <ol class="fight-log" id="fight-log"></ol>
+      <div class="fight-actions">
+        <button id="btn-share-endless" class="btn" hidden>Copy result</button>
+      </div>
     </section>
 
     <!-- Advanced only: the real stat line, computed with the game's formulas. -->
@@ -218,6 +230,25 @@
   </section>
 
   <!-- ================= METHOD ================= -->
+  <!-- ================= FIGHTS ================= -->
+  <section id="view-fights" class="view" hidden>
+    <div class="draft-head">
+      <h1>Thirteen fights.</h1>
+    </div>
+
+    <section class="panel">
+      <h2>What each fight asks for</h2>
+      <p class="panel-note">A build is not good or bad on its own &mdash; it is good or bad against something, and these are the somethings. The bars show how much each fight cares about each axis, relative to the others. The threshold is how much it takes to beat: it climbs the whole way down, which is why a build that walks the Basement can still lose the run four floors later.</p>
+      <div id="boss-list" class="boss-list"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Where the weights came from</h2>
+      <p>These are the most opinionated numbers in the project and the least sourced &mdash; nothing in the game publishes "Mom's Heart cares about tracking". They are a reading of what each fight actually punishes: a stationary target with a huge health pool is a damage check, a room full of fast small enemies is an area check, a boss that teleports is a tracking check.</p>
+      <p>They are also the numbers most worth arguing with. Everything downstream &mdash; the difficulty solve, every score the site has ever shown you &mdash; rests on them, so if one is wrong it is wrong everywhere. <code>data/bosses.json</code> is where they live and <code>CONTRIBUTING.md</code> is how to argue.</p>
+    </section>
+  </section>
+
   <section id="view-method" class="view" hidden>
     <div class="prose">
       <h1>How the number is made.</h1>
@@ -264,6 +295,12 @@
       </div>
       <p>Because rules read the whole build rather than pairs, the draft stops being &ldquo;take the biggest number&rdquo;. During a run each candidate shows what it would combine with, so a weaker item that fits can beat a stronger one that does not.</p>
 
+      <h2>Endless</h2>
+      <p>The five-pick draft asks how good a build you can assemble blind. Endless asks whether your build can grow faster than the ladder climbs: take one item, face one fight, and if you clear it, draft again with what you have.</p>
+      <p>That inverts the tension. In a five-pick draft a weak early item is a wasted slot you make up for later. In Endless it is a fight you might not survive to regret, and an item that pays off in four rounds is worth nothing if round two kills you.</p>
+      <p>The thirteen real fights come first, in order. Past them the ladder keeps climbing rather than stopping &mdash; the same fights come round again with their thresholds continuing to rise at the same rate, so lap two is strictly harder than lap one and no run can go on forever. Clearing all thirteen is the start of the interesting part, not the end.</p>
+      <p>Each fight is rolled at exactly the probability the ladder shows. No pity is applied and none is withheld.</p>
+
       <h2>The daily challenge</h2>
       <p>One puzzle a day, the same one for everybody, built from the date alone. There is no server behind this page, so nothing can hand a puzzle out &mdash; instead the day seeds a generator and the generator deals the rounds, which means two people on opposite sides of the world derive the same five offers independently. The day rolls over at midnight <strong>UTC</strong> rather than locally, or players in different time zones would spend most of their overlapping hours on different puzzles.</p>
       <p>Two rules make a daily run comparable in a way an ordinary one is not.</p>
@@ -300,7 +337,8 @@
       </div>
       <p>Both square roots are the real reason a tenth damage up is worth a fraction of the first, and they are why the soft cap in the Casual model exists at all &mdash; it was an approximation of something concrete. The check that these are the game&rsquo;s formulas and not merely plausible ones: Isaac holding nothing comes out at 3.5 damage, 10 frames between tears and 2.73 tears a second, which is what his character sheet says.</p>
       <p>Advanced also lets you pick a character, and measures every one of them against Isaac rather than against themselves &mdash; otherwise Judas&rsquo; damage multiplier would cancel itself out and the choice would be worth nothing.</p>
-      <p>Two honest limits. Advanced offers a smaller pool, because an item with no published stat delta and no mechanic is a pick worth literally nothing, and offering it would be worse than leaving it out. And <em>aoe</em> and <em>tracking</em> still come from the tag table in both modes: piercing and homing are behaviour rather than numbers, and the game states no value for them. Stats where the game gives stats, a model where it gives behaviour.</p>
+      <p>Where the stat data and the mechanic tags both come up empty, a third source fills in: 59 items were hand-rated for Casual but publish no stat delta and carry no mechanic &mdash; Box of Friends, Book of Revelations, BFFS. A hand rating is already a considered judgement of what an item does in a fight, so Advanced uses it rather than pretending the item is not there. It applies <em>only</em> where nothing else describes the item, because anything with both a rating and a stat delta would otherwise be counted twice.</p>
+      <p>Two honest limits. Advanced still offers a smaller pool, because an item that none of the three sources can describe is a pick worth literally nothing, and offering it would be worse than leaving it out. And <em>aoe</em> and <em>tracking</em> still come from the tag table in both modes: piercing and homing are behaviour rather than numbers, and the game states no value for them. Stats where the game gives stats, a model where it gives behaviour.</p>
       <p>The two modes end in the same place &mdash; five axes, thirteen fights &mdash; so they share the boss model. They do not share its two solved parameters: a different distribution of drafts needs its own difficulty, or one of the modes sits off target.</p>
 
       <h2>Transformations, and what they are worth</h2>
