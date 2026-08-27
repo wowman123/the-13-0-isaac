@@ -81,6 +81,7 @@
       <p class="mode-note" id="mode-note"></p>
       <p class="mode-caveat" id="mode-caveat" hidden></p>
       <p class="daily-done" id="daily-done" hidden></p>
+      <p class="mode-seed" id="mode-seed" hidden></p>
     </div>
 
     <!-- The roll. Two axes, respun independently. -->
@@ -152,6 +153,7 @@
         <div class="hero-actions">
           <button id="btn-share-daily" class="btn" hidden>Copy result</button>
         <button id="btn-share" class="btn">Copy link</button>
+        <button id="btn-share-seed" class="btn btn-quiet">Copy this deal</button>
         </div>
       </section>
 
@@ -192,6 +194,7 @@
           </div>
           <ol class="ladder" id="ladder"></ol>
           <p class="ladder-legend" id="ladder-legend"></p>
+          <p class="ladder-why" id="ladder-why"></p>
         </section>
       </div>
 
@@ -295,10 +298,14 @@
       </div>
       <p>Because rules read the whole build rather than pairs, the draft stops being &ldquo;take the biggest number&rdquo;. During a run each candidate shows what it would combine with, so a weaker item that fits can beat a stronger one that does not.</p>
 
+      <h2>Playing it</h2>
+      <p>The number keys take the item in that position, <code>R</code> restarts, and <code>P</code> and <code>Q</code> spend a respin on the pool or the quality. Clicking an item&rsquo;s name or sprite opens everything the site knows about it &mdash; its five axes, which rules it can trigger, which families it counts toward, and which rolls can even offer it &mdash; without spending your pick on it.</p>
+      <p>A run can also be seeded. <code>#/draft?seed=anything</code> deals from that seed alone, so a link is a challenge rather than a description of one: whoever opens it gets exactly the deal you got. It is the same machinery the daily runs on, pointed at a string of your choosing instead of the date.</p>
+
       <h2>Endless</h2>
       <p>The five-pick draft asks how good a build you can assemble blind. Endless asks whether your build can grow faster than the ladder climbs: take one item, face one fight, and if you clear it, draft again with what you have.</p>
       <p>That inverts the tension. In a five-pick draft a weak early item is a wasted slot you make up for later. In Endless it is a fight you might not survive to regret, and an item that pays off in four rounds is worth nothing if round two kills you.</p>
-      <p>The thirteen real fights come first, in order. Past them the ladder keeps climbing rather than stopping &mdash; the same fights come round again with their thresholds continuing to rise at the same rate, so lap two is strictly harder than lap one and no run can go on forever. Clearing all thirteen is the start of the interesting part, not the end.</p>
+      <p>The thirteen real fights come first, in order and untouched, so an Endless run opens on the real game. Past them the ladder keeps climbing: the same fights come round again, and how far above the real ladder they sit grows with the <em>square</em> of how deep you are, so no build can outrun it and no run can go on forever. The first attempt used a step per lap and put a wall exactly where the reward should be &mdash; twelve fights cleared comfortably, then one four whole thresholds higher. The climb now starts from nothing at the boundary and builds, which reads on screen as a long cruise and then a fast ending, with the per-fight odds sliding visibly for several fights before the one that gets you.</p>
       <p>Each fight is rolled at exactly the probability the ladder shows. No pity is applied and none is withheld.</p>
 
       <h2>The daily challenge</h2>
@@ -356,6 +363,10 @@
       </div>
       <p>An item with no rating and no recognised tag falls back to quality alone: <code id="quality-fallback"></code>, applied to offense with everything else neutral.</p>
 
+      <h2>Where a run actually ends</h2>
+      <p>The ladder on a finished run tracks how many of a hundred runs are still alive at each fight, so its last value is the headline number. Underneath it sits a sentence naming the fight that ends the most runs and the axis that fight leans on hardest where the build is thinnest.</p>
+      <p>Two things about that sentence are deliberate. The fight it names is the one that ends the most runs, which is usually not the one you are least likely to clear &mdash; a coin flip on the last fight costs fewer runs than a small risk taken early, and the early one is the one worth knowing about. And the axis is measured against the build&rsquo;s <em>own</em> strongest axis rather than against some ideal, which keeps the claim modest and true: it says this fight leans on tracking and tracking is where you are thinnest, not that it knows what a perfect build against that boss looks like. When a build is even across the board it says so rather than inventing a culprit.</p>
+
       <h2>Turning a build into odds</h2>
       <p>Each fight carries a weight vector over the five axes. Item ratings never encode boss-specific knowledge — the boss weights do all of that.</p>
       <p>The multiplicative axes go through <code>log()</code> so that neutral sits at zero and a halving mirrors a doubling. Tracking and evasion are already bounded 0–1 and are used directly. A fight's score is the weighted sum, and the chance of clearing it is <code>sigmoid(slope × (score − threshold))</code>. The run is the product of all thirteen.</p>
@@ -400,6 +411,24 @@
   </p>
 </footer>
 
+
+<!-- Item detail. Opened from any item row or table line. -->
+<div class="item-pop" id="item-pop" hidden>
+  <div class="item-scrim" id="item-scrim"></div>
+  <div class="item-card" role="dialog" aria-modal="true" aria-labelledby="item-pop-name" id="item-card">
+    <button class="item-close" id="item-close" aria-label="Close">&times;</button>
+    <div class="item-head">
+      <span id="item-pop-sprite"></span>
+      <div>
+        <h2 class="item-pop-name" id="item-pop-name">&mdash;</h2>
+        <p class="item-pop-meta" id="item-pop-meta"></p>
+      </div>
+    </div>
+    <p class="item-pop-note" id="item-pop-note"></p>
+    <div class="item-pop-axes" id="item-pop-axes"></div>
+    <div id="item-pop-extra"></div>
+  </div>
+</div>
 
 <!-- Transformation announcement. Lives outside the views because it covers
      all of them, and starts hidden so a no-JS load never shows an empty slab. -->

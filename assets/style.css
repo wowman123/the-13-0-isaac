@@ -681,3 +681,48 @@ td.is-strong { color: var(--red); }
 @media (max-width: 480px) {
   .boss-axis { grid-template-columns: 4rem 1fr 2.2rem; }
 }
+
+/* Item detail ------------------------------------------------------------- */
+.item-pop { position: fixed; inset: 0; z-index: 95; display: grid; place-items: center; padding: calc(var(--frame) + 1rem) 1rem; }
+.item-pop[hidden] { display: none !important; }
+.item-scrim { position: absolute; inset: 0; background: #12070588; cursor: pointer; }
+.item-card {
+  position: relative; width: min(30rem, 100%); max-height: 80vh; overflow-y: auto;
+  display: grid; gap: .55rem;
+  background: var(--parch); border: 4px solid var(--ink);
+  box-shadow: 8px 8px 0 #00000059; padding: 1.1rem 1.1rem 1rem;
+}
+.item-close {
+  position: absolute; top: .35rem; right: .45rem;
+  font: 15px var(--pixel); color: var(--ink); background: none; border: 0; cursor: pointer; padding: .2rem .35rem;
+}
+.item-close:hover { color: var(--red); }
+.item-head { display: flex; gap: .7rem; align-items: center; }
+.item-head .sprite { width: 48px; height: 48px; }
+.item-pop-name { margin: 0; font: 15px var(--pixel); text-transform: uppercase; color: var(--red); }
+.item-pop-meta { margin: .15rem 0 0; font: 9.5px var(--pixel); color: var(--ink-faint); text-transform: uppercase; }
+.item-pop-note { margin: 0; font-family: var(--sans); font-size: 13px; line-height: 1.5; color: var(--ink-soft); }
+.item-pop-axes { display: grid; gap: .15rem; }
+.item-axis { display: grid; grid-template-columns: 4.6rem 1fr 3rem; align-items: center; gap: .4rem; }
+.item-axis-key { font: 9px var(--pixel); text-transform: uppercase; color: var(--ink-soft); }
+.item-axis-bar {
+  height: 10px; border: 2px solid var(--ink); background: var(--parch-dim);
+  background-image: linear-gradient(to right, var(--red) var(--w), transparent var(--w));
+}
+.item-axis-val { font: 9.5px var(--pixel); color: var(--ink-soft); text-align: right; }
+.item-pop-line {
+  margin: 0; font-family: var(--sans); font-size: 12px; line-height: 1.5; color: var(--ink-soft);
+}
+.item-pop-line b { font-family: var(--pixel); font-size: 9.5px; text-transform: uppercase; color: var(--ink); }
+.items-table tr.is-clickable { cursor: pointer; }
+.items-table tr.is-clickable:hover { background: var(--parch-deep); }
+
+/* Why the run ended where it did. */
+.ladder-why {
+  margin: .4rem 0 0; font-family: var(--sans); font-size: 12.5px; line-height: 1.5;
+  color: var(--ink); border-left: 5px solid var(--red); padding-left: .6rem;
+}
+.mode-seed {
+  flex: 1 1 100%; margin: 0;
+  font-family: var(--sans); font-size: 12px; color: var(--ink-soft);
+}

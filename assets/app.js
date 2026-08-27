@@ -13,6 +13,8 @@ import { buildDaily, shareText } from '../src/daily.js';
 import { dayKey } from '../src/random.js';
 import { fightAt, endlessSummary, endlessShare, HEADSTART } from '../src/endless.js';
 import { bossOdds } from '../src/engine.js';
+import { diagnose, diagnosisText } from '../src/diagnose.js';
+import { mulberry32, hashString } from '../src/random.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -52,6 +54,18 @@ const isEndless = () => state.mode === 'endless';
 const isAdvanced = () => state.mode === 'advanced';
 
 const ENDLESS_BEST = 'the-13-0-endless-best';
+
+/**
+ * A run can be seeded, so a deal can be handed to somebody else.
+ *
+ * The daily proves the machinery works; this exposes it. With a seed in the
+ * URL the draw is a pure function of it, so "beat this" is a link rather than a
+ * description. Without one the page uses Math.random and every run is fresh.
+ */
+let runRng = null;
+const rollRandom = () => (runRng ? runRng() : Math.random());
+const seedFromHash = () =>
+  new URLSearchParams((location.hash.split('?')[1]) ?? '').get('seed') || null;
 
 const DAILY_STORE = 'the-13-0-daily';
 
@@ -224,6 +238,15 @@ function readHash() {
   const shared = new URLSearchParams(query ?? '').get('r');
   const ids = (shared ?? '').split(',').filter(Boolean).map((x) => `COLLECTIBLE_${x}`).filter(byId);
 
+  // Arriving at a different seed is a different deal, so it starts a new run.
+  // Only a genuine page load went through startRun; changing the hash on an
+  // open page fires this instead, and used to leave the old run in place.
+  const seed = seedFromHash();
+  if (run && !run.finished && (run.seed ?? null) !== seed) {
+    startRun();
+    return;
+  }
+
   if (ids.length === ROUNDS && (!run || run.picks.join() !== ids.join())) {
     run = {
       round: ROUNDS, picks: ids, history: [], roll: null,
@@ -246,9 +269,13 @@ function showView(view) {
 /** Keep the URL in step with a finished run without spamming history entries. */
 function writeHash() {
   const view = $$('.view').find((s) => !s.hidden)?.id.replace('view-', '') ?? 'draft';
-  const next = run?.finished
-    ? `#/${view}?r=${run.picks.map(shortId).join(',')}`
-    : `#/${view}`;
+  // The seed has to survive being written back, or the link that produced this
+  // deal stops describing it the moment the first render happens.
+  const query = [
+    run?.seed ? `seed=${encodeURIComponent(run.seed)}` : null,
+    run?.finished ? `r=${run.picks.map(shortId).join(',')}` : null,
+  ].filter(Boolean).join('&');
+  const next = query ? `#/${view}?${query}` : `#/${view}`;
   if (location.hash !== next) history.replaceState(null, '', next);
 }
 
@@ -284,17 +311,23 @@ function viableCells() {
   return out;
 }
 
-const pickRandom = (list) => list[Math.floor(Math.random() * list.length)];
+const pickRandom = (list) => list[Math.floor(rollRandom() * list.length)];
 
 /** Draw up to `n` distinct items, so a fat cell does not always show the same six. */
 function sample(list, n) {
   const copy = [...list];
   const out = [];
-  while (out.length < n && copy.length) out.push(...copy.splice(Math.floor(Math.random() * copy.length), 1));
+  while (out.length < n && copy.length) out.push(...copy.splice(Math.floor(rollRandom() * copy.length), 1));
   return out;
 }
 
 function startRun() {
+  // A seeded run deals from the seed alone, so the same link gives everybody
+  // the same draw. The daily has its own dealer and ignores this.
+  run = run ?? {};
+  const seed = isDaily() ? null : seedFromHash();
+  runRng = seed ? mulberry32(hashString(`the-13-0:seed:${seed}`)) : null;
+
   const daily = isDaily() ? buildDaily(state.items) : null;
 
   run = {
@@ -309,6 +342,7 @@ function startRun() {
     respins: isDaily() ? { pool: 0, quality: 0 } : { pool: RESPINS, quality: RESPINS },
     finished: false,
     daily,
+    seed,
     // Endless resolves a fight after every pick rather than scoring five at
     // the end, so it carries the log of what it has already survived.
     fights: [],
@@ -424,7 +458,7 @@ function resolveFight() {
 
   const fight = fightAt(run.fights.length, state.bosses);
   const chance = bossOdds(build, fight, state.config);
-  const cleared = Math.random() < chance;
+  const cleared = rollRandom() < chance;
 
   run.fights.push({ label: fight.label, lap: fight.lap, chance, cleared });
 
@@ -443,6 +477,86 @@ function resolveFight() {
 
   run.round += 1;
   rollFresh();
+}
+
+// ------------------------------------------------------------ item detail
+/**
+ * Everything the site knows about one item, in one place.
+ *
+ * The draft shows an item for as long as it takes to decide, and the items
+ * table shows a row. Neither answers "what is this, actually" — which rules it
+ * takes part in, which rolls can even offer it, what its numbers are.
+ */
+let itemReturn = null;
+
+function showItem(id) {
+  const item = byId(id);
+  if (!item) return;
+
+  const rating = state.ratings.get(id);
+  itemReturn = document.activeElement;
+
+  $('#item-pop-sprite').replaceChildren(sprite(id));
+  $('#item-pop-name').textContent = item.name;
+  $('#item-pop-note').textContent = describe(item);
+
+  const kind = { active: 'Active', familiar: 'Familiar' }[item.scraped?.type] ?? 'Passive';
+  const pools = (item.scraped?.pools ?? []).filter(isRealPool);
+  $('#item-pop-meta').textContent = [
+    kind,
+    item.scraped?.quality != null ? `Quality ${item.scraped.quality}` : null,
+    rating ? `rated ${rating.source}` : null,
+  ].filter(Boolean).join(' · ');
+
+  // The five axes, on the same scale the build vector uses.
+  $('#item-pop-axes').replaceChildren(...AXES.map((axis) => {
+    const v = rating?.[axis] ?? NEUTRAL[axis];
+    const bounded = axis === 'tracking' || axis === 'evasion';
+    const width = bounded ? v * 100 : Math.max(0, Math.min(100, ((v - 0.5) / 2.5) * 100));
+    return el('div', { className: 'item-axis' }, [
+      el('span', { className: 'item-axis-key', textContent: axis }),
+      el('span', { className: 'item-axis-bar', style: `--w: ${width.toFixed(0)}%` }),
+      el('span', { className: 'item-axis-val', textContent: bounded ? v.toFixed(2) : `x${v.toFixed(2)}` }),
+    ]);
+  }));
+
+  // Which rules it can take part in, and where a roll could offer it.
+  const inRules = state.rules.filter((r) => {
+    const tags = item.tags ?? [];
+    const want = [...(r.when?.tags ?? []), ...(r.when?.tagCount ? [r.when.tagCount.tag] : [])];
+    return want.some((t) => tags.includes(t)) || (r.when?.items ?? r.when?.anyItems ?? []).includes(id);
+  });
+  const families = (state.transformations?.transformations ?? [])
+    .filter((t) => (item.tags ?? []).includes(t.family));
+
+  const stats = state.itemStats?.[id];
+  $('#item-pop-extra').replaceChildren(
+    ...(stats ? [el('p', { className: 'item-pop-line' }, [
+      el('b', { textContent: 'Stats: ' }),
+      document.createTextNode(Object.entries(stats).map(([k, v]) => `${k} ${v > 0 ? '+' : ''}${v}`).join(', ')),
+    ])] : []),
+    ...(families.length ? [el('p', { className: 'item-pop-line' }, [
+      el('b', { textContent: 'Counts toward: ' }),
+      document.createTextNode(families.map((t) => t.name).join(', ')),
+    ])] : []),
+    ...(inRules.length ? [el('p', { className: 'item-pop-line' }, [
+      el('b', { textContent: 'Can trigger: ' }),
+      document.createTextNode(inRules.map((r) => r.name).join(', ')),
+    ])] : []),
+    el('p', { className: 'item-pop-line' }, [
+      el('b', { textContent: 'Offered by: ' }),
+      document.createTextNode(pools.length ? pools.map(poolLabel).join(', ') : 'nothing a run can reach'),
+    ]),
+  );
+
+  $('#item-pop').hidden = false;
+  $('#item-close').focus();
+}
+
+function hideItem() {
+  $('#item-pop').hidden = true;
+  if (itemReturn?.isConnected) itemReturn.focus();
+  itemReturn = null;
 }
 
 // ------------------------------------------------------- the announcement
@@ -661,6 +775,10 @@ function renderMode() {
   // Some characters do not fight with tears, so the DPS built from their stat
   // line is not what they actually do. Say so rather than printing a confident
   // number that happens to be wrong.
+  const seedLine = $('#mode-seed');
+  seedLine.hidden = !run?.seed;
+  seedLine.textContent = run?.seed ? `Seeded run "${run.seed}" — anyone opening this link is dealt exactly this.` : '';
+
   const caveat = $('#mode-caveat');
   const show = isAdvanced() && Boolean(character.caveat);
   caveat.hidden = !show;
@@ -862,6 +980,7 @@ function renderResults() {
   renderHero(total);
   renderAxes(build);
   renderLadder(perBoss);
+  $('#ladder-why').textContent = diagnosisText(diagnose(build, perBoss, state.bosses)) ?? '';
   renderSynergies(fired);
   renderPassed(total);
 }
@@ -1080,7 +1199,7 @@ function renderItemsTable() {
         return el('td', { className: neutral ? 'is-neutral' : strong ? 'is-strong' : '', textContent: v.toFixed(2) });
       };
 
-      return el('tr', {}, [
+      return el('tr', { className: 'is-clickable', dataset: { id: item.id }, title: 'Show everything known about this item' }, [
         el('td', { className: 'col-name' }, [sprite(item.id), el('span', { textContent: item.name })]),
         ...AXES.map(cell),
         state.scrapeLayer
@@ -1251,8 +1370,56 @@ function wireEvents() {
 
   $('#transform-go').addEventListener('click', showNextAnnouncement);
   $('#transform-scrim').addEventListener('click', showNextAnnouncement);
+  /**
+   * Keyboard play. A draft is six choices and a restart, which is a keyboard's
+   * whole job — and it is the difference between clicking through a run and
+   * playing one.
+   */
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !$('#transform-pop').hidden) showNextAnnouncement();
+    if (e.key === 'Escape') {
+      if (!$('#transform-pop').hidden) { showNextAnnouncement(); return; }
+      if (!$('#item-pop').hidden) { hideItem(); return; }
+    }
+    // Never steal a key from someone typing in the item search.
+    const typing = /^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement?.tagName ?? '');
+    if (typing || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (!$('#transform-pop').hidden) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showNextAnnouncement(); }
+      return;
+    }
+    if ($('#view-draft').hidden) return;
+
+    if (/^[1-9]$/.test(e.key)) {
+      const id = run?.candidates?.[Number(e.key) - 1];
+      if (id) { e.preventDefault(); choose(id); }
+      return;
+    }
+    if (e.key.toLowerCase() === 'r') { e.preventDefault(); $('#btn-restart').click(); }
+    if (e.key.toLowerCase() === 'p' && !$('#respin-pool').disabled) respin('pool');
+    if (e.key.toLowerCase() === 'q' && !$('#respin-quality').disabled) respin('quality');
+  });
+
+  $('#item-close').addEventListener('click', hideItem);
+  $('#item-scrim').addEventListener('click', hideItem);
+
+  // Any sprite or name in a candidate row opens the detail rather than picking,
+  // so looking something up never costs you the draft.
+  $('#candidates').addEventListener('click', (e) => {
+    const info = e.target.closest('.candidate-name, .sprite');
+    const row = e.target.closest('[data-pick]');
+    if (info && row) { e.stopPropagation(); showItem(row.dataset.pick); }
+  }, true);
+
+  $('#btn-share-seed').addEventListener('click', async (e) => {
+    const button = e.currentTarget;
+    const original = button.textContent;
+    const seed = run?.seed ?? Math.random().toString(36).slice(2, 8);
+    const url = `${location.origin}${location.pathname}#/draft?seed=${encodeURIComponent(seed)}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      button.textContent = 'Copied';
+    } catch { button.textContent = 'Copy failed'; }
+    setTimeout(() => { button.textContent = original; }, 1600);
   });
 
   $('#btn-share-daily').addEventListener('click', async (e) => {
@@ -1311,6 +1478,11 @@ function wireEvents() {
 
   $('#item-search').addEventListener('input', renderItemsTable);
   $('#item-tag').addEventListener('change', renderItemsTable);
+
+  $('.items-table tbody').addEventListener('click', (e) => {
+    const row = e.target.closest('tr[data-id]');
+    if (row) showItem(row.dataset.id);
+  });
 
   $('.items-table thead').addEventListener('click', (e) => {
     const th = e.target.closest('[data-sort]');
