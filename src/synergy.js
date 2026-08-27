@@ -17,10 +17,23 @@ import { softCap, composeBuild } from './engine.js';
 const MULTIPLICATIVE = ['offense', 'aoe', 'defense'];
 const FLOORED = ['tracking', 'evasion'];
 
-/** Every tag carried by any item in the build, with a count of how many carry it. */
+/**
+ * Every tag carried by any item in the build, with a count of how many carry it.
+ *
+ * Counted by distinct item, not by how many times one was taken. Endless lets
+ * the same item be picked again — its stats stack, as they do in the game — but
+ * three copies of one Guppy item are not three Guppy items, and a rule wanting
+ * three of a family means three different things carrying the tag. Everywhere
+ * else a build's ids are unique anyway, so this changes nothing there.
+ */
 export function tagCensus(items) {
   const counts = new Map();
+  const seen = new Set();
   for (const item of items) {
+    if (item.id != null) {
+      if (seen.has(item.id)) continue;
+      seen.add(item.id);
+    }
     for (const tag of new Set(item.tags ?? [])) {
       counts.set(tag, (counts.get(tag) ?? 0) + 1);
     }

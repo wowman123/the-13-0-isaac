@@ -328,11 +328,22 @@ function draftable() {
   );
 }
 
-/** Everything at one Pool x Quality intersection that is not already taken. */
+/**
+ * Everything at one Pool x Quality intersection that a roll could offer.
+ *
+ * A five-pick draft takes each item out of the pool once chosen, because being
+ * offered something you already hold is a wasted option. Endless does not: a
+ * run there can outlast the pool, and stripping the good items out of it as you
+ * go turns the late game into a scrape through what is left. Duplicates stack
+ * the way they do in the game — two Sad Onions really are two tear ups — and
+ * only the stat side stacks, since tags are counted by distinct item.
+ */
 function cell(pool, quality) {
-  const taken = new Set(run.picks);
+  const taken = isEndless() ? null : new Set(run.picks);
   return draftable().filter(
-    (i) => i.scraped.quality === quality && i.scraped.pools.includes(pool) && !taken.has(i.id),
+    (i) => i.scraped.quality === quality
+      && i.scraped.pools.includes(pool)
+      && (!taken || !taken.has(i.id)),
   );
 }
 

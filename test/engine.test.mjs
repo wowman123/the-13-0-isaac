@@ -250,3 +250,37 @@ test('transformation payouts leave bounded axes room to move', () => {
     }
   }
 });
+
+
+test('tags are counted by distinct item, so duplicates cannot fake a family', () => {
+  // Endless lets the same item be taken again. Its stats stack, as they do in
+  // the game, but three copies of one Guppy item are not three Guppy items.
+  const one = { id: 'COLLECTIBLE_GUPPYS_PAW', tags: ['guppy'] };
+  const tripled = tagCensus([one, one, one]);
+  assert.equal(tripled.get('guppy'), 1);
+
+  const distinct = tagCensus([
+    { id: 'A', tags: ['guppy'] },
+    { id: 'B', tags: ['guppy'] },
+    { id: 'C', tags: ['guppy'] },
+  ]);
+  assert.equal(distinct.get('guppy'), 3);
+});
+
+test('a duplicate still stacks the stats it carries', () => {
+  // Only the tag side dedupes. Two of the same tear up really are two tear ups.
+  const item = { id: 'X', tags: [] };
+  const rating = { ...NEUTRAL, offense: 1.2 };
+  const single = composeBuild([rating]);
+  const doubled = composeBuild([rating, rating]);
+  assert.ok(doubled.offense > single.offense);
+  close(doubled.offense, 1.44);
+  assert.ok(item.id);
+});
+
+test('items with no id are still counted individually', () => {
+  // Test fixtures and the neutral baseline have no id; deduping on undefined
+  // would collapse them all into one.
+  const census = tagCensus([{ tags: ['fly'] }, { tags: ['fly'] }]);
+  assert.equal(census.get('fly'), 2);
+});
