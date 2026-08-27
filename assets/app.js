@@ -645,7 +645,15 @@ function showItem(id) {
     .filter((t) => (item.tags ?? []).includes(t.family));
 
   const stats = state.itemStats?.[id];
+  // What a rule item would do to the draft, said before you spend a pick on it
+  // rather than after. Its own description says what it does in the game; this
+  // says what that means here, which is the part a draft has to translate.
+  const rule = (state.ruleItems?.items ?? []).find((x) => x.id === id);
   $('#item-pop-extra').replaceChildren(
+    ...(rule ? [el('p', { className: 'item-pop-line' }, [
+      el('b', { textContent: 'Changes the draft: ' }),
+      document.createTextNode(rule.does),
+    ])] : []),
     ...(stats ? [el('p', { className: 'item-pop-line' }, [
       el('b', { textContent: 'Stats: ' }),
       document.createTextNode(Object.entries(stats).map(([k, v]) => `${k} ${v > 0 ? '+' : ''}${v}`).join(', ')),
