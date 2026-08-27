@@ -7,21 +7,18 @@ import { toScoreSpace, AXES } from '../../src/engine.js';
 import { composeDraft } from '../../src/synergy.js';
 import { resolveRating } from '../../src/ratings.js';
 import { composeAdvanced, isAdvancedItem } from '../../src/advanced.js';
+// One implementation, shared with the page — the daily challenge needs the
+// browser and these tools to deal identically. Imported as well as re-exported,
+// because a bare `export ... from` does not bring the name into this scope and
+// the sampling below calls it directly.
+import { mulberry32 } from '../../src/random.js';
+
+export { mulberry32 };
 
 export const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
 
 export const load = (rel) => JSON.parse(readFileSync(join(root, rel), 'utf8'));
 
-/** Deterministic RNG so every run of the calibration is reproducible. */
-export function mulberry32(seed) {
-  return function rng() {
-    seed |= 0;
-    seed = (seed + 0x6d2b79f5) | 0;
-    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
 
 /**
  * Draw `n` random 5-item drafts and reduce each to its 13 raw boss scores.

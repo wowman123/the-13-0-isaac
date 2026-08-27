@@ -620,3 +620,11 @@ td.is-strong { color: var(--red); }
   padding: .4rem .6rem;
 }
 .mode-char select { max-width: 11rem; }
+
+/* The daily's "you already played this" line. */
+.daily-done {
+  flex: 1 1 100%; margin: 0;
+  font-family: var(--sans); font-size: 12px; line-height: 1.45; color: var(--ink);
+  background: var(--parch-deep); border-left: 5px solid var(--mid);
+  padding: .4rem .6rem;
+}

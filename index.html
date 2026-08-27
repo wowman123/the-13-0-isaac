@@ -70,6 +70,7 @@
       <div class="mode-switch" role="group" aria-label="Mode">
         <button class="mode-btn" id="mode-casual" data-mode="casual" aria-pressed="true">Casual</button>
         <button class="mode-btn" id="mode-advanced" data-mode="advanced" aria-pressed="false">Advanced</button>
+        <button class="mode-btn" id="mode-daily" data-mode="daily" aria-pressed="false">Daily</button>
       </div>
       <label class="mode-char" id="mode-char-wrap" hidden>
         <span>Character</span>
@@ -77,6 +78,7 @@
       </label>
       <p class="mode-note" id="mode-note"></p>
       <p class="mode-caveat" id="mode-caveat" hidden></p>
+      <p class="daily-done" id="daily-done" hidden></p>
     </div>
 
     <!-- The roll. Two axes, respun independently. -->
@@ -136,7 +138,8 @@
           <span class="hero-scale-mark" style="left:5%"><i></i>median draft</span>
         </div>
         <div class="hero-actions">
-          <button id="btn-share" class="btn">Copy link</button>
+          <button id="btn-share-daily" class="btn" hidden>Copy result</button>
+        <button id="btn-share" class="btn">Copy link</button>
         </div>
       </section>
 
@@ -260,6 +263,15 @@
         </table>
       </div>
       <p>Because rules read the whole build rather than pairs, the draft stops being &ldquo;take the biggest number&rdquo;. During a run each candidate shows what it would combine with, so a weaker item that fits can beat a stronger one that does not.</p>
+
+      <h2>The daily challenge</h2>
+      <p>One puzzle a day, the same one for everybody, built from the date alone. There is no server behind this page, so nothing can hand a puzzle out &mdash; instead the day seeds a generator and the generator deals the rounds, which means two people on opposite sides of the world derive the same five offers independently. The day rolls over at midnight <strong>UTC</strong> rather than locally, or players in different time zones would spend most of their overlapping hours on different puzzles.</p>
+      <p>Two rules make a daily run comparable in a way an ordinary one is not.</p>
+      <p><strong>All five rounds are dealt before you pick anything.</strong> In free play the next roll is drawn after you choose, so two players who pick differently see different offers from round two onward and stop answering the same question. Here everyone sees the same thirty items in the same five groups, and the only thing that varies is what they take.</p>
+      <p><strong>There are no respins.</strong> A respin is a fresh draw, which would put two players on different puzzles immediately. The daily asks something narrower than free play does &mdash; given exactly these five offers, what is the best build you can make &mdash; and that question has one answer everybody is chasing.</p>
+      <p>The daily runs the Casual ruleset. Advanced draws from a smaller pool and answers to its own difficulty solve, so a daily that sometimes ran one and sometimes the other would not be comparable between two players, let alone between two days.</p>
+      <p>A round is drawn only from intersections holding at least four items. A one-item cell in free play is texture, and the game says so out loud; as a fifth of a fixed puzzle everyone is measured on, it is a round nobody gets to play.</p>
+      <p>Sharing a result posts the shape of the run &mdash; the quality of each pick and what it came to &mdash; and never an item name, so posting it does not hand the answer to somebody who has not played yet.</p>
 
       <h2>What an item row says</h2>
       <p>181 items were rated by hand and carry a note written at the same time. The other 512 a draft can offer needed something better than the raw tag list they used to print, so a row now answers in the best terms available to it, in this order:</p>

@@ -9,6 +9,8 @@ import { resolveRating, TAG_TABLE, QUALITY_OFFENSE } from '../src/ratings.js';
 import { pendingFamilies, leaningCells, pullCompletion } from '../src/draft.js';
 import { composeAdvanced, isAdvancedItem } from '../src/advanced.js';
 import { composeStats, baselineStats, BASE } from '../src/stats.js';
+import { buildDaily, shareText } from '../src/daily.js';
+import { dayKey } from '../src/random.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -35,7 +37,31 @@ const state = {
   character: localStorage.getItem('the-13-0-character') || 'ISAAC',
 };
 
+/**
+ * The daily is the casual ruleset on a fixed deal. Advanced draws from a
+ * smaller pool and answers to its own difficulty solve, so a daily that
+ * sometimes ran one and sometimes the other would not be comparable between
+ * two players, let alone between two days.
+ */
+const isDaily = () => state.mode === 'daily';
 const isAdvanced = () => state.mode === 'advanced';
+
+const DAILY_STORE = 'the-13-0-daily';
+
+/** What this browser has already done today, if anything. */
+function dailyResult(day = dayKey()) {
+  try {
+    const all = JSON.parse(localStorage.getItem(DAILY_STORE) || '{}');
+    return all[day] ?? null;
+  } catch { return null; }
+}
+
+function saveDailyResult(day, picks, total) {
+  try {
+    // Only today's is worth keeping; the rest is somebody else's puzzle.
+    localStorage.setItem(DAILY_STORE, JSON.stringify({ [day]: { picks, total } }));
+  } catch { /* private browsing; the run still finishes, it just is not remembered */ }
+}
 
 /** The starting stat line for whoever is selected. Isaac unless chosen. */
 const activeCharacter = () =>
@@ -261,6 +287,8 @@ function sample(list, n) {
 }
 
 function startRun() {
+  const daily = isDaily() ? buildDaily(state.items) : null;
+
   run = {
     round: 1,
     picks: [],
@@ -268,15 +296,40 @@ function startRun() {
     roll: null,
     leaning: [],   // families this roll was bent toward, if any
     pulled: null,  // id of the item the lean put in front of you
-    respins: { pool: RESPINS, quality: RESPINS },
+    // A respin is a fresh draw, which would put two players on different
+    // puzzles immediately. The daily has none.
+    respins: isDaily() ? { pool: 0, quality: 0 } : { pool: RESPINS, quality: RESPINS },
     finished: false,
+    daily,
   };
+
+  // Replaying today shows what you already did rather than dealing again.
+  const done = daily && dailyResult(daily.day);
+  if (done && done.picks?.length === ROUNDS) {
+    run.picks = [...done.picks];
+    run.finished = true;
+    run.replayed = true;
+    renderRun();
+    return;
+  }
+
   rollFresh();
   renderRun();
 }
 
 /** Roll both axes. Uniform over viable cells, so a roll always has something in it. */
 function rollFresh() {
+  // The daily's rounds were all dealt before the first pick, so that two people
+  // who choose differently still answer the same five questions.
+  if (run.daily) {
+    const dealt = run.daily.rounds[run.picks.length];
+    run.leaning = [];
+    run.pulled = null;
+    run.roll = dealt ? { pool: dealt.pool, quality: dealt.quality } : null;
+    run.candidates = dealt ? [...dealt.candidates] : [];
+    return;
+  }
+
   const cells = viableCells();
   const pending = pendingFamilies(run.picks.map(byId), state.transformations);
   const reachable = leaningCells(cells, pending, ({ pool, quality }) => cell(pool, quality));
@@ -329,6 +382,7 @@ function choose(id) {
     run.finished = true;
     run.roll = null;
     run.candidates = [];
+    if (run.daily) saveDailyResult(run.daily.day, [...run.picks], oddsFor(run.picks).total);
   } else {
     run.round += 1;
     rollFresh();
@@ -505,6 +559,9 @@ function renderRun() {
   $('#roll-panel').hidden = done;
   $('#candidates-panel').hidden = done;
   $('#results').hidden = !done;
+  // Sharing a daily posts the shape of the run without naming an item, so it
+  // does not hand the answer to anybody who has not played today yet.
+  $('#btn-share-daily').hidden = !(done && isDaily());
 
   renderMode();
   renderRoll();
@@ -527,9 +584,20 @@ function renderMode() {
   $('#mode-char-wrap').hidden = !isAdvanced();
 
   const character = activeCharacter();
-  $('#mode-note').textContent = isAdvanced()
-    ? `Real stats, the game's own curves. ${draftable().length} items — only the ones the data can describe.`
-    : 'Items rated on five combat axes. The whole pool is in play.';
+  $('#mode-note').textContent = isDaily()
+    ? `Today's deal, the same for everyone. All five offers are dealt up front and there are no respins — the only thing that varies is what you take.`
+    : isAdvanced()
+      ? `Real stats, the game's own curves. ${draftable().length} items — only the ones the data can describe.`
+      : 'Items rated on five combat axes. The whole pool is in play.';
+
+  // Today's puzzle is one puzzle. Say plainly that this is the result they
+  // already got rather than letting a replay look like a fresh attempt.
+  const done = $('#daily-done');
+  const showDone = isDaily() && run?.replayed;
+  done.hidden = !showDone;
+  done.textContent = showDone
+    ? `You have already played ${run.daily.day}. This is the run you finished — a new one is dealt at midnight UTC.`
+    : '';
 
   // Some characters do not fight with tears, so the DPS built from their stat
   // line is not what they actually do. Say so rather than printing a confident
@@ -581,6 +649,9 @@ function renderStats() {
 }
 
 function renderRoll() {
+  // A daily has no respins to offer, so the row that holds them goes away
+  // rather than sitting there greyed out.
+  $('.respins').hidden = isDaily();
   if (!run.roll) return;
   $('#roll-pool').textContent = poolLabel(run.roll.pool);
   $('#roll-quality').textContent = `Q${run.roll.quality}`;
@@ -1044,6 +1115,24 @@ function wireEvents() {
   $('#transform-scrim').addEventListener('click', showNextAnnouncement);
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !$('#transform-pop').hidden) showNextAnnouncement();
+  });
+
+  $('#btn-share-daily').addEventListener('click', async (e) => {
+    const button = e.currentTarget;
+    const text = shareText(
+      run.daily.day,
+      run.picks.map((id) => byId(id)?.scraped?.quality ?? 0),
+      oddsFor(run.picks).total,
+      location.origin + location.pathname,
+    );
+    const original = button.textContent;
+    try {
+      await navigator.clipboard.writeText(text);
+      button.textContent = 'Copied';
+    } catch {
+      button.textContent = 'Copy failed';
+    }
+    setTimeout(() => { button.textContent = original; }, 1600);
   });
 
   $('#respin-pool').addEventListener('click', () => respin('pool'));
