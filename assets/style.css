@@ -475,6 +475,112 @@ td.is-strong { color: var(--red); }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 
+/* The descent -------------------------------------------------------------
+   Endless clears a fight and drops you a floor, and that used to be a number
+   quietly changing in a side panel. Now the screen falls: the shaft rushes
+   upward past you, a plaque punches in with the depth and what is waiting at
+   the bottom, and the board is already dealt when the dust settles.
+
+   It is decoration over a resolved state, never a step in it. The fight is
+   rolled, the next offer dealt and the page rendered before any of this runs,
+   so the run is correct whether or not a single frame of it is seen. */
+.descent {
+  position: fixed; inset: 0; z-index: 88;
+  display: grid; place-items: center;
+  overflow: hidden;
+  /* It covers the board for its half second, so a fast clicker cannot pick
+     an item they have not seen. */
+  cursor: wait;
+}
+.descent[hidden] { display: none !important; }
+
+/* Three viewports tall, so a third of a loop returns to where it started and
+   the seam never lands on screen. Light comes from above, as it does in the
+   game: each ledge is bright on its top edge and black underneath, which is
+   what makes a stack of horizontal bands read as rock rushing past rather
+   than as wallpaper. */
+.descent-shaft {
+  position: absolute; left: 0; right: 0; top: -100%; height: 300%;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      #3a251c 0 3px, #241811 3px 9px, #150e0a 9px 46px,
+      #0d0806 46px 52px, #1c120d 52px 96px
+    ),
+    linear-gradient(90deg, #000 0%, #17100c 22%, #2a1a13 50%, #17100c 78%, #000 100%);
+  animation: descent-fall .82s cubic-bezier(.3, .1, .5, 1) both;
+}
+
+/* Fast streaks over the rock. Falling reads as speed more than as masonry, and
+   the ledges alone are too orderly to feel like one. */
+.descent-streaks {
+  position: absolute; left: 0; right: 0; top: -100%; height: 300%;
+  background: repeating-linear-gradient(
+    180deg, #0000 0 34px, #ffffff0f 34px 37px, #0000 37px 108px
+  );
+  animation: descent-fall .34s linear 3 both;
+}
+
+@keyframes descent-fall {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-33.333%); }
+}
+
+/* The mouth of the shaft, closing in around the plaque. */
+.descent::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at center, #0000 30%, #000000cc 100%);
+}
+
+.descent-plaque {
+  position: relative; z-index: 1;
+  display: grid; justify-items: center; gap: .45rem;
+  padding: 1rem 2.2rem 1.1rem;
+  background: #0c0605e0; border: 3px solid var(--ink);
+  box-shadow: 0 0 0 3px #00000066, 0 0 80px 40px #0a0403;
+  animation: descent-punch .82s ease-out both;
+}
+
+.descent-arrow {
+  font-size: 26px; line-height: .8; color: var(--red);
+  text-shadow: 0 0 14px #a52a2288;
+  animation: descent-arrow .27s ease-in-out 3 both;
+}
+
+.descent-depth {
+  margin: 0; font-family: var(--pixel); font-size: clamp(26px, 7vw, 42px);
+  letter-spacing: .06em; color: var(--cream); text-shadow: 0 3px 0 #000000cc;
+}
+
+.descent-next {
+  margin: 0; font-family: var(--sans); font-size: 12.5px;
+  color: var(--parch-dim); text-align: center;
+}
+
+@keyframes descent-punch {
+  0%   { opacity: 0; transform: translateY(-1.4rem) scale(.94); }
+  18%  { opacity: 1; transform: translateY(0) scale(1); }
+  74%  { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(1.1rem) scale(.98); }
+}
+
+@keyframes descent-arrow {
+  from { transform: translateY(-.25rem); opacity: .4; }
+  to   { transform: translateY(.25rem); opacity: 1; }
+}
+
+/* The board underneath lands a beat after the shaft clears, so the two read as
+   one movement rather than a wipe and then a jump. */
+.is-landing { animation: descent-land .3s cubic-bezier(.2, .8, .3, 1) both; }
+@keyframes descent-land {
+  from { transform: translateY(-1.1rem); opacity: .25; }
+  to   { transform: none; opacity: 1; }
+}
+
+/* Nobody needs to be thrown down a hole to be told the depth changed. The
+   panel already says it, so under reduced motion the fall does not run at all
+   — the shaft is never shown, rather than shown without its animation. */
+
 /* Transformation announcement ---------------------------------------------
    Three of a family is the loudest thing in a five-pick draft. It gets the
    whole screen: the room dims, a plaque punches in, and the three items that

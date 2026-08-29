@@ -292,6 +292,9 @@ function readHash() {
 }
 
 function showView(view) {
+  // Leaving the draft ends the fall with it; it belongs to a board that is no
+  // longer the thing on screen.
+  endDescent();
   for (const section of $$('.view')) section.hidden = section.id !== `view-${view}`;
   for (const tab of $$('#tabs a')) {
     if (tab.dataset.view === view) tab.setAttribute('aria-current', 'page');
@@ -378,6 +381,10 @@ function sample(list, n) {
 }
 
 function startRun() {
+  // A restart mid-fall lands immediately: the new run is dealt now, and leaving
+  // the shaft on screen over it would be a lie about which run you are in.
+  endDescent();
+
   // A seeded run deals from the seed alone, so the same link gives everybody
   // the same draw. The daily has its own dealer and ignores this.
   run = run ?? {};
@@ -402,6 +409,7 @@ function startRun() {
     rerollsUsed: 0,
     wildcardsUsed: 0,
     extras: [],   // the extra pedestals this roll put out, if any
+    descent: null, // the floor a cleared endless fight just dropped you to
     // Endless resolves a fight after every pick rather than scoring five at
     // the end, so it carries the log of what it has already survived.
     fights: [],
@@ -555,7 +563,16 @@ function choose(id) {
   renderRun();
   // After the render, so the announcement lands over a board that already shows
   // the pick. A single pick can in principle finish two families, so it queues.
-  if (earned.length) announce(earned);
+  const announceEarned = () => { if (earned.length) announce(earned); };
+
+  // A cleared endless fight drops you a floor before any of that. In that order
+  // because the fall is about where you now are, and a transformation is the
+  // loudest thing that happens here — it should be the last word, not the one
+  // the floor lands on top of.
+  const drop = run.descent;
+  run.descent = null;
+  if (drop) descend(drop, announceEarned);
+  else announceEarned();
 }
 
 /**
@@ -592,6 +609,53 @@ function resolveFight() {
 
   run.round += 1;
   rollFresh();
+  // What the drop is to, recorded here and spent by the render. A cleared fight
+  // is the only thing in the whole site that moves you somewhere.
+  run.descent = {
+    depth: endlessSummary(run.fights).cleared,
+    next: fightAt(run.fights.length, state.bosses).label,
+  };
+}
+
+// ------------------------------------------------------------- the descent
+/**
+ * Endless clears a fight and you go down a floor. This is that half second.
+ *
+ * Decoration over a state that is already settled: the fight is rolled, the
+ * next offer dealt and the page rendered before this runs, and `after` fires
+ * whether the animation played, was skipped, or was cut short. A player who has
+ * asked for reduced motion, or who restarts mid-fall, ends up in exactly the
+ * same place as one who watched it.
+ */
+const DESCENT_MS = 820;
+let descentTimer = null;
+
+const wantsMotion = () => !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+function endDescent() {
+  clearTimeout(descentTimer);
+  descentTimer = null;
+  $('#descent').hidden = true;
+}
+
+function descend(drop, after = () => {}) {
+  endDescent();
+  if (!wantsMotion()) { after(); return; }
+
+  $('#descent-depth').textContent = `${drop.depth} down`;
+  $('#descent-next').textContent = `Falling to ${drop.next}`;
+
+  const pop = $('#descent');
+  pop.hidden = false;
+  // Force a reflow so a second fall replays rather than sitting finished.
+  for (const node of pop.children) { node.style.animation = 'none'; void node.offsetWidth; node.style.animation = ''; }
+
+  const board = $('#roll-panel');
+  board.classList.remove('is-landing');
+  void board.offsetWidth;
+  board.classList.add('is-landing');
+
+  descentTimer = setTimeout(() => { endDescent(); after(); }, DESCENT_MS);
 }
 
 // ------------------------------------------------------------ item detail
@@ -843,7 +907,14 @@ function synergyPreview(candidateId) {
 function renderRun() {
   const done = run.finished;
 
-  $('#run-round').textContent = done ? 'Run complete' : `Round ${run.round} of ${ROUNDS}`;
+  // Endless has no fifth round to count towards, so it counts what it actually
+  // has: how deep you are. "Round 5 of 5" was still on screen at the fortieth
+  // fight, which is the one number in the mode that must never stop moving.
+  $('#run-round').textContent = done
+    ? 'Run complete'
+    : isEndless()
+      ? (run.fights.length ? `${endlessSummary(run.fights).cleared} down` : 'Before the first fight')
+      : `Round ${run.round} of ${ROUNDS}`;
   $('#run-title').textContent = done ? 'Your run.' : 'Draft your build.';
   $('#roll-panel').hidden = done;
   $('#candidates-panel').hidden = done;
@@ -1636,6 +1707,7 @@ function wireEvents() {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showNextAnnouncement(); }
       return;
     }
+    if (!$('#descent').hidden) return;
     if ($('#view-draft').hidden) return;
 
     if (/^[1-9]$/.test(e.key)) {
