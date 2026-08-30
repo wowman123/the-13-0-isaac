@@ -3,8 +3,10 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { duel, duelSummary, duelShare, encodeBuild, decodeBuild, newSeed } from '../src/duel.js';
-import { buildDeal, buildDaily, DAILY_ROUNDS } from '../src/daily.js';
+import {
+  duelCells, duelRound, duelLuck, runDepth, raceResult, raceSummary, duelShare,
+  encodeRun, decodeRun, newSeed, HEADSTART, DUEL_OFFER,
+} from '../src/duel.js';
 import { bossOdds } from '../src/engine.js';
 import { composeDraft } from '../src/synergy.js';
 import { resolveRating } from '../src/ratings.js';
@@ -20,90 +22,146 @@ const transformations = read('data/transformations.json');
 
 const byId = new Map(items.map((i) => [i.id, i]));
 const ratings = new Map(items.map((i) => [i.id, resolveRating(i)]));
-const pool = items.filter((i) => i.scraped?.quality != null);
+const cells = duelCells(items);
 
-const oddsAt = (ids, fight, cfg) => {
+const oddsAt = (ids, fight) => {
   const its = ids.map((id) => byId.get(id));
   const { build } = composeDraft(its, ids.map((id) => ratings.get(id)), rules, transformations);
-  return bossOdds(build, fight, cfg);
+  return bossOdds(build, fight, config);
 };
 
-const buildFrom = (start) => pool.slice(start, start + 5).map((i) => i.id);
-const A = buildFrom(0);
-const B = buildFrom(60);
-
-test('a duel is a pure function of the two builds and the seed', () => {
-  // Nothing is rolled on one screen and reported to the other — both players
-  // derive the same fights from the same three strings, which is the only
-  // reason a link can carry a finished duel with no server behind it.
-  const one = duel(A, B, bosses, config, 'seedone', oddsAt);
-  const two = duel(A, B, bosses, config, 'seedone', oddsAt);
-  assert.deepEqual(one, two);
-
-  const other = duel(A, B, bosses, config, 'seedtwo', oddsAt);
-  assert.notDeepEqual(one.rounds, other.rounds);
-});
-
-test('a duel always ends, and ends the moment somebody falls', () => {
-  for (let i = 0; i < 40; i++) {
-    const r = duel(buildFrom(i * 3), buildFrom(200 + i * 3), bosses, config, `s${i}`, oddsAt);
-    assert.ok(r.ended, 'the ladder let a duel run forever');
-    assert.ok(!r.capped, 'a duel hit the safety cap');
-
-    // Everything before the last fight was cleared by both, and the last was
-    // not cleared by at least one. That is what "until one of them falls" is.
-    for (const round of r.rounds.slice(0, -1)) {
-      assert.ok(round.a.cleared && round.b.cleared);
+/** Play a whole run on a seed, choosing with the given strategy each round. */
+function play(seed, choose) {
+  const picks = [];
+  for (let n = 0; n < 400; n++) {
+    const round = duelRound(cells, seed, n);
+    picks.push(round.candidates[choose(round, n) % round.candidates.length]);
+    if (picks.length > HEADSTART) {
+      const r = runDepth(picks, bosses, seed, oddsAt);
+      if (r.died) return { picks, ...r };
     }
-    const last = r.rounds.at(-1);
-    assert.ok(!last.a.cleared || !last.b.cleared);
-    assert.equal(r.cleared, r.rounds.length - 1);
+  }
+  return { picks, ...runDepth(picks, bosses, seed, oddsAt) };
+}
+
+test('both players get the same offers, whatever either of them is holding', () => {
+  // This is the whole mode. Free play draws the next roll after you choose and
+  // Endless bends it toward a family you are two into — either would hand two
+  // players different offers the moment their builds diverged, which is pick
+  // one. A duel round is a pure function of the seed and the depth.
+  for (const n of [0, 1, 7, 40, 199]) {
+    const one = duelRound(cells, 'raceseed', n);
+    const two = duelRound(cells, 'raceseed', n);
+    assert.deepEqual(one, two);
+    assert.equal(one.candidates.length, DUEL_OFFER);
+    assert.equal(new Set(one.candidates).size, one.candidates.length, 'a round offered a duplicate');
+  }
+  assert.notDeepEqual(duelRound(cells, 'raceseed', 7), duelRound(cells, 'otherseed', 7));
+});
+
+test('a duel has no end to deal to, so round two hundred works like round one', () => {
+  const late = duelRound(cells, 'deep', 200);
+  assert.equal(late.candidates.length, DUEL_OFFER);
+  for (const id of late.candidates) assert.ok(byId.has(id));
+});
+
+test('every round is a real decision', () => {
+  // Endless is happy to offer a cell holding one item. Here that is a round
+  // neither player gets to play, and a race is decided by the real ones.
+  for (let n = 0; n < 200; n++) {
+    assert.equal(duelRound(cells, `s${n}`, n).candidates.length, DUEL_OFFER);
   }
 });
 
-test('the winner is whoever is still standing, and both falling is a draw', () => {
-  let wins = { a: 0, b: 0, draw: 0 };
-  for (let i = 0; i < 200; i++) {
-    const r = duel(A, B, bosses, config, `w${i}`, oddsAt);
-    const last = r.rounds.at(-1);
-    if (r.winner === 'a') assert.ok(last.a.cleared && !last.b.cleared);
-    else if (r.winner === 'b') assert.ok(last.b.cleared && !last.a.cleared);
-    else assert.ok(!last.a.cleared && !last.b.cleared);
-    wins[r.winner ?? 'draw'] += 1;
+test('the ladder is the same for both, fight by fight', () => {
+  // One number per fight, from its own stream — so it does not matter how many
+  // fights either player has had, or in what order the page asked for them.
+  for (const depth of [0, 3, 25, 120]) {
+    const u = duelLuck('same', depth);
+    assert.equal(u, duelLuck('same', depth));
+    assert.ok(u >= 0 && u < 1);
   }
-  // Both outcomes and the draw have to be reachable, or the mode has one ending.
-  assert.ok(wins.a > 0 && wins.b > 0, `one side never won: ${JSON.stringify(wins)}`);
-  assert.ok(wins.draw > 0, 'a draw was never possible');
+  const spread = new Set(Array.from({ length: 50 }, (_, d) => duelLuck('same', d)));
+  assert.equal(spread.size, 50, 'the same roll came up for different fights');
 });
 
-test('the two sides draw their luck separately', () => {
-  // The tempting version rolls one number per fight and checks it against both
-  // builds — which makes the stronger build win every time the two differ, and
-  // decides the duel by arithmetic before the first fight. If that ever creeps
-  // back in, a weaker build will stop being able to steal one.
-  const weak = buildFrom(0);
-  const strongIds = [...pool].sort((x, y) => (y.scraped.quality ?? 0) - (x.scraped.quality ?? 0))
-    .slice(0, 5).map((i) => i.id);
+test('a run is its picks: the same picks on the same seed always end the same way', () => {
+  const first = play('replay', () => 0);
+  const again = runDepth(first.picks, bosses, 'replay', oddsAt);
+  assert.equal(again.cleared, first.cleared);
+  assert.deepEqual(again.fights.map((f) => f.cleared), first.fights.map((f) => f.cleared));
 
-  let upsets = 0;
-  for (let i = 0; i < 300; i++) {
-    const r = duel(weak, strongIds, bosses, config, `u${i}`, oddsAt);
-    const last = r.rounds.at(-1);
-    // The strong side was likelier to clear the fight that ended it, and did not.
-    if (last.a.cleared && !last.b.cleared && last.b.chance > last.a.chance) upsets += 1;
-  }
-  assert.ok(upsets > 0, 'the worse build could never steal one');
+  // Which is what lets a link carry somebody's result without them reporting
+  // it — their picks are their score, and there is nothing to take on trust.
+  const roundTripped = decodeRun(encodeRun(first.picks), (id) => byId.has(id));
+  assert.equal(runDepth(roundTripped, bosses, 'replay', oddsAt).cleared, first.cleared);
 });
 
-test('a build survives the round trip through a link, and a bad link cannot', () => {
-  assert.equal(decodeBuild(encodeBuild(A), (id) => byId.has(id)).join(), A.join());
+test('the first fights are free, so both players start level', () => {
+  const r = runDepth(['COLLECTIBLE_SAD_ONION'], bosses, 'x', oddsAt);
+  assert.equal(r.fights.length, 0, 'a fight happened before the headstart was over');
+  assert.ok(HEADSTART >= 1);
+});
 
-  // A link is text from somebody else. Everything it claims is checked against
-  // the item data rather than trusted.
-  assert.deepEqual(decodeBuild('NOT_A_REAL_ITEM,BRIMSTONE', (id) => byId.has(id)), ['COLLECTIBLE_BRIMSTONE']);
-  assert.deepEqual(decodeBuild('', (id) => byId.has(id)), []);
-  assert.deepEqual(decodeBuild(null, (id) => byId.has(id)), []);
-  assert.deepEqual(decodeBuild('<script>', (id) => byId.has(id)), []);
+test('a duel ends, and the run that ends it is the one that failed', () => {
+  for (let i = 0; i < 25; i++) {
+    const r = play(`end${i}`, () => i % DUEL_OFFER);
+    assert.ok(r.died, 'the ladder let a run go on forever');
+    assert.equal(r.fights.at(-1).cleared, false);
+    for (const f of r.fights.slice(0, -1)) assert.ok(f.cleared);
+    assert.equal(r.cleared, r.fights.length - 1);
+  }
+});
+
+test('playing better goes deeper, which is the only thing a race can be about', () => {
+  // Same seed, same offers, same luck for both. If picking well did not pay,
+  // the mode would be a coin toss with extra steps.
+  const greedy = (round, n) => {
+    let best = 0;
+    let bv = -1;
+    for (let k = 0; k < round.candidates.length; k++) {
+      const v = oddsAt([round.candidates[k]], bosses[Math.min(n, bosses.length - 1)]);
+      if (v > bv) { bv = v; best = k; }
+    }
+    return best;
+  };
+
+  let good = 0;
+  let blind = 0;
+  for (let i = 0; i < 40; i++) {
+    const seed = `race${i}`;
+    const a = play(seed, greedy);
+    const b = play(seed, () => 0);
+    if (a.cleared > b.cleared) good += 1;
+    else if (b.cleared > a.cleared) blind += 1;
+  }
+  assert.ok(good > blind, `picking well lost: ${good} to ${blind}`);
+});
+
+test('a race is decided on depth, and a tie is a tie', () => {
+  const mine = { cleared: 7, fights: [], died: null };
+  assert.equal(raceResult(mine, { cleared: 4 }).winner, 'you');
+  assert.equal(raceResult(mine, { cleared: 9 }).winner, 'them');
+  assert.equal(raceResult(mine, { cleared: 7 }).winner, 'draw');
+
+  // Nobody having answered yet is not a result, and must not read as one.
+  const alone = raceResult(mine, null);
+  assert.equal(alone.winner, null);
+  assert.equal(alone.waiting, true);
+  assert.match(raceSummary(alone), /Send the link/);
+  assert.doesNotMatch(raceSummary(alone), /went deeper|Dead level/);
+});
+
+test('a run survives the round trip through a link, and a bad link cannot', () => {
+  const { picks } = play('trip', () => 0);
+  assert.equal(decodeRun(encodeRun(picks), (id) => byId.has(id)).join(), picks.join());
+
+  // A link is text from somebody else, checked against the item data rather
+  // than trusted.
+  assert.deepEqual(decodeRun('NOT_A_REAL_ITEM,BRIMSTONE', (id) => byId.has(id)), ['COLLECTIBLE_BRIMSTONE']);
+  assert.deepEqual(decodeRun('', (id) => byId.has(id)), []);
+  assert.deepEqual(decodeRun(null, (id) => byId.has(id)), []);
+  assert.deepEqual(decodeRun('<script>', (id) => byId.has(id)), []);
 });
 
 test('a duel seed is short, unambiguous and stable', () => {
@@ -111,59 +169,30 @@ test('a duel seed is short, unambiguous and stable', () => {
   const seeds = Array.from({ length: 200 }, () => newSeed(rng));
   for (const s of seeds) {
     assert.match(s, /^[a-z2-9]{8}$/);
-    // These get read out loud, so the characters that sound or look alike are
-    // not in the alphabet at all.
+    // These get read out loud, so the characters that are misheard or misread
+    // are not in the alphabet at all.
     assert.ok(!/[lio01]/.test(s), `${s} contains a character that is misread`);
   }
   assert.ok(new Set(seeds).size > 190, 'seeds collide too often');
 });
 
-test('both players are dealt the same five offers, and a different seed is a different deal', () => {
-  const one = buildDeal(items, 'abcdefgh');
-  const same = buildDeal(items, 'abcdefgh');
-  const other = buildDeal(items, 'hgfedcba');
+test('a finished race reads as a sentence and shares as two ladders', () => {
+  const seed = 'shared';
+  const mine = play(seed, () => 0);
+  const theirs = play(seed, () => 3);
+  const result = raceResult(mine, theirs);
 
-  assert.equal(one.rounds.length, DAILY_ROUNDS);
-  assert.deepEqual(one.rounds, same.rounds, 'two players got different offers');
-  assert.notDeepEqual(one.rounds, other.rounds);
-  for (const round of one.rounds) assert.ok(round.candidates.length >= 4);
-});
+  assert.match(raceSummary(result), /went deeper|Dead level/);
 
-test('the duel deals through the daily dealer, so the two cannot drift apart', () => {
-  // Same seed in, same rounds out: buildDaily is buildDeal with the date as the
-  // seed, not a second implementation that could quietly diverge.
-  const day = '2026-03-05';
-  const viaDaily = buildDaily(items, day);
-  assert.equal(viaDaily.rounds.length, DAILY_ROUNDS);
-  for (const round of viaDaily.rounds) {
-    assert.ok(round.candidates.length >= 4);
-    assert.ok(round.pool && round.quality != null);
-  }
-});
-
-test('a finished duel reads as a sentence and shares as a ladder', () => {
-  const r = duel(A, B, bosses, config, 'share', oddsAt);
-  const text = duelSummary(r);
-  assert.match(text, /walked out|took you both/);
-  assert.doesNotMatch(text, /took They|took You\b/, 'the sentence lost its grammar');
-
-  // Forwarded to somebody who was not in it, no line may claim they were.
-  const seeds = ['n1', 'n2', 'n3', 'n4', 'n5', 'n6', 'n7', 'n8'];
-  for (const seed of seeds) {
-    const one = duel(A, B, bosses, config, seed, oddsAt);
-    const neutral = duelSummary(one, {
-      a: 'The challenger', b: 'The one they sent it to', both: 'them both',
-    });
-    assert.doesNotMatch(neutral, /\byou\b/i, `"${neutral}" tells a stranger they were in it`);
-  }
-
-  const share = duelShare(r, 'share', 'https://example.test');
+  const share = duelShare(result, seed, 'https://example.test');
   const lines = share.split('\n');
-  assert.equal(lines[0], 'The 13-0 — duel share');
-  // One row per fight, two marks a row: the challenger and who they sent it to.
-  assert.equal(lines.length, r.rounds.length + 3);
-  for (const row of lines.slice(1, 1 + r.rounds.length)) {
-    assert.equal([...row].length, 2);
-  }
-  assert.match(lines.at(-2), /wins on fight|Both fell/);
+  assert.equal(lines[0], 'The 13-0 — duel shared');
+  assert.equal([...lines[1]].length, mine.fights.length);
+  assert.equal([...lines[2]].length, theirs.fights.length);
+  assert.equal(lines[3], `${mine.cleared} v ${theirs.cleared}`);
+
+  // Before anybody answers, the share is one ladder and no verdict.
+  const alone = duelShare(raceResult(mine, null), seed);
+  assert.equal(alone.split('\n').length, 3);
+  assert.match(alone, /your turn/);
 });
