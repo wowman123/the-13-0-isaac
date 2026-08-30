@@ -9,9 +9,10 @@ import { resolveRating, TAG_TABLE, QUALITY_OFFENSE } from '../src/ratings.js';
 import { pendingFamilies, leaningCells, pullCompletion } from '../src/draft.js';
 import { composeAdvanced, isAdvancedItem } from '../src/advanced.js';
 import { composeStats, baselineStats, BASE } from '../src/stats.js';
-import { buildDaily, shareText } from '../src/daily.js';
+import { buildDaily, buildDeal, shareText } from '../src/daily.js';
 import { dayKey } from '../src/random.js';
 import { fightAt, endlessSummary, endlessShare, HEADSTART } from '../src/endless.js';
+import { duel, duelSummary, duelShare, encodeBuild, decodeBuild, newSeed } from '../src/duel.js';
 import { bossOdds } from '../src/engine.js';
 import { diagnose, diagnosisText } from '../src/diagnose.js';
 import { parForDeal, parScore, parGrade } from '../src/par.js';
@@ -53,6 +54,7 @@ const state = {
  */
 const isDaily = () => state.mode === 'daily';
 const isEndless = () => state.mode === 'endless';
+const isDuel = () => state.mode === 'duel';
 // Endless keeps the casual ruleset and only changes the shape of a run, so
 // anything asking "which scoring model" should not see it as advanced.
 const isAdvanced = () => state.mode === 'advanced';
@@ -71,7 +73,56 @@ const rollRandom = () => (runRng ? runRng() : Math.random());
 const seedFromHash = () =>
   new URLSearchParams((location.hash.split('?')[1]) ?? '').get('seed') || null;
 
+/**
+ * The duel carried in the URL, if there is one.
+ *
+ * Three shapes, and which one you are holding is the whole state of the mode:
+ * a bare seed is a deal somebody wants you to play, a seed with one build is a
+ * challenge waiting for an answer, and a seed with two is a finished duel that
+ * anybody can open and see the same result.
+ */
+function duelFromHash() {
+  const q = new URLSearchParams((location.hash.split('?')[1]) ?? '');
+  const seed = q.get('duel');
+  if (!seed) return null;
+  const known = (id) => Boolean(byId(id));
+  return {
+    seed: seed.replace(/[^a-z0-9]/gi, '').slice(0, 24),
+    a: decodeBuild(q.get('a'), known),
+    b: decodeBuild(q.get('b'), known),
+  };
+}
+
 const DAILY_STORE = 'the-13-0-daily';
+
+/**
+ * Which side of a duel this browser played, by seed.
+ *
+ * The result link says what happened but not who is reading it, and both
+ * players open the same link. Without this the challenger opens their own duel
+ * and is told what "the challenger" did, which is a stranger's view of their
+ * own game. It is a convenience and nothing rests on it: an unrecognised seed
+ * simply reads in the neutral third person.
+ */
+const DUEL_STORE = 'the-13-0-duel';
+
+function rememberDuel(seed, side, picks) {
+  try {
+    const all = JSON.parse(localStorage.getItem(DUEL_STORE) || '{}');
+    all[seed] = { side, picks: [...picks] };
+    // Only the last few matter, and this is a corner of somebody's browser.
+    const keys = Object.keys(all);
+    for (const key of keys.slice(0, Math.max(0, keys.length - 20))) delete all[key];
+    localStorage.setItem(DUEL_STORE, JSON.stringify(all));
+  } catch { /* private browsing */ }
+}
+
+function duelMemory(seed) {
+  try {
+    const one = JSON.parse(localStorage.getItem(DUEL_STORE) || '{}')[seed];
+    return one?.picks?.length === ROUNDS ? one : null;
+  } catch { return null; }
+}
 
 /** Everything this browser has played, by day. */
 function dailyHistory() {
@@ -266,10 +317,35 @@ function readHash() {
   const view = (path.replace(/^\//, '') || 'draft').split('/')[0];
   showView(['draft', 'items', 'fights', 'method'].includes(view) ? view : 'draft');
 
+  // A duel link puts you in the duel whatever mode this browser was last left
+  // in. Without this, opening a challenge deals you an ordinary casual run and
+  // the link you send back is not an answer to anything.
+  if (new URLSearchParams(query ?? '').get('duel') && !isDuel()) {
+    state.mode = 'duel';
+    run = null;
+  }
+
   // A finished run can be shared as a link. Restoring one shows the result
   // rather than resuming play — the rolls that produced it are gone.
   const shared = new URLSearchParams(query ?? '').get('r');
   const ids = (shared ?? '').split(',').filter(Boolean).map((x) => `COLLECTIBLE_${x}`).filter(byId);
+
+  // A link carrying both builds is a duel that is already over. It is shown
+  // rather than played: the fights follow from the two builds and the seed, so
+  // everyone who opens it sees the same thing, including the two who fought it.
+  const d = duelFromHash();
+  if (d && d.a.length === ROUNDS && d.b.length === ROUNDS) {
+    state.mode = 'duel';
+    run = {
+      round: ROUNDS, picks: [...d.b], history: [], roll: null, candidates: [],
+      respins: { pool: 0, quality: 0 }, finished: true, shared: true,
+      dealt: null, duelSeed: d.seed, challenger: [...d.a], duelResult: null,
+      mySide: duelMemory(d.seed)?.side ?? null,
+    };
+    run.duelResult = runDuel(d.a, d.b);
+    renderRun();
+    return;
+  }
 
   // Arriving at a different seed is a different deal, so it starts a new run.
   // Only a genuine page load went through startRun; changing the hash on an
@@ -307,10 +383,19 @@ function writeHash() {
   const view = $$('.view').find((s) => !s.hidden)?.id.replace('view-', '') ?? 'draft';
   // The seed has to survive being written back, or the link that produced this
   // deal stops describing it the moment the first render happens.
-  const query = [
+  // A duel lives entirely in its link: the seed both deals come from, and the
+  // builds that have answered it so far. Two builds is a finished duel that
+  // anybody can open.
+  const duelQuery = run?.duelSeed ? [
+    `duel=${encodeURIComponent(run.duelSeed)}`,
+    run.challenger ? `a=${encodeBuild(run.challenger)}` : run.finished ? `a=${encodeBuild(run.picks)}` : null,
+    run.challenger && run.finished ? `b=${encodeBuild(run.picks)}` : null,
+  ].filter(Boolean) : [];
+
+  const query = (duelQuery.length ? duelQuery : [
     run?.seed ? `seed=${encodeURIComponent(run.seed)}` : null,
     run?.finished ? `r=${run.picks.map(shortId).join(',')}` : null,
-  ].filter(Boolean).join('&');
+  ]).filter(Boolean).join('&');
   const next = query ? `#/${view}?${query}` : `#/${view}`;
   if (location.hash !== next) history.replaceState(null, '', next);
 }
@@ -393,6 +478,24 @@ function startRun() {
 
   const daily = isDaily() ? buildDaily(state.items) : null;
 
+  // A duel is dealt like a daily and for the daily's reason: both players have
+  // to be answering the same question, and in free play the next roll is drawn
+  // after you choose, so two people who pick differently stop seeing the same
+  // offers from round two onward.
+  const fromHash = isDuel() ? duelFromHash() : null;
+  const duelSeed = isDuel() ? (fromHash?.seed || newSeed()) : null;
+  const memory = duelSeed ? duelMemory(duelSeed) : null;
+  const dealt = isDuel() ? buildDeal(state.items, duelSeed) : daily;
+
+  // The `a` in a link is a challenger's build — unless this browser is the one
+  // that dealt the seed, in which case it is your own, and the link you are
+  // re-opening is the one you sent rather than one you were sent. The link is
+  // symmetric; only the memory can tell the two apart, and without this a
+  // challenger re-opening their own challenge is dealt into a duel with
+  // themselves.
+  const mine = memory?.side === 'a';
+  const challenger = fromHash?.a?.length === ROUNDS && !mine ? fromHash.a : null;
+
   run = {
     round: 1,
     picks: [],
@@ -401,10 +504,19 @@ function startRun() {
     leaning: [],   // families this roll was bent toward, if any
     pulled: null,  // id of the item the lean put in front of you
     // A respin is a fresh draw, which would put two players on different
-    // puzzles immediately. The daily has none.
-    respins: isDaily() ? { pool: 0, quality: 0 } : { pool: RESPINS, quality: RESPINS },
+    // puzzles immediately. Neither the daily nor a duel has one.
+    respins: isDaily() || isDuel() ? { pool: 0, quality: 0 } : { pool: RESPINS, quality: RESPINS },
     finished: false,
     daily,
+    // The rounds a pre-dealt mode serves, whichever mode dealt them.
+    dealt: dealt?.rounds ?? null,
+    duelSeed,
+    // The build of whoever sent you the link, if you were sent one. You are
+    // always side B against them; they are always side A.
+    challenger,
+    duelResult: null,
+    // Whoever deals the seed is side A; whoever answers their link is side B.
+    mySide: isDuel() ? (memory?.side ?? (challenger ? 'b' : 'a')) : null,
     seed,
     rerollsUsed: 0,
     wildcardsUsed: 0,
@@ -425,6 +537,19 @@ function startRun() {
     return;
   }
 
+  // A duel you have already drafted is likewise shown rather than dealt again.
+  // Re-opening the link would otherwise be a retry button — and worse for the
+  // challenger, it would deal them a second build for a seed whose link is
+  // already out there naming their first.
+  if (isDuel() && memory) {
+    run.picks = [...memory.picks];
+    run.finished = true;
+    run.replayed = true;
+    if (run.challenger) run.duelResult = runDuel(run.challenger, run.picks);
+    renderRun();
+    return;
+  }
+
   rollFresh();
   renderRun();
 }
@@ -433,8 +558,8 @@ function startRun() {
 function rollFresh() {
   // The daily's rounds were all dealt before the first pick, so that two people
   // who choose differently still answer the same five questions.
-  if (run.daily) {
-    const dealt = run.daily.rounds[run.picks.length];
+  if (run.dealt) {
+    const dealt = run.dealt[run.picks.length];
     run.leaning = [];
     run.pulled = null;
     run.roll = dealt ? { pool: dealt.pool, quality: dealt.quality } : null;
@@ -556,6 +681,12 @@ function choose(id) {
         Boolean(par && total >= par.best.total - 1e-12),
       );
     }
+    // Answering a challenge resolves it on the spot: both builds are now known,
+    // and the fights follow from them and the seed alone.
+    if (isDuel()) {
+      rememberDuel(run.duelSeed, run.mySide, run.picks);
+      if (run.challenger) run.duelResult = runDuel(run.challenger, run.picks);
+    }
   } else {
     run.round += 1;
     rollFresh();
@@ -615,6 +746,23 @@ function resolveFight() {
     depth: endlessSummary(run.fights).cleared,
     next: fightAt(run.fights.length, state.bosses).label,
   };
+}
+
+/**
+ * Send two builds down the ladder together.
+ *
+ * A duel uses the Casual model whichever mode switch is lit, because the two
+ * players' links have to mean the same thing on both screens and nothing in the
+ * link says which model produced it.
+ */
+function runDuel(a, b) {
+  return duel(a, b, state.bosses, state.config, run.duelSeed, (ids, fight, config) => {
+    const items = ids.map(byId);
+    const { build } = composeDraft(
+      items, ids.map((id) => state.ratings.get(id)), state.rules, state.transformations,
+    );
+    return bossOdds(build, fight, config);
+  });
 }
 
 // ------------------------------------------------------------- the descent
@@ -921,7 +1069,7 @@ function renderRun() {
   // Endless is scored in fights survived, not in a thirteen-fight probability,
   // so the fight log is its result screen and the odds panel would answer a
   // question nobody asked.
-  $('#results').hidden = !done || isEndless();
+  $('#results').hidden = !done || isEndless() || isDuel();
   // Sharing a daily posts the shape of the run without naming an item, so it
   // does not hand the answer to anybody who has not played today yet.
   $('#btn-share-daily').hidden = !(done && isDaily());
@@ -934,6 +1082,8 @@ function renderRun() {
   renderStats();
   renderPar();
   renderFights();
+  renderDuel();
+  $('#build-panel').hidden = Boolean(isDuel() && run.shared);
   renderProgress();
 
   if (done) renderResults();
@@ -950,7 +1100,9 @@ function renderMode() {
   $('#mode-char-wrap').hidden = !isAdvanced();
 
   const character = activeCharacter();
-  $('#mode-note').textContent = isEndless()
+  $('#mode-note').textContent = isDuel()
+    ? 'Draft, send the link, and whoever opens it drafts the same five offers. Then both builds go down the ladder until one falls.'
+    : isEndless()
     ? `One item, then one fight, for as long as you last. ${Number(localStorage.getItem(ENDLESS_BEST) ?? 0) ? `Your best is ${localStorage.getItem(ENDLESS_BEST)}.` : 'The thirteen come first, then they come again harder.'}`
     : isDaily()
     ? `Today's deal, the same for everyone. All five offers are dealt up front and there are no respins — the only thing that varies is what you take.`
@@ -1097,6 +1249,97 @@ function renderStreaks() {
   );
 }
 
+/**
+ * Duel: the challenge, the link to send, or the ladder the two went down.
+ *
+ * Which of the three is on screen is decided entirely by what the URL is
+ * holding, because that is the only place a duel exists.
+ */
+function renderDuel() {
+  const panel = $('#duel-panel');
+  panel.hidden = !isDuel();
+  if (panel.hidden) return;
+
+  const link = `${location.origin}${location.pathname}${location.hash}`;
+  const result = run.duelResult;
+  const answering = Boolean(run.challenger) && !result;
+  const waiting = !run.challenger && run.finished && !result;
+
+  $('#duel-title').textContent = result
+    ? 'The duel'
+    : answering ? 'You have been challenged' : 'Duel';
+
+  $('#duel-note').textContent = run.replayed && !result
+    ? 'You have already drafted this deal. This is the build you sent — re-opening the link does not deal you a second one. Restart for a new duel.'
+    : result
+    ? 'Both builds went down the ladder together, fight by fight, each at its own odds. The first to fall lost. Anybody who opens the link sees this same duel — it follows from the two builds and the seed, and nothing else.'
+    : answering
+      ? 'Somebody sent you their deal. You get the same five offers they did, and no respins, so the only thing between you is what you take. Finish the draft and the two builds fight.'
+      : waiting
+        ? 'Send this link to somebody. They draft the same five offers, and then the two builds go down the ladder together until one of them falls.'
+        : 'Draft five items, then send the link. Whoever you send it to gets exactly these offers, so the duel is about what you take rather than what you were dealt.';
+
+  // Named from wherever the reader is standing. Both players open the same
+  // link, and somebody forwarded it is in neither seat — telling them a boss
+  // "took you both" would be telling them something untrue.
+  const mine = run.mySide;
+  const names = mine === 'a'
+    ? { a: 'You', b: 'They', both: 'you both' }
+    : mine === 'b'
+      ? { a: 'They', b: 'You', both: 'you both' }
+      : { a: 'The challenger', b: 'The one they sent it to', both: 'them both' };
+
+  const log = $('#duel-log');
+  log.hidden = !result;
+  if (result) {
+    const cell = (side, key) => el('span', {
+      className: `duel-side${side.cleared ? '' : ' is-dead'}${key === mine ? ' is-mine' : ''}`,
+    }, [
+      el('span', { className: 'duel-odds', textContent: `${fmtPct(side.chance)}%` }),
+      el('span', { className: 'duel-mark', textContent: side.cleared ? '\u2713' : '\u2715' }),
+    ]);
+
+    // Both builds, because losing to something you cannot see is not a result.
+    const builds = (key, ids) => el('li', { className: 'duel-build' }, [
+      el('span', { className: 'duel-name', textContent: names[key] }),
+      // Six items in the game have no art. The box falls back to the first
+      // letters of the name rather than sitting empty, since there is no
+      // caption under it to say what it was.
+      el('span', { className: 'duel-build-items' }, ids.map((id) => el('span', {
+        className: 'duel-build-item', title: byId(id)?.name ?? id,
+      }, [
+        el('span', { className: 'duel-build-fallback', textContent: (byId(id)?.name ?? '?').slice(0, 2) }),
+        sprite(id),
+      ]))),
+    ]);
+
+    log.replaceChildren(
+      builds('a', run.challenger ?? []),
+      builds('b', run.picks),
+      el('li', { className: 'duel-row is-head' }, [
+        el('span', { className: 'duel-name', textContent: 'Fight' }),
+        el('span', { className: 'duel-side', textContent: names.a }),
+        el('span', { className: 'duel-side', textContent: names.b }),
+      ]),
+      ...result.rounds.map((r) => el('li', { className: 'duel-row' }, [
+        el('span', { className: 'duel-name', textContent: r.label }),
+        cell(r.a, 'a'),
+        cell(r.b, 'b'),
+      ])),
+    );
+  }
+
+  const verdict = $('#duel-verdict');
+  verdict.hidden = !result;
+  if (result) verdict.textContent = duelSummary(result, names);
+
+  const actions = $('#duel-actions');
+  actions.hidden = !(run.finished || waiting);
+  $('#btn-duel-link').textContent = result ? 'Copy the duel' : 'Copy the challenge';
+  $('#btn-duel-share').hidden = !result;
+  $('#btn-duel-link').dataset.link = link;
+}
+
 /** Endless: the ladder you have climbed so far, and the one that stopped you. */
 function renderFights() {
   const panel = $('#fights-panel');
@@ -1134,7 +1377,9 @@ function renderFights() {
 function renderRoll() {
   // A daily has no respins to offer, so the row that holds them goes away
   // rather than sitting there greyed out.
-  $('.respins').hidden = isDaily();
+  // Neither the daily nor a duel has respins — a respin is a fresh draw, which
+  // would put two players on different puzzles immediately.
+  $('.respins').hidden = isDaily() || isDuel();
   if (!run.roll) return;
   $('#roll-pool').textContent = poolLabel(run.roll.pool);
   $('#roll-quality').textContent = `Q${run.roll.quality}`;
@@ -1783,6 +2028,30 @@ function wireEvents() {
     }
     setTimeout(() => { button.textContent = original; }, 1600);
   });
+
+  // The link is the whole mode, so copying it is the primary action rather than
+  // a courtesy. Both buttons say what happened on the button itself, because a
+  // clipboard write is invisible otherwise.
+  const copies = (button, text) => async () => {
+    const original = button.textContent;
+    try {
+      await navigator.clipboard.writeText(text());
+      button.textContent = 'Copied';
+    } catch {
+      button.textContent = 'Copy failed';
+    }
+    setTimeout(() => { button.textContent = original; }, 1600);
+  };
+
+  $('#btn-duel-link').addEventListener(
+    'click', (e) => copies(e.currentTarget, () => e.currentTarget.dataset.link ?? location.href)(),
+  );
+  $('#btn-duel-share').addEventListener(
+    'click',
+    (e) => copies(e.currentTarget, () => duelShare(
+      run.duelResult, run.duelSeed, location.origin + location.pathname,
+    ))(),
+  );
 
   $('#reroll-offer').addEventListener('click', rerollOffer);
   $('#respin-pool').addEventListener('click', () => respin('pool'));

@@ -73,6 +73,7 @@
         <button class="mode-btn" id="mode-advanced" data-mode="advanced" aria-pressed="false">Advanced</button>
         <button class="mode-btn" id="mode-daily" data-mode="daily" aria-pressed="false">Daily</button>
         <button class="mode-btn" id="mode-endless" data-mode="endless" aria-pressed="false">Endless</button>
+        <button class="mode-btn" id="mode-duel" data-mode="duel" aria-pressed="false">Duel</button>
       </div>
       <label class="mode-char" id="mode-char-wrap" hidden>
         <span>Character</span>
@@ -131,6 +132,19 @@
       <button class="btn btn-quiet" id="par-reveal">Show me the best line</button>
 
       <div class="streaks" id="streaks"></div>
+    </section>
+
+    <!-- Duel only: the challenge you were sent, the link to send, or the ladder
+         the two builds went down together. -->
+    <section class="panel" id="duel-panel" hidden>
+      <h2 id="duel-title">Duel</h2>
+      <p class="panel-note" id="duel-note"></p>
+      <ol class="duel-log" id="duel-log" hidden></ol>
+      <p class="duel-verdict" id="duel-verdict" hidden></p>
+      <div class="duel-actions" id="duel-actions" hidden>
+        <button id="btn-duel-link" class="btn">Copy the link</button>
+        <button id="btn-duel-share" class="btn btn-quiet" hidden>Copy the result</button>
+      </div>
     </section>
 
     <!-- Endless only: what this build has already survived. -->
@@ -346,6 +360,23 @@
       <h2>Playing it</h2>
       <p>The number keys take the item in that position, <code>R</code> restarts, and <code>P</code> and <code>Q</code> spend a respin on the pool or the quality. Clicking an item&rsquo;s name or sprite opens everything the site knows about it &mdash; its five axes, which rules it can trigger, which families it counts toward, and which rolls can even offer it &mdash; without spending your pick on it.</p>
       <p>A run can also be seeded. <code>#/draft?seed=anything</code> deals from that seed alone, so a link is a challenge rather than a description of one: whoever opens it gets exactly the deal you got. It is the same machinery the daily runs on, pointed at a string of your choosing instead of the date.</p>
+
+      <h2>Duel</h2>
+      <p>You draft five items, send somebody the link, and they draft <em>the same five offers</em>. Then both builds go down the ladder together, fight by fight, each at its own odds, and the first to fall loses.</p>
+      <p>Both halves of that are deliberate. The offers are dealt before either of you picks anything, exactly as the daily deals them and for the daily&rsquo;s reason &mdash; in free play the next roll is drawn after you choose, so two people who pick differently stop seeing the same offers from round two onward and are no longer playing the same game. Neither of you gets respins. The only thing between you is what you take.</p>
+      <p>And the two builds draw their luck <strong>separately</strong>. The tempting version rolls one number per fight and checks it against both, but that hands the fight to the better build every single time the two differ, and the duel is then decided by arithmetic before it starts. Independent draws leave room for a worse build to steal one, which is the only reason to play this against a person rather than compare two percentages. Over three hundred duels a row:</p>
+      <div class="table-scroll">
+        <table class="ref-table">
+          <thead><tr><th>Duel</th><th>Challenger</th><th>Answer</th><th>Draw</th><th>Fights</th></tr></thead>
+          <tbody>
+            <tr><td>both drafting well</td><td>51%</td><td>45%</td><td>4.7%</td><td>6.3</td></tr>
+            <tr><td>drafting well vs at random</td><td>72%</td><td>23%</td><td>5.0%</td><td>4.7</td></tr>
+            <tr><td>both at random</td><td>47%</td><td>47%</td><td>6.3%</td><td>3.6</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Drafting well is worth about three duels in four against somebody who is not, and neither seat has an advantage when both play the same way. Falling on the same fight is a draw, which happens about one duel in twenty &mdash; often enough to be a real outcome, rarely enough not to be the mode&rsquo;s ending.</p>
+      <p>There is no server here, so nothing is rolled on one screen and reported to the other. A duel is a pure function of the two builds and the seed, all three of which are in the link &mdash; which is what lets the finished duel travel as a URL that anybody can open and see the same fights. A link is text from somebody else, so every item id in it is checked against the item data rather than trusted.</p>
 
       <h2>Endless</h2>
       <p>The five-pick draft asks how good a build you can assemble blind. Endless asks whether your build can grow faster than the ladder climbs: take one item, face one fight, and if you clear it, draft again with what you have.</p>

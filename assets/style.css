@@ -756,6 +756,59 @@ td.is-strong { color: var(--red); }
 }
 .fight-actions { margin-top: .6rem; }
 
+/* The duel ----------------------------------------------------------------
+   Two builds down one ladder. The rows are read across rather than down: the
+   same fight, twice, at two different odds, and the first column to break is
+   the one that lost. Your own side is marked so a glance finds it. */
+.duel-log { list-style: none; margin: .2rem 0 0; padding: 0; display: grid; gap: .25rem; }
+.duel-row {
+  display: grid; grid-template-columns: 1fr 5.4rem 5.4rem;
+  align-items: center; gap: .5rem;
+}
+.duel-row.is-head {
+  font: 10px var(--pixel); text-transform: uppercase; color: var(--ink-faint);
+  border-bottom: 2px solid var(--ink); padding-bottom: .2rem; margin-bottom: .15rem;
+}
+.duel-row.is-head .duel-side { justify-content: flex-end; }
+.duel-name { font: 10px var(--pixel); text-transform: uppercase; color: var(--ink); }
+.duel-side {
+  display: flex; align-items: center; justify-content: flex-end; gap: .4rem;
+  padding: .1rem .35rem; border: 2px solid transparent;
+}
+.duel-side.is-mine { border-color: var(--ink); background: var(--parch-dim); }
+.duel-odds { font: 10px var(--pixel); color: var(--ink-soft); }
+.duel-mark { font: 11px var(--pixel); color: #1d5c33; width: 1ch; text-align: center; }
+.duel-side.is-dead .duel-odds { color: var(--red); }
+.duel-side.is-dead .duel-mark { color: var(--red); }
+
+.duel-build {
+  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: .5rem;
+  padding: .2rem 0;
+}
+.duel-build + .duel-build { border-bottom: 2px solid var(--ink); padding-bottom: .4rem; margin-bottom: .3rem; }
+.duel-build-items { display: flex; gap: .25rem; }
+.duel-build-item {
+  display: grid; place-items: center; width: 1.9rem; height: 1.9rem;
+  border: 2px solid var(--ink); background: var(--parch-dim);
+}
+/* Stacked, so the art covers the fallback when there is art to cover it. */
+.duel-build-item > * { grid-area: 1 / 1; }
+.duel-build-item .sprite { width: 22px; height: 22px; }
+.duel-build-fallback { font: 9px var(--pixel); color: var(--ink-soft); text-transform: uppercase; }
+
+.duel-verdict {
+  margin: .7rem 0 0; padding: .5rem .6rem;
+  font-family: var(--sans); font-size: 13px; line-height: 1.45;
+  color: var(--cream); background: var(--red-deep); border: 2px solid var(--ink);
+}
+
+.duel-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .7rem; }
+
+@media (max-width: 480px) {
+  .duel-row { grid-template-columns: 1fr 4.4rem 4.4rem; gap: .3rem; }
+  .duel-name { font-size: 9px; }
+}
+
 /* The fights page ---------------------------------------------------------- */
 .boss-list { display: grid; gap: .6rem; }
 .boss {

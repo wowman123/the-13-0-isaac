@@ -68,8 +68,24 @@ export const seedForDay = (day = dayKey()) => hashString(`the-13-0:${day}`);
  * happened to take it early.
  */
 export function buildDaily(items, day = dayKey(), ruleSpec = null) {
+  return { day, seed: seedForDay(day), rounds: deal(items, seedForDay(day), ruleSpec) };
+}
+
+/**
+ * The same dealer, pointed at any seed.
+ *
+ * A duel needs a deal both players can derive independently and neither can
+ * respin, which is the daily's problem exactly — down to the rule items, whose
+ * effect is on later rolls that a pre-dealt puzzle does not have. So it is the
+ * daily's dealer rather than a second one that could drift away from it.
+ */
+export function buildDeal(items, seed, ruleSpec = null) {
+  return { seed, rounds: deal(items, hashString(`the-13-0:deal:${seed}`), ruleSpec) };
+}
+
+function deal(items, numericSeed, ruleSpec) {
   const RULE_ITEMS = ruleItemIds(ruleSpec ?? DEFAULT_RULE_SPEC);
-  const rng = mulberry32(seedForDay(day));
+  const rng = mulberry32(numericSeed);
   const isRealPool = (p) => !p.startsWith('greed');
 
   let remaining = items.filter(
@@ -107,7 +123,7 @@ export function buildDaily(items, day = dayKey(), ruleSpec = null) {
     rounds.push({ pool, quality, candidates: offer.map((i) => i.id) });
   }
 
-  return { day, seed: seedForDay(day), rounds };
+  return rounds;
 }
 
 /**
