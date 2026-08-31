@@ -3,7 +3,7 @@
  * calibration solver and the test suite use — nothing is reimplemented here.
  */
 
-import { runOdds, AXES, NEUTRAL } from '../src/engine.js';
+import { runOdds, AXES, NEUTRAL, toScoreSpace } from '../src/engine.js';
 import { composeDraft, findSynergies, synergyStrength, transformationProgress, findTransformations } from '../src/synergy.js';
 import { resolveRating, TAG_TABLE, QUALITY_OFFENSE } from '../src/ratings.js';
 import { pendingFamilies, leaningCells, pullCompletion } from '../src/draft.js';
@@ -14,7 +14,7 @@ import { dayKey } from '../src/random.js';
 import { fightAt, endlessSummary, endlessShare, HEADSTART } from '../src/endless.js';
 import {
   duelCells, duelRound, duelLuck, runDepth, raceResult, raceSummary, duelShare,
-  encodeRun, decodeRun, newSeed,
+  explainRace, explainText, encodeRun, decodeRun, newSeed,
 } from '../src/duel.js';
 import { bossOdds } from '../src/engine.js';
 import { diagnose, diagnosisText } from '../src/diagnose.js';
@@ -780,6 +780,22 @@ function scoreDuel() {
   const mine = runDepth(run.picks, state.bosses, run.duelSeed, duelOdds);
   const theirs = run.rival ? runDepth(run.rival, state.bosses, run.duelSeed, duelOdds) : null;
   run.duelResult = raceResult(mine, theirs);
+
+  // Why one of you got further. Worth doing here rather than in the render:
+  // it replays every fork in the losing run, which is a few hundred builds,
+  // and the render runs on every keystroke.
+  run.duelWhy = explainRace(run.duelResult, state.bosses, run.duelSeed, {
+    scoreOf: (ids) => toScoreSpace(buildFor(ids)),
+    buildOf: buildFor,
+    depthOf: (ids) => runDepth(ids, state.bosses, run.duelSeed, duelOdds),
+  });
+}
+
+/** The composed build for a set of ids, in whichever model a duel uses. */
+function buildFor(ids) {
+  return composeDraft(
+    ids.map(byId), ids.map((id) => state.ratings.get(id)), state.rules, state.transformations,
+  ).build;
 }
 
 // ------------------------------------------------------------- the descent
@@ -1326,6 +1342,14 @@ function renderDuel() {
       ? `${raceSummary(result)} You have already run this seed — re-opening the link does not deal it again.`
       : raceSummary(result);
   }
+
+  // And why. Both of you met the same offers and the same rolls, so the whole
+  // difference traces back to picks — which makes "why did I lose" answerable
+  // here in a way it is nowhere else on this site.
+  const why = $('#duel-why');
+  const text = explainText(run.duelWhy, (id) => byId(id)?.name ?? id);
+  why.hidden = !text;
+  why.textContent = text ?? '';
 
   $('#duel-actions').hidden = !result;
   $('#btn-duel-link').textContent = result?.theirs ? 'Copy the race' : 'Copy your run';

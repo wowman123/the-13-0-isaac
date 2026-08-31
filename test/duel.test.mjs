@@ -5,9 +5,9 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import {
   duelCells, duelRound, duelLuck, runDepth, raceResult, raceSummary, duelShare,
-  encodeRun, decodeRun, newSeed, HEADSTART, DUEL_OFFER,
+  explainRace, explainText, encodeRun, decodeRun, newSeed, HEADSTART, DUEL_OFFER,
 } from '../src/duel.js';
-import { bossOdds } from '../src/engine.js';
+import { bossOdds, toScoreSpace } from '../src/engine.js';
 import { composeDraft } from '../src/synergy.js';
 import { resolveRating } from '../src/ratings.js';
 import { mulberry32 } from '../src/random.js';
@@ -195,4 +195,109 @@ test('a finished race reads as a sentence and shares as two ladders', () => {
   const alone = duelShare(raceResult(mine, null), seed);
   assert.equal(alone.split('\n').length, 3);
   assert.match(alone, /your turn/);
+});
+
+// --------------------------------------------------------------- explanation
+const buildOf = (ids) => composeDraft(
+  ids.map((id) => byId.get(id)), ids.map((id) => ratings.get(id)), rules, transformations,
+).build;
+
+const ctxFor = (seed) => ({
+  scoreOf: (ids) => toScoreSpace(buildOf(ids)),
+  buildOf,
+  depthOf: (ids) => runDepth(ids, bosses, seed, oddsAt),
+});
+
+/** A handful of races with an explanation attached. */
+function races(n = 12) {
+  const out = [];
+  for (let i = 0; i < n; i++) {
+    const seed = `why${i}`;
+    let a = 0;
+    let b = 0;
+    const mine = play(seed, () => (a = (a * 7 + 3) % DUEL_OFFER));
+    const theirs = play(seed, () => (b = (b * 5 + i + 1) % DUEL_OFFER));
+    const result = raceResult(mine, theirs);
+    out.push({ seed, result, x: explainRace(result, bosses, seed, ctxFor(seed)) });
+  }
+  return out;
+}
+
+test('the explanation names the exact bar both runs were measured against', () => {
+  // Shared luck is what makes this sayable at all: one number per fight, and
+  // one of you over it and one under. If the two ever came apart, every
+  // sentence the panel prints about "the roll there" would be a lie.
+  let seen = 0;
+  for (const { result, x } of races()) {
+    if (!x) continue;
+    seen += 1;
+    assert.ok(x.had < x.needed, 'the run that ended was not actually under the bar');
+    if (result.winner === 'draw') assert.ok(x.theirs < x.needed, 'a draw had somebody over the bar');
+    else assert.ok(x.theirs > x.needed, 'the run that survived was not actually over the bar');
+  }
+  assert.ok(seen >= 6, `only ${seen} races produced an explanation`);
+});
+
+test('the turning point is a run that could actually have happened', () => {
+  for (const { seed, result, x } of races()) {
+    if (!x?.turningPoint) continue;
+    const t = x.turningPoint;
+
+    // Both players saw the same offer at that depth, so the swapped-in item
+    // must have been on the table for the one who did not take it.
+    const offer = duelRound(cells, seed, t.round - 1).candidates;
+    assert.ok(offer.includes(t.instead), `round ${t.round} never offered ${t.instead}`);
+    assert.ok(offer.includes(t.took), `round ${t.round} never offered ${t.took}`);
+
+    // And the depth it claims has to be the depth it reaches.
+    const lost = result.winner === 'them' ? result.mine : result.winner === 'you' ? result.theirs : result.mine;
+    const swapped = [...lost.picks];
+    swapped[t.round - 1] = t.instead;
+    const replay = runDepth(swapped, bosses, seed, oddsAt);
+    assert.equal(replay.cleared, t.reached, 'the turning point promised a depth it does not reach');
+    assert.ok(t.reached > x.depth, 'the turning point did not actually get further');
+    assert.equal(t.atLeast, !replay.died);
+  }
+});
+
+test('"no single pick would have got past it" is only said when it is true', () => {
+  // The claim is checkable, so it has to be checked: every fork replayed, and
+  // none of them further. Saying it loosely would be the panel inventing a
+  // consolation.
+  for (const { seed, result, x } of races()) {
+    if (!x || x.turningPoint) continue;
+    const lost = result.winner === 'them' ? result.mine : result.winner === 'you' ? result.theirs : result.mine;
+    const won = lost === result.mine ? result.theirs : result.mine;
+
+    for (let i = 0; i < lost.picks.length; i++) {
+      if (!won.picks[i] || won.picks[i] === lost.picks[i]) continue;
+      const swapped = [...lost.picks];
+      swapped[i] = won.picks[i];
+      assert.ok(
+        runDepth(swapped, bosses, seed, oddsAt).cleared <= lost.cleared,
+        `round ${i + 1} would have got further, and the panel said nothing would`,
+      );
+    }
+  }
+});
+
+test('the explanation is written for a reader, not for a log', () => {
+  const withText = races().filter(({ x }) => x);
+  assert.ok(withText.length, 'no race produced an explanation');
+
+  for (const { x } of withText) {
+    const text = explainText(x, (id) => byId.get(id)?.name ?? id);
+    assert.ok(text.length > 40);
+    assert.doesNotMatch(text, /COLLECTIBLE_/, 'an item id reached the page');
+    assert.doesNotMatch(text, /undefined|NaN|\[object/, `unfinished text: ${text}`);
+    // Percentages carry a decimal: these margins are often under a point, and
+    // rounding to whole percent prints two numbers that look equal.
+    assert.match(text, /\d\.\d%/);
+  }
+});
+
+test('there is nothing to explain until both runs are in', () => {
+  const mine = play('alone', () => 0);
+  assert.equal(explainRace(raceResult(mine, null), bosses, 'alone', ctxFor('alone')), null);
+  assert.equal(explainText(null), null);
 });
