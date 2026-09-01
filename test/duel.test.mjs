@@ -10,6 +10,7 @@ import {
 import { bossOdds, toScoreSpace } from '../src/engine.js';
 import { composeDraft } from '../src/synergy.js';
 import { resolveRating } from '../src/ratings.js';
+import { composeAdvanced, isAdvancedItem } from '../src/advanced.js';
 import { mulberry32 } from '../src/random.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -300,4 +301,70 @@ test('there is nothing to explain until both runs are in', () => {
   const mine = play('alone', () => 0);
   assert.equal(explainRace(raceResult(mine, null), bosses, 'alone', ctxFor('alone')), null);
   assert.equal(explainText(null), null);
+});
+
+// ------------------------------------------------------------------ advanced
+const itemStats = read('data/item-stats.json').stats;
+const characters = read('data/characters.json').characters;
+const advCells = duelCells(items.filter((i) => isAdvancedItem(i, itemStats)));
+const advConfig = { ...config, ...config.advanced };
+const advOdds = (character) => (ids, fight) => bossOdds(
+  composeAdvanced(ids.map((id) => byId.get(id)), itemStats, rules, transformations, character.stats).build,
+  fight, advConfig,
+);
+
+test('the rules are part of what a seed means, so they have to travel with it', () => {
+  // Advanced offers only the items it can describe, so the same seed deals a
+  // different board under each model. A link that carried the seed and not the
+  // rules would put the two players in different games while insisting they
+  // were in the same one.
+  const casual = duelRound(cells, 'rules', 3);
+  const advanced = duelRound(advCells, 'rules', 3);
+  assert.notDeepEqual(casual.candidates, advanced.candidates);
+
+  const describable = new Set(items.filter((i) => isAdvancedItem(i, itemStats)).map((i) => i.id));
+  for (const id of advanced.candidates) {
+    assert.ok(describable.has(id), `${id} has nothing for Advanced to describe`);
+  }
+  assert.ok(
+    advCells.length < cells.length,
+    'Advanced should draw from a narrower pool than Casual',
+  );
+});
+
+test('an advanced duel is playable: the ladder does not outrun the model', () => {
+  // The endless climb was solved against Casual builds. Advanced reaches the
+  // same five axes by a different road and has its own difficulty solve, so it
+  // is worth checking that a run under it still goes somewhere rather than
+  // dying on the first fight.
+  for (const who of ['ISAAC', 'AZAZEL']) {
+    const character = characters.find((c) => c.id === who);
+    assert.ok(character, `${who} is not in the character data`);
+    const oddsFor = advOdds(character);
+
+    const depths = [];
+    for (let i = 0; i < 6; i++) {
+      const seed = `adv${i}`;
+      const picks = [];
+      for (let n = 0; n < 60; n++) {
+        const round = duelRound(advCells, seed, n);
+        // Play greedily against the next real fight, as a person would.
+        const fight = bosses[Math.min(n, bosses.length - 1)];
+        let best = round.candidates[0];
+        let bv = -1;
+        for (const id of round.candidates) {
+          const v = oddsFor([...picks, id], fight);
+          if (v > bv) { bv = v; best = id; }
+        }
+        picks.push(best);
+        if (picks.length > HEADSTART) {
+          const r = runDepth(picks, bosses, seed, oddsFor);
+          if (r.died) { depths.push(r.cleared); break; }
+        }
+      }
+    }
+    const median = [...depths].sort((a, b) => a - b)[Math.floor(depths.length / 2)];
+    assert.ok(median >= 8, `${who} only reached ${median} fights: the ladder has outrun Advanced`);
+    assert.ok(depths.every((d) => d < 60), 'a run never ended');
+  }
 });

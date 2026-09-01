@@ -46,6 +46,9 @@ const state = {
   // 'casual' rates items on five assigned axes; 'advanced' runs the game's own
   // stat curves over the numbers the game actually publishes.
   mode: localStorage.getItem('the-13-0-mode') === 'advanced' ? 'advanced' : 'casual',
+  // What a *fresh* duel starts as. A duel you were sent takes its rules from
+  // the link instead, because you are joining their run.
+  duelAdvanced: localStorage.getItem('the-13-0-duel-advanced') === 'true',
   character: localStorage.getItem('the-13-0-character') || 'ISAAC',
 };
 
@@ -61,6 +64,17 @@ const isDuel = () => state.mode === 'duel';
 // Endless keeps the casual ruleset and only changes the shape of a run, so
 // anything asking "which scoring model" should not see it as advanced.
 const isAdvanced = () => state.mode === 'advanced';
+
+/**
+ * Whether the real-stats model is in play right now.
+ *
+ * Advanced is usually a mode switch, but a duel carries its own rules in its
+ * link — you can be racing an Advanced run while this browser's switch says
+ * Casual, because you are playing their run rather than yours. Everything that
+ * asks "which model" has to ask this rather than the switch, or the odds shown
+ * during the race would not be the odds the race is scored on.
+ */
+const advancedNow = () => isAdvanced() || Boolean(run?.duelRules?.advanced);
 
 const ENDLESS_BEST = 'the-13-0-endless-best';
 
@@ -89,8 +103,20 @@ function duelFromHash() {
   const seed = q.get('duel');
   if (!seed) return null;
   const known = (id) => Boolean(byId(id));
+  // Which rules the run is played under travels with it. A duel is only the
+  // same run for both of you if it is the same model and the same character on
+  // both screens — Advanced draws from a narrower pool, scores on the game's
+  // own formulas against its own difficulty solve, and starts from whichever
+  // character's stat line, so a link that did not say would be two games.
+  const advanced = q.get('m') === 'a';
+  const character = (q.get('c') ?? '').replace(/[^A-Z_0-9]/gi, '').toUpperCase();
+
   return {
     seed: seed.replace(/[^a-z0-9]/gi, '').slice(0, 24),
+    rules: {
+      advanced,
+      character: advanced && state.characters?.some((c) => c.id === character) ? character : 'ISAAC',
+    },
     // Up to two runs travel in a link — the sender's, and their rival's once
     // they have one, so a finished race is a single URL. Which of them is
     // *yours* is not in the link and cannot be: both of you hold the same one.
@@ -181,8 +207,12 @@ function dealPar() {
 }
 
 /** The starting stat line for whoever is selected. Isaac unless chosen. */
-const activeCharacter = () =>
-  state.characters?.find((c) => c.id === state.character) ?? { id: 'ISAAC', name: 'Isaac', stats: {} };
+const activeCharacter = () => {
+  // A duel fixes the character for both players, so during one it is the link's
+  // choice rather than this browser's.
+  const id = run?.duelRules?.advanced ? run.duelRules.character : state.character;
+  return state.characters?.find((c) => c.id === id) ?? { id: 'ISAAC', name: 'Isaac', stats: {} };
+};
 
 const ROUNDS = 5;
 const OFFER = 6;
@@ -383,6 +413,8 @@ function writeHash() {
   // your picks once you have finished, which are your score.
   const duelQuery = run?.duelSeed ? [
     `duel=${encodeURIComponent(run.duelSeed)}`,
+    run.duelRules?.advanced ? 'm=a' : null,
+    run.duelRules?.advanced ? `c=${run.duelRules.character}` : null,
     run.finished ? `run=${encodeRun(run.picks)}` : null,
     run.finished && run.rival ? `vs=${encodeRun(run.rival)}` : null,
   ].filter(Boolean) : [];
@@ -403,7 +435,7 @@ function draftable() {
       && (i.scraped?.pools ?? []).some(isRealPool)
       // Advanced offers only items it can actually describe. An item with no
       // stat delta and no mechanic would be a pick worth literally nothing.
-      && (!isAdvanced() || isAdvancedItem(i, state.itemStats)),
+      && (!advancedNow() || isAdvancedItem(i, state.itemStats)),
   );
 }
 
@@ -488,6 +520,15 @@ function startRun() {
   const mineEncoded = memory ? encodeRun(memory) : null;
   const rival = (fromHash?.runs ?? []).find((r) => encodeRun(r) !== mineEncoded) ?? null;
 
+  // A link's rules win over whatever this browser was last set to: you are
+  // joining their run, not starting your own. Only a fresh duel reads the
+  // switches on screen.
+  const duelRules = isDuel()
+    ? (fromHash
+      ? fromHash.rules
+      : { advanced: state.duelAdvanced ?? false, character: state.character ?? 'ISAAC' })
+    : null;
+
   run = {
     round: 1,
     picks: [],
@@ -503,6 +544,7 @@ function startRun() {
     // The rounds a pre-dealt mode serves, whichever mode dealt them.
     dealt: daily?.rounds ?? null,
     duelSeed,
+    duelRules,
     rival,
     // The build of whoever sent you the link, if you were sent one. You are
     // always side B against them; they are always side A.
@@ -707,15 +749,19 @@ function choose(id) {
  * so a run ends when it ends and no pity is applied.
  */
 function resolveFight() {
-  const { build } = composeDraft(
-    run.picks.map(byId),
-    run.picks.map((id) => state.ratings.get(id)),
-    state.rules,
-    state.transformations,
-  );
+  // Through the same pair of functions the duel is scored with, so what the
+  // ladder shows during the race is exactly what the result is computed from.
+  const build = isDuel()
+    ? buildFor(run.picks)
+    : composeDraft(
+      run.picks.map(byId),
+      run.picks.map((id) => state.ratings.get(id)),
+      state.rules,
+      state.transformations,
+    ).build;
 
   const fight = fightAt(run.fights.length, state.bosses);
-  const chance = bossOdds(build, fight, state.config);
+  const chance = bossOdds(build, fight, isDuel() ? duelConfig() : state.config);
 
   // A duel's luck belongs to the seed rather than to your session: one number
   // per fight, the same one on both screens, so the two of you meet the same
@@ -759,8 +805,20 @@ function resolveFight() {
  * depends on your picks and anything that depends on your picks would give the
  * two of you different rounds.
  */
-let duelCells_ = null;
-const duelCellCache = () => (duelCells_ ??= duelCells(state.items, isRealPool));
+let duelCells_ = new Map();
+const duelCellCache = () => {
+  // Advanced offers only the items it can describe, so the two models deal from
+  // different pools — and which pool a duel used is part of what its seed
+  // means. Keyed by that, or a Casual link would deal an Advanced board.
+  const key = run?.duelRules?.advanced ? 'advanced' : 'casual';
+  if (!duelCells_.has(key)) {
+    const pool = state.items.filter(
+      (i) => key === 'casual' || isAdvancedItem(i, state.itemStats),
+    );
+    duelCells_.set(key, duelCells(pool, isRealPool));
+  }
+  return duelCells_.get(key);
+};
 
 /**
  * Score the run against the seed, and against a rival if the link brought one.
@@ -770,11 +828,13 @@ const duelCellCache = () => (duelCells_ ??= duelCells(state.items, isRealPool));
  * a link says which model produced it.
  */
 function duelOdds(ids, fight) {
-  const { build } = composeDraft(
-    ids.map(byId), ids.map((id) => state.ratings.get(id)), state.rules, state.transformations,
-  );
-  return bossOdds(build, fight, state.config);
+  return bossOdds(buildFor(ids), fight, duelConfig());
 }
+
+/** Advanced reaches the same five axes by a different road and is solved separately. */
+const duelConfig = () => (run?.duelRules?.advanced
+  ? { ...state.config, ...state.config.advanced }
+  : state.config);
 
 function scoreDuel() {
   const mine = runDepth(run.picks, state.bosses, run.duelSeed, duelOdds);
@@ -791,10 +851,16 @@ function scoreDuel() {
   });
 }
 
-/** The composed build for a set of ids, in whichever model a duel uses. */
+/** The composed build for a set of ids, under whichever rules this duel carries. */
 function buildFor(ids) {
+  const items = ids.map(byId);
+  if (run?.duelRules?.advanced) {
+    return composeAdvanced(
+      items, state.itemStats, state.rules, state.transformations, activeCharacter().stats,
+    ).build;
+  }
   return composeDraft(
-    ids.map(byId), ids.map((id) => state.ratings.get(id)), state.rules, state.transformations,
+    items, ids.map((id) => state.ratings.get(id)), state.rules, state.transformations,
   ).build;
 }
 
@@ -982,7 +1048,7 @@ function showNextAnnouncement() {
 function oddsFor(ids) {
   const items = ids.map((id) => byId(id));
 
-  if (isAdvanced()) {
+  if (advancedNow()) {
     // Advanced has its own difficulty solve: it reaches the same five axes by a
     // different road, so its spread of drafts is a different distribution.
     const config = { ...state.config, ...state.config.advanced };
@@ -1172,8 +1238,8 @@ function renderMode() {
 /** The stat line, which only Advanced has. */
 function renderStats() {
   const panel = $('#stats-panel');
-  panel.hidden = !isAdvanced();
-  if (!isAdvanced()) return;
+  panel.hidden = !advancedNow();
+  if (panel.hidden) return;
 
   const character = activeCharacter();
   const stats = composeStats(
@@ -1182,7 +1248,10 @@ function renderStats() {
   );
   const base = composeStats([], character.stats);
 
-  $('#stats-note').textContent = `${character.name}, ${run.picks.length} of ${ROUNDS} picks. `
+  const counted = isEndless() || isDuel()
+    ? `${run.picks.length} item${run.picks.length === 1 ? '' : 's'}`
+    : `${run.picks.length} of ${ROUNDS} picks`;
+  $('#stats-note').textContent = `${character.name}, ${counted}. `
     + `Damage and fire rate use the game's own formulas; the rest are the deltas the game publishes.`;
 
   const row = (label, value, was, hint) => el('div', { className: 'stat-cell', title: hint ?? '' }, [
@@ -1313,6 +1382,21 @@ function renderDuel() {
     : result.waiting
       ? 'Send this link. Whoever opens it plays this same run — the same offers, the same ladder, the same luck — and when they finish, either of your links puts the two side by side.'
       : 'The same run, twice. Same offers at every depth, same fights, same rolls. The only thing that differed is what each of you took.';
+
+  // The rules are a choice until the first pick and a fact afterwards. They are
+  // a fact immediately when a link brought them: you are joining their run.
+  const rules = run.duelRules ?? { advanced: false, character: 'ISAAC' };
+  const joined = Boolean(run.rival) || run.replayed || run.picks.length > 0 || run.finished;
+  $('#duel-setup').hidden = joined;
+  $('#duel-advanced').checked = rules.advanced;
+  $('#duel-char-wrap').hidden = !rules.advanced;
+  $('#duel-char').value = rules.character;
+
+  const fixed = $('#duel-fixed');
+  fixed.hidden = !joined;
+  fixed.textContent = rules.advanced
+    ? `Real stats \u00b7 ${activeCharacter().name}`
+    : 'Casual rules \u00b7 the whole pool';
 
   const log = $('#duel-log');
   log.hidden = !result;
@@ -1944,6 +2028,29 @@ function wireEvents() {
   charSelect.value = state.character;
   charSelect.addEventListener('change', () => {
     state.character = charSelect.value;
+    localStorage.setItem('the-13-0-character', state.character);
+    history.replaceState(null, '', '#/draft');
+    startRun();
+  });
+
+  // Changing the rules restarts the duel, because the rules are baked into the
+  // seed's meaning: the pool, the scoring and the character all change with
+  // them, so a half-played run under the old ones is not a run under the new.
+  const duelChar = $('#duel-char');
+  duelChar.replaceChildren(
+    group('Characters', state.characters.filter((c) => !c.tainted)),
+    group('Tainted', state.characters.filter((c) => c.tainted)),
+  );
+  duelChar.value = state.character;
+
+  $('#duel-advanced').addEventListener('change', (e) => {
+    state.duelAdvanced = e.currentTarget.checked;
+    localStorage.setItem('the-13-0-duel-advanced', String(state.duelAdvanced));
+    history.replaceState(null, '', '#/draft');
+    startRun();
+  });
+  duelChar.addEventListener('change', (e) => {
+    state.character = e.currentTarget.value;
     localStorage.setItem('the-13-0-character', state.character);
     history.replaceState(null, '', '#/draft');
     startRun();

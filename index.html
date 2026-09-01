@@ -139,6 +139,17 @@
     <section class="panel" id="duel-panel" hidden>
       <h2 id="duel-title">Duel</h2>
       <p class="panel-note" id="duel-note"></p>
+      <div class="duel-setup" id="duel-setup" hidden>
+        <label class="duel-rule">
+          <input type="checkbox" id="duel-advanced">
+          <span>Real stats</span>
+        </label>
+        <label class="duel-rule" id="duel-char-wrap" hidden>
+          <span>as</span>
+          <select id="duel-char" class="input"></select>
+        </label>
+      </div>
+      <p class="duel-fixed" id="duel-fixed" hidden></p>
       <ol class="duel-log" id="duel-log" hidden></ol>
       <p class="duel-verdict" id="duel-verdict" hidden></p>
       <p class="duel-why" id="duel-why" hidden></p>
@@ -381,6 +392,8 @@
       </div>
       <p>There are no upsets, and there should not be: on identical conditions an upset would only mean the ladder had been kinder to one of you. What is left is a gap of about eleven fights between playing well and not, and a tie whenever two people answered the same run equally well &mdash; which is what two players picking at random are doing, and why they tie more than a third of the time.</p>
       <p><strong>And it can tell you why you lost.</strong> Everywhere else on this site the honest answer to that is &ldquo;variance&rdquo;. Here it is not: you met the same offers and the same rolls, so the whole difference traces back to picks &mdash; and because the roll at each depth is one shared number, the fight that ended a run came with an exact bar attached. One of you was over it and one was under it, so the page can say what each of you needed and what each of you had. It then names the axis that fight was actually asking about, and replays every round the two of you differed: the other build&rsquo;s item was in your offer too, so putting it in your run and keeping everything else is a run you could have had. The fork that gets furthest is where the race turned. When none of them gets past the fight that ended it &mdash; every one replayed, none further &mdash; it says that instead, because the gap was the whole build rather than one round.</p>
+      <p><strong>A duel can be played on either model.</strong> Tick <em>Real stats</em> before your first pick and the race runs on Advanced &mdash; the game&rsquo;s own damage and fire-rate formulas, its own difficulty solve, the narrower pool of items the data can actually describe, and a character you choose. The character is fixed for both of you, because a race where one side was Azazel and the other Isaac would be decided by that and not by the drafting.</p>
+      <p>Which model and which character are therefore part of what the seed means, and both travel in the link. Whoever opens it plays your rules whatever their own switches say &mdash; they are joining your run, not starting one &mdash; and the panel says so rather than letting them assume. Advanced is harsher: playing well reaches a median of 22 fights as Isaac and 19 as Azazel against 29 on Casual, but picking at random collapses to 2&ndash;7 fights where Casual still manages 10. The same items, described more exactly, punish a bad pick more.</p>
       <p><strong>Nobody has to report anything.</strong> A run is its picks, and its depth follows from them, so a link carrying somebody&rsquo;s picks carries their result whether they meant it to or not. There is no score to take on trust and none to fake. A seed can also only be run once per browser: re-opening your own link shows what you did rather than dealing it again, or the loser would simply play it until they won.</p>
 
       <h2>Endless</h2>      <h2>Endless</h2>

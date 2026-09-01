@@ -777,6 +777,21 @@ td.is-strong { color: var(--red); }
 .duel-block.is-dead { background: var(--red); border-color: var(--ink); }
 .duel-depth { font: 14px var(--pixel); color: var(--ink); text-align: right; }
 
+/* Which rules this duel is played under. A choice before the first pick, and
+   a statement of fact once a link has fixed them. */
+.duel-setup { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .9rem; margin: .6rem 0 0; }
+.duel-rule {
+  display: flex; align-items: center; gap: .4rem;
+  font: 11px var(--pixel); text-transform: uppercase; color: var(--ink);
+}
+.duel-rule input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--red); }
+.duel-rule select { font-size: 11px; padding: .3rem .4rem; }
+
+.duel-fixed {
+  margin: .5rem 0 0; font: 11px var(--pixel); text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
 .duel-verdict {
   margin: .7rem 0 0; padding: .5rem .6rem;
   font-family: var(--sans); font-size: 13px; line-height: 1.45;
